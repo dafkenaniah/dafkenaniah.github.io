@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lead's Guide to Co-op & H2H Stability</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ps-blue-dark: #003087;
+            --ps-blue-light: #0070D1;
+            --bg-color: #F0F2F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #172B4D;
+            --text-secondary: #5E6C84;
+            --border-color: #DFE1E6;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header-content { text-align: left; }
+        h1 { font-size: 2.2em; font-weight: 700; color: var(--text-primary); margin: 0 0: 10px 0; }
+        header p { font-size: 1.1em; color: var(--text-secondary); margin: 0; }
+        .lang-switcher { display: flex; flex-shrink: 0; }
+        .lang-btn { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; cursor: pointer; font-size: 0.9em; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; }
+        .lang-btn:first-child { border-radius: 6px 0 0 6px; border-right: none; }
+        .lang-btn:last-child { border-radius: 0 6px 6px 0; }
+        .lang-btn.active { background-image: linear-gradient(to right, var(--ps-blue-light), var(--ps-blue-dark)); color: white; border-color: var(--ps-blue-dark); }
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .card-header .icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 8px; background-color: #DEEBFF; }
+        .card-header .icon svg { stroke: var(--ps-blue-dark); }
+        h2 { font-size: 1.6em; font-weight: 600; color: var(--text-primary); margin: 0; }
+        h3 { font-size: 1.2em; font-weight: 600; color: var(--text-primary); margin-top: 25px; margin-bottom: 15px; }
+        ul { padding-left: 25px; }
+        li { margin-bottom: 12px; padding-left: 5px; color: var(--text-secondary); }
+        li strong { color: var(--text-primary); font-weight: 500; }
+        .case-study { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-top: 20px; background-color: #FAFBFC; }
+        .case-study h4 { margin: 0 0 10px 0; font-size: 1.1em; color: var(--ps-blue-dark); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1 class="lang" data-en="The Lead's Guide to Co-op & H2H Stability" data-es="Guía del Líder para la Estabilidad de Co-op y H2H">The Lead's Guide to Co-op & H2H Stability</h1>
+                <p class="lang" data-en="A playbook for managing the unique challenges of core online multiplayer modes." data-es="Un manual de estrategias para gestionar los desafíos únicos de los modos multijugador online principales.">A playbook for managing the unique challenges of core online multiplayer modes.</p>
+            </div>
+            <div class="lang-switcher">
+                <button id="btn-en" class="lang-btn active">English</button>
+                <button id="btn-es" class="lang-btn">Español</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                    <h2 class="lang" data-en="Mastering the H2H/Co-op Test Hour" data-es="Dominando la Hora de Pruebas de H2H/Co-op">Mastering the H2H/Co-op Test Hour</h2>
+                </div>
+                <p class="lang" data-en="Dedicated, scheduled playtests are the primary method for finding stability issues. Your role is to organize these sessions and ensure the data gathered is clean and actionable." data-es="Las sesiones de juego programadas y dedicadas son el método principal para encontrar problemas de estabilidad. Tu rol es organizar estas sesiones y asegurar que los datos recopilados sean limpios y procesables.">Dedicated, scheduled playtests are a primary method for finding stability issues. Your role is to organize these sessions and ensure the data gathered is clean and actionable.</p>
+                <ul>
+                    <li><strong class="lang" data-en="Schedule Consistently:" data-es="Programa con Consistencia:">Schedule Consistently:</strong> <span class="lang" data-en="Regular sessions (e.g., 'hitting co-op again 4:45-7 today') are crucial. This creates a predictable rhythm for both QA and developers who often join to observe." data-es="Las sesiones regulares (ej. 'probando co-op de nuevo de 4:45 a 7 hoy') son cruciales. Esto crea un ritmo predecible tanto para QA como para los desarrolladores que a menudo se unen para observar.">Regular sessions (e.g., 'hitting co-op again 4:45-7 today') are crucial. This creates a predictable rhythm for both QA and developers who often join to observe.</span></li>
+                    <li><strong class="lang" data-en="Use a Live Tracker:" data-es="Usa un Rastreador en Vivo:">Use a Live Tracker:</strong> <span class="lang" data-en="Maintain a shared Confluence page for each session to track games played, successes, and failures in real-time. This provides immediate visibility to production on the build's stability." data-es="Mantén una página de Confluence compartida para cada sesión para rastrear en tiempo real las partidas jugadas, los éxitos y los fracasos. Esto proporciona visibilidad inmediata a producción sobre la estabilidad de la compilación.">Maintain a shared Confluence page for each session to track games played, successes, and failures in real-time. This provides immediate visibility to production on the build's stability.</span></li>
+                    <li><strong class="lang" data-en="Capture All Perspectives:" data-es="Captura Todas las Perspectivas:">Capture All Perspectives:</strong> <span class="lang" data-en="For any hang or assert, it is mandatory to get recaps from ALL players involved (Pitcher, Fielder, Batter, Observer). This is essential for debugging desyncs and network issues." data-es="Para cualquier cuelgue o assert, es obligatorio obtener recaps de TODOS los jugadores involucrados (Lanzador, Fielder, Bateador, Observador). Esto es esencial para depurar desincronizaciones y problemas de red.">For any hang or assert, it is mandatory to get recaps from ALL players involved (Pitcher, Fielder, Batter, Observer). This is essential for debugging desyncs and network issues.</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                    <h2 class="lang" data-en="Deconstructing Hangs & Asserts" data-es="Deconstruyendo Cuelgues y Asserts">Deconstructing Hangs & Asserts</h2>
+                </div>
+                <p class="lang" data-en="Online multiplayer bugs are complex. Your team must become experts at identifying the root cause and providing precise data." data-es="Los bugs en el multijugador online son complejos. Tu equipo debe convertirse en experto en identificar la causa raíz y proporcionar datos precisos.">Online multiplayer bugs are complex. Your team must become experts at identifying the root cause and providing precise data.</p>
+                <ul>
+                    <li><strong class="lang" data-en="Learn the 'Parse Method':" data-es="Aprende el 'Método de Parseo':">Learn the 'Parse Method':</strong> <span class="lang" data-en="Train your team to use the TTY parse on recaps to identify the exact state each user is in during a hang (e.g., 'GAMEWAIT_PITCH', 'POST PLAY'). This is a non-negotiable skill for writing useful online bugs." data-es="Entrena a tu equipo para usar el parseo del TTY en los recaps para identificar el estado exacto en el que se encuentra cada usuario durante un cuelgue (ej. 'GAMEWAIT_PITCH', 'POST PLAY'). Esta es una habilidad no negociable para escribir bugs online útiles.">Train your team to use the TTY parse on recaps to identify the exact state each user is in during a hang (e.g., 'GAMEWAIT_PITCH', 'POST PLAY'). This is a non-negotiable skill for writing useful online bugs.</span></li>
+                    <li><strong class="lang" data-en="Isolate Gameplay vs. Network:" data-es="Aísla Gameplay vs. Red:">Isolate Gameplay vs. Network:</strong> <span class="lang" data-en="Many issues that seem like network hangs are actually gameplay logic bugs. The 'foul ball hang' was reproduced in Online Rated, proving it wasn't exclusive to Co-op and was likely a core gameplay issue." data-es="Muchos problemas que parecen cuelgues de red son en realidad bugs de lógica del juego. El 'cuelgue de la bola de foul' se reprodujo en Online Rated, demostrando que no era exclusivo de Co-op y probablemente era un problema central del gameplay.">Many issues that seem like network hangs are actually gameplay logic bugs. The 'foul ball hang' was reproduced in Online Rated, proving it wasn't exclusive to Co-op and was likely a core gameplay issue.</span></li>
+                    <li><strong class="lang" data-en="Investigate Gameplay Mechanics:" data-es="Investiga las Mecánicas de Juego:">Investigate Gameplay Mechanics:</strong> <span class="lang" data-en="Deep gameplay knowledge is crucial. The investigation into Pinpoint PAR (Perfect Accuracy Region) size and pitches landing outside of it was a high-value find that directly impacted competitive balance." data-es="Un conocimiento profundo del gameplay es crucial. La investigación sobre el tamaño del PAR (Región de Precisión Perfecta) de Pinpoint y los lanzamientos que caían fuera de él fue un hallazgo de gran valor que impactó directamente en el equilibrio competitivo.">Deep gameplay knowledge is crucial. The investigation into Pinpoint PAR (Perfect Accuracy Region) size and pitches landing outside of it was a high-value find that directly impacted competitive balance.</span></li>
+                </ul>
+                <div class="case-study">
+                    <h4 class="lang" data-en="Case Study: The Accidental Recap Hang" data-es="Caso de Estudio: El Cuelgue por Recap Accidental">Case Study: The Accidental Recap Hang</h4>
+                    <p class="lang" data-en="A hang was reported, but a developer (Connor) identified that it was caused by a user accidentally triggering a recap mid-play. He then taught the QA team how to identify this by looking for multiple 'Socket connected' entries in the TTY log. This is a perfect example of collaborative debugging that improves the entire team's skills and prevents invalid bugs from being escalated." data-es="Se reportó un cuelgue, pero un desarrollador (Connor) identificó que fue causado por un usuario que activó accidentalmente un recap a mitad de la jugada. Luego, enseñó al equipo de QA cómo identificar esto buscando múltiples entradas de 'Socket connected' en el log del TTY. Este es un ejemplo perfecto de depuración colaborativa que mejora las habilidades de todo el equipo y evita que se escalen bugs inválidos.">A hang was reported, but a developer (Connor) identified that it was caused by a user accidentally triggering a recap mid-play. He then taught the QA team how to identify this by looking for multiple 'Socket connected' entries in the TTY log. This is a perfect example of collaborative debugging that improves the entire team's skills and prevents invalid bugs from being escalated.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentLang = 'en';
+            const staticLangElements = document.querySelectorAll('.lang');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const btnEn = document.getElementById('btn-en');
+            const btnEs = document.getElementById('btn-es');
+
+            const setLanguage = (lang) => {
+                currentLang = lang;
+                
+                staticLangElements.forEach(el => {
+                    if (el.dataset[lang]) {
+                        el.innerHTML = el.dataset[lang];
+                    }
+                });
+
+                if (lang === 'en') {
+                    btnEn.classList.add('active');
+                    btnEs.classList.remove('active');
+                } else {
+                    btnEs.classList.add('active');
+                    btnEn.classList.remove('active');
+                }
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+
+            btnEn.addEventListener('click', () => setLanguage('en'));
+            btnEs.addEventListener('click', () => setLanguage('es'));
+
+            // Initial population
+            setLanguage(currentLang);
+        });
+    </script>
+</body>
+</html>

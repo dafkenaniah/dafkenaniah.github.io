@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Video Detection & AI Assistant Hub — Leadership Brief</title>
+<style>
+  :root{
+    --bg:#0f172a;         /* slate-900 */
+    --panel:#111827;      /* gray-900 */
+    --panel-2:#0b1224;    /* darker */
+    --muted:#94a3b8;      /* slate-400 */
+    --text:#e5e7eb;       /* gray-200 */
+    --accent:#60a5fa;     /* blue-400 */
+    --accent-2:#34d399;   /* emerald-400 */
+    --accent-3:#f59e0b;   /* amber-500 */
+    --danger:#f87171;     /* red-400 */
+    --ok:#86efac;         /* green-300 */
+    --card:#0b132b;
+    --card-2:#111827;
+    --border:rgba(255,255,255,0.08);
+    --shadow: 0 8px 30px rgba(0,0,0,0.35);
+    --rad:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+    background: radial-gradient(1200px 800px at 80% -10%, rgba(52,211,153,0.12), transparent 60%),
+                radial-gradient(1000px 700px at 0% 0%, rgba(96,165,250,0.12), transparent 60%),
+                var(--bg);
+    color:var(--text); line-height:1.6;
+  }
+  header{
+    padding:56px 24px 32px; text-align:center;
+    background:
+      radial-gradient(900px 400px at 50% -10%, rgba(245,158,11,0.16), transparent 60%),
+      linear-gradient(180deg, rgba(17,24,39,0.7), rgba(17,24,39,0.9));
+    border-bottom:1px solid var(--border);
+  }
+  .container{max-width:1080px; margin:0 auto; padding:0 24px}
+  h1{margin:0 0 10px; font-size:40px; letter-spacing:0.4px}
+  .subtitle{color:var(--muted); font-size:18px}
+  .pill{
+    display:inline-block; padding:8px 14px; border-radius:999px; font-size:12px; letter-spacing:0.3px;
+    color:#0b1224; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    font-weight:700; margin-bottom:18px;
+  }
+
+  /* Metric cards */
+  .grid{display:grid; gap:18px}
+  .grid-3{grid-template-columns: repeat(3, minmax(0,1fr))}
+  @media (max-width:900px){ .grid-3{grid-template-columns:1fr} }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    border:1px solid var(--border); border-radius:var(--rad); padding:18px 18px;
+    box-shadow: var(--shadow);
+  }
+  .card h3{margin:0 0 8px; font-size:18px}
+  .big{font-size:32px; font-weight:800; margin:8px 0; letter-spacing:0.2px}
+  .small{font-size:13px; color:var(--muted)}
+  .ok{color:var(--accent-2)} .warn{color:var(--accent-3)} .danger{color:var(--danger)}
+
+  /* Sections */
+  section{padding:28px 0}
+  .section-title{font-size:22px; margin:0 0 14px}
+  .lead{color:var(--muted)}
+  .panel{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    border:1px solid var(--border); border-radius:var(--rad);
+    padding:20px; box-shadow: var(--shadow);
+  }
+  ul{margin:8px 0 8px 20px}
+  li{margin:6px 0}
+
+  .table{width:100%; border-collapse:collapse; font-size:14px}
+  .table th,.table td{border:1px solid var(--border); padding:10px 12px}
+  .table th{background:#111827; text-align:left}
+  .muted{color:var(--muted)}
+  .badge{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); color:var(--text)}
+
+  .two-col{display:grid; grid-template-columns:1.3fr 1fr; gap:18px}
+  @media (max-width:900px){ .two-col{grid-template-columns:1fr} }
+
+  footer{
+    border-top:1px solid var(--border);
+    color:var(--muted); text-align:center; padding:28px 0 56px; font-size:13px
+  }
+
+  .checklist li{list-style:"✓  "}
+  .risk{border-left:4px solid var(--accent-3); padding-left:12px}
+  .mit{border-left:4px solid var(--accent-2); padding-left:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="pill">Leadership Brief</div>
+    <h1>Video Detection & AI Assistant Hub</h1>
+    <div class="subtitle">Reduce bug filing time, standardize quality, and accelerate test throughput</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Executive Metrics -->
+  <section>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Expected Time Reduction</h3>
+        <div class="big ok">40–75%+</div>
+        <div class="small">Across “Steps to Reproduce” writing and video attachment workflow</div>
+      </div>
+      <div class="card">
+        <h3>Per Bug Effort</h3>
+        <div class="big">3–20 min ➝ <span class="ok">1–10 min</span></div>
+        <div class="small">AI assists STR drafting; replay buffer automation streamlines video capture</div>
+      </div>
+      <div class="card">
+        <h3>Deployment</h3>
+        <div class="big">Single EXE + Scripts</div>
+        <div class="small">Windows 10/11, built-in dependency installer, per‑tool configs</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it is -->
+  <section class="two-col">
+    <div class="panel">
+      <h2 class="section-title">What It Is</h2>
+      <p class="lead">
+        A centralized desktop hub that launches and manages two tools: (1) automated video capture for bug reproduction moments,
+        and (2) AI‑assisted “Steps to Reproduce” (STR) generation with a lightweight quality feedback loop.
+      </p>
+      <ul>
+        <li><b>Bugit Monitor</b> — automates OBS replay recording at the moment of interest; standardizes video evidence.</li>
+        <li><b>Bug Monitor AI</b> — drafts STRs from bug summaries and supports reviewer scoring to improve future outputs.</li>
+        <li><b>Launcher GUI</b> — single pane of glass for start/stop, logs, config, and dependency install.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2 class="section-title">Why It Matters</h2>
+      <ul class="checklist">
+        <li>Faster, more consistent bug reports</li>
+        <li>Higher STR quality with lower rework</li>
+        <li>Automation replaces repetitive steps (clip, attach, structure)</li>
+        <li>Built-in metrics and auditability</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Efficiency impact -->
+  <section>
+    <h2 class="section-title">Efficiency Impact</h2>
+    <div class="panel">
+      <table class="table">
+        <thead>
+          <tr><th>Scenario</th><th>Baseline</th><th>With Hub</th><th>Estimated Savings</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Quick bug</td>
+            <td>~3 min</td>
+            <td>~1–2 min</td>
+            <td>33–65%</td>
+          </tr>
+          <tr>
+            <td>Typical bug</td>
+            <td>~10 min</td>
+            <td>~4–5 min</td>
+            <td>50–60%</td>
+          </tr>
+          <tr>
+            <td>Complex bug</td>
+            <td>~20 min</td>
+            <td>~8–10 min</td>
+            <td>50–60% (up to 70–80% best case)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted" style="margin-top:10px">
+        Calculation examples (weekly): Savings_hours = Bugs_per_week × (Baseline_min − New_min) / 60
+      </p>
+      <ul>
+        <li><b>60 bugs/wk</b>, 10 ➝ 4.5 min = <b>~5.5 hours/week</b></li>
+        <li><b>120 bugs/wk</b>, 12 ➝ 5 min = <b>~14 hours/week</b></li>
+        <li><b>50 bugs/wk</b>, 18 ➝ 8 min = <b>~8.3 hours/week</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Deployment -->
+  <section class="two-col">
+    <div class="panel">
+      <h2 class="section-title">Deployment Overview</h2>
+      <ul>
+        <li><b>Deliverable</b>: Single EXE (PyInstaller) + Scripts folder (Windows 10/11)</li>
+        <li><b>Install</b>: Open EXE ➝ click “Install Dependencies” ➝ configure JIRA/OBS ➝ start tools</li>
+        <li><b>Update</b>: Replace EXE + Scripts; configs and logs preserved</li>
+        <li><b>Rollback</b>: Keep prior deployment folder; swap if needed</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2 class="section-title">Rollout Plan</h2>
+      <ul>
+        <li><span class="badge">Week 0</span> Smoke test on 2–3 machines</li>
+        <li><span class="badge">Week 1</span> Internal pilot — 4 testers; tune settings and gather KPIs</li>
+        <li><span class="badge">Week 2</span> Vendor pilot — 3 testers; validate access and environment</li>
+        <li><span class="badge">Week 3</span> Vendor expansion — +4 testers (total 7 vendors); monitor KPIs and stabilize</li>
+        <li><span class="badge">Week 4</span> Optional vendor expansion — +4 testers (total 11 vendors) based on KPIs</li>
+        <li><span class="badge">Week 5+</span> Diagnostics, config backup/restore, ROI review</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section class="two-col">
+    <div class="panel">
+      <h2 class="section-title">KPIs & Measurement</h2>
+      <ul>
+        <li>Time to file (median, p90)</li>
+        <li>STR first‑pass approval rate</li>
+        <li>AI vs user score delta; rework rate</li>
+        <li>Video attachment success rate</li>
+        <li>Throughput (bugs/tester/day)</li>
+      </ul>
+      <p class="muted">Data sources: app logs, AI generation logs, user scoring CSV, optional JIRA fields.</p>
+    </div>
+    <div class="panel">
+      <h2 class="section-title">Targets (first quarter)</h2>
+      <ul class="checklist">
+        <li>50–60% median time reduction</li>
+        <li>≥70% STR approved on first pass</li>
+        <li>≥90% auto‑clip availability</li>
+        <li>≤20% rework rate by week 6</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Risks -->
+  <section>
+    <h2 class="section-title">Key Risks & Mitigations</h2>
+    <div class="panel">
+      <p class="risk"><b>Dependency friction on end machines</b> — Use Microsoft Store Python and the in‑app installer (no admin required).</p>
+      <p class="mit"><b>Video capture reliability</b> — Validate OBS replay setup; ensure recording directory/space; provide quick health checks.</p>
+      <p class="risk"><b>JIRA/API auth issues</b> — Clear error messaging and config checks; tokens kept out of logs.</p>
+      <p class="mit"><b>Model/library weight</b> — CPU‑only acceptable for STR text; document install times; cache where possible.</p>
+    </div>
+  </section>
+
+  <!-- Appendix -->
+  <section>
+    <h2 class="section-title">Appendix — What’s Included</h2>
+    <div class="panel">
+      <ul>
+        <li><b>Launcher GUI</b> — central control, logs, config shortcuts, dependency installer</li>
+        <li><b>Bugit Monitor</b> — OBS replay buffer automation; JSON config; setup guide</li>
+        <li><b>Bug Monitor AI</b> — STR generation, user scoring CSV, generation logs; YAML config</li>
+      </ul>
+      <p class="muted">
+        Glass QA Task & Sanity Sync are referenced in docs but not included in this package.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  This brief summarizes the value, deployment, and impact of the Video Detection & AI Assistant Hub for leadership review.
+</footer>
+
+</body>
+</html>

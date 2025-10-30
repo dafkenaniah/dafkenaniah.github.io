@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB The Show 26 - Weekly Game Health Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .header-info div {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #2a5298;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .status-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .status-header {
+            padding: 15px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .stable { background-color: #28a745; }
+        .unstable { background-color: #ffc107; color: #333; }
+        .blocked { background-color: #dc3545; }
+        .na { background-color: #6c757d; }
+
+        .status-body {
+            padding: 15px;
+            background: white;
+        }
+
+        .status-body ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .status-body li {
+            margin: 5px 0;
+        }
+
+        .bug-link {
+            color: #dc3545;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 2px 6px;
+            background: #fff5f5;
+            border-radius: 4px;
+            border: 1px solid #fecaca;
+            transition: all 0.2s ease;
+        }
+
+        .bug-link:hover {
+            background: #dc3545;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed #666;
+        }
+
+        /* Disable CSS-based tooltips - using JavaScript for dynamic positioning */
+        .tooltip::after {
+            display: none;
+        }
+
+        .tooltip.has-bug-link {
+            cursor: pointer;
+        }
+
+        .critical-issues {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .critical-issues h3 {
+            margin-bottom: 15px;
+        }
+
+        .issue-list {
+            list-style: none;
+        }
+
+        .issue-list li {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin: 20px 0;
+            align-items: center;
+        }
+
+        .timeline-date {
+            background: #2a5298;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .timeline-content {
+            flex: 1;
+            margin-left: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .warning-fill {
+            background: linear-gradient(90deg, #ffc107 0%, #fd7e14 100%);
+            color: #333;
+        }
+
+        .danger-fill {
+            background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .recommendation {
+            background: #e7f3ff;
+            border-left: 4px solid #2a5298;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .recommendation h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .metrics-grid,
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>MLB The Show 26 - Weekly Game Health Report</h1>
+            <p>Test Week: 10/19 - 10/24, 2025 | Build CL: 1124041</p>
+            
+            <div class="header-info">
+                <div>
+                    <strong>Current Phase</strong><br>
+                    <span class="tooltip" data-tooltip="Currently in Deliverable 2 phase (7/23/25 to 11/4/25) - 5 Sprints">Deliverable 2 (5 Sprints)</span>
+                </div>
+                <div>
+                    <strong>Beta Milestone</strong><br>
+                    <span class="tooltip" data-tooltip="Beta phase scheduled for 11/5/25 to 12/23/25 - 2 Sprints">11/5/25 - 12/23/25</span>
+                </div>
+                <div>
+                    <strong>Final Submissions</strong><br>
+                    <span class="tooltip" data-tooltip="NSW: 12/18/25, PS/XB Final: 1/28/26">NSW: 12/18/25 | PS/XB: 1/28/26</span>
+                </div>
+                <div>
+                    <strong>Current Build</strong><br>
+                    CL 1124041 (UI Export: 1123750)
+                </div>
+            </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="section">
+            <h2>Executive Summary</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">80%</div>
+                    <div class="metric-label">Confirmation Pass Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">62%</div>
+                    <div class="metric-label">Smoke Test Pass Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">75</div>
+                    <div class="metric-label">Total Bugs Written This Week</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">454</div>
+                    <div class="metric-label">Total Testing Hours</div>
+                </div>
+            </div>
+
+            <div class="critical-issues">
+                <h3>🚨 Critical Issues Requiring Immediate Attention</h3>
+                <ul class="issue-list">
+                    <li><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-12979" class="bug-link">CB-12979</a>:</strong> NSW RTTS mode completely blocked due to assert before Futures Game</li>
+                    <li><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-12882" class="bug-link">CB-12882</a>:</strong> Play Vs Friends functionality blocked across all platforms</li>
+                    <li><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-14603" class="bug-link">CB-14603</a>:</strong> New Head-to-Head hang discovered during testing</li>
+                    <li><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-13119" class="bug-link">CB-13119</a>:</strong> Diamond Dynasty Co-Op 2v2 failing across platforms</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Build Status -->
+        <div class="section">
+            <h2>Build Status & Deployment</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 20</div>
+                    <div class="timeline-content">
+                        <strong>New MLB 26 Builds Deployed</strong><br>
+                        CL 1124041 ready for testing across all platforms:
+                        <ul style="margin-top: 10px;">
+                            <li><strong>PS5:</strong> Ship & Test builds available</li>
+                            <li><strong>XB2:</strong> Ship & Test builds available</li>
+                            <li><strong>NSW:</strong> Ship build available, Test build deployed later</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recommendation">
+                <h4>📋 Build Recommendation</h4>
+                <p>While builds are successfully deployed, the <span class="tooltip" data-tooltip="Multiple critical bugs are blocking key game modes, indicating potential stability issues">high number of blocking issues</span> suggests this build requires additional stabilization before proceeding to wider testing phases.</p>
+            </div>
+        </div>
+
+        <!-- Testing Results -->
+        <div class="section">
+            <h2>Confirmation Testing Results</h2>
+            <div class="progress-bar">
+                <div class="progress-fill warning-fill" style="width: 80%;">80% Pass Rate</div>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #28a745;">28</div>
+                    <div class="metric-label">Passed Tests (80%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #dc3545;">3</div>
+                    <div class="metric-label">Failed Tests (9%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #ffc107;">2</div>
+                    <div class="metric-label">Blocked Tests (6%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #6f42c1;">2</div>
+                    <div class="metric-label">PWI Tests (6%)</div>
+                </div>
+            </div>
+
+            <h3>Failed Tests in Confirmation Testing:</h3>
+            <ul class="issue-list">
+                <li id="bug-CB-14038"><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-14038" class="bug-link">CB-14038</a>:</strong> <span class="tooltip" data-tooltip="On Screen Display functionality critical for gameplay feedback">Double play description removed from OSD when button pressed</span></li>
+                <li id="bug-CB-14334"><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-14334" class="bug-link">CB-14334</a>:</strong> <span class="tooltip" data-tooltip="STATCAST is a key presentation feature for baseball analytics">STATCAST presentation remains stuck on screen</span></li>
+                <li id="bug-CB-13563"><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-13563" class="bug-link">CB-13563</a>:</strong> <span class="tooltip" data-tooltip="Online Co-Op hang affects multiplayer experience significantly">Online Co-Op hang with users stuck in different game states</span></li>
+            </ul>
+        </div>
+
+        <!-- Game Mode Status -->
+        <div class="section">
+            <h2>Game Mode Health Status</h2>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-header blocked">🚫 BLOCKED MODES</div>
+                    <div class="status-body">
+                        <p><strong>Road To The Show (NSW):</strong><br>
+                        <a href="https://jira.sds.ship.scea.com/jira/browse/CB-12979" class="bug-link">CB-12979</a> - <span class="tooltip" data-tooltip="Assert prevents players from progressing through career mode on Nintendo Switch">Assert before Futures Game presentation</span></p>
+                        
+                        <p><strong>Play Vs Friends (All Platforms):</strong><br>
+                        <a href="https://jira.sds.ship.scea.com/jira/browse/CB-12882" class="bug-link">CB-12882</a> - <span class="tooltip" data-tooltip="Social gaming feature completely non-functional across all platforms">Assert when joining via invite while saving</span></p>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header unstable">⚠️ UNSTABLE MODES</div>
+                    <div class="status-body">
+                        <p><strong>RTTS Two-Way Female (PS5, XB2):</strong><br>
+                        Multiple <span class="tooltip" data-tooltip="SKAT assert affects mode entry and progression">SKAT assert issues</span> affecting gameplay</p>
+                        
+                        <p><strong>Diamond Dynasty Co-Op:</strong><br>
+                        <a href="https://jira.sds.ship.scea.com/jira/browse/CB-13119" class="bug-link">CB-13119</a> - <span class="tooltip" data-tooltip="Cooperative Diamond Dynasty gameplay experiencing connection issues">2v2 functionality impacted across platforms</span></p>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header stable">✅ STABLE MODES</div>
+                    <div class="status-body">
+                        <ul>
+                            <li>Exhibition (All variations)</li>
+                            <li>Franchise Mode</li>
+                            <li>Diamond Dynasty Single Player</li>
+                            <li>Online Rated</li>
+                            <li>Battle Royale</li>
+                            <li>Ranked Seasons</li>
+                            <li>Most offline modes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smoke Testing Results -->
+        <div class="section">
+            <h2>Smoke Testing Analysis</h2>
+            <div class="progress-bar">
+                <div class="progress-fill warning-fill" style="width: 62%;">62% Pass Rate</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #28a745;">136</div>
+                    <div class="metric-label">Passed Smoke Tests</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #dc3545;">24</div>
+                    <div class="metric-label">Failed Smoke Tests</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #6c757d;">38</div>
+                    <div class="metric-label">Untested (17%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #ffc107;">4</div>
+                    <div class="metric-label">PWI Tests</div>
+                </div>
+            </div>
+
+            <h3>Platform-Specific Smoke Test Results:</h3>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-header" style="background: #28a745;">PS5: 81% Pass Rate</div>
+                    <div class="status-body">
+                        <p><strong>Key Issues:</strong></p>
+                        <ul>
+                            <li><a href="https://jira.sds.ship.scea.com/jira/browse/CB-14366" class="bug-link">CB-14366</a> - SKAT assert in RTTS modes</li>
+                            <li><a href="https://jira.sds.ship.scea.com/jira/browse/CB-12882" class="bug-link">CB-12882</a> - Play with Friends blocked</li>
+                            <li><a href="https://jira.sds.ship.scea.com/jira/browse/CB-13119" class="bug-link">CB-13119</a> - DD Co-Op 2v2 failures</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header" style="background: #ffc107; color: #333;">XB2: 75% Pass Rate</div>
+                    <div class="status-body">
+                        <p><strong>Key Issues:</strong></p>
+                        <ul>
+                            <li><a href="#bug-CB-14366" class="bug-link">CB-14366</a> - SKAT assert affecting RTTS</li>
+                            <li><a href="#bug-CB-13089" class="bug-link">CB-13089</a> - H2H with Vault CRAS issues</li>
+                            <li><a href="#bug-CB-13916" class="bug-link">CB-13916</a> - Home Run Derby Online PWI</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header" style="background: #ffc107; color: #333;">NSW: 70% Pass Rate</div>
+                    <div class="status-body">
+                        <p><strong>Critical Issue:</strong></p>
+                        <ul>
+                            <li id="bug-CB-12979"><a href="#" class="bug-link">CB-12979</a> - <span class="tooltip" data-tooltip="This assert completely prevents NSW players from experiencing the career mode progression">RTTS Assert before Futures Game (BLOCKING)</span></li>
+                            <li><a href="#bug-CB-14400" class="bug-link">CB-14400</a> - Additional RTTS functionality issues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Head to Head Testing -->
+        <div class="section">
+            <h2>Head to Head (H2H) Testing Results</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #28a745;">3</div>
+                    <div class="metric-label">Games Completed Successfully</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #dc3545;">1</div>
+                    <div class="metric-label">Games Resulted in Hang</div>
+                </div>
+            </div>
+
+            <div class="critical-issues">
+                <h3>⚠️ New Critical Issue Discovered</h3>
+                <p id="bug-CB-14603"><strong><a href="https://jira.sds.ship.scea.com/jira/browse/CB-14603" class="bug-link">CB-14603</a>:</strong> <span class="tooltip" data-tooltip="This hang affects the core competitive multiplayer experience">H2H Hang - Users stuck in different game states during live pitch</span></p>
+                <ul style="margin-top: 10px;">
+                    <li>One user stuck in: GAMEWAIT_COOP_LEADER_SWAP</li>
+                    <li>One user stuck in: GAMEWAIT_PITCH</li>
+                    <li>Play ends in state: LIVE PITCH</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Daily Activity Summary -->
+        <div class="section">
+            <h2>Daily Testing Activity</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 20</div>
+                    <div class="timeline-content">
+                        <strong>91 Testing Hours</strong><br>
+                        • 12 bugs written, 16 confirmed, 13 closed<br>
+                        • <span class="tooltip" data-tooltip="Smoke testing validates basic functionality across game modes">Smoke checks and confirmation</span> on new build<br>
+                        • Exploratory testing initiated
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 21</div>
+                    <div class="timeline-content">
+                        <strong>91 Testing Hours</strong><br>
+                        • 18 bugs written, 0 confirmed, 0 closed<br>
+                        • <span class="tooltip" data-tooltip="Increased bug discovery suggests deeper testing uncovering more issues">High bug discovery rate</span> during exploratory testing<br>
+                        • Focus on task completion and mode validation
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 23</div>
+                    <div class="timeline-content">
+                        <strong>136 Testing Hours</strong><br>
+                        • 27 bugs written, 0 confirmed, 0 closed<br>
+                        • <span class="tooltip" data-tooltip="Peak testing effort with highest hour count and bug discovery">Peak testing intensity</span><br>
+                        • Continued exploratory testing across all modes
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 24</div>
+                    <div class="timeline-content">
+                        <strong>136 Testing Hours</strong><br>
+                        • 18 bugs written, 0 confirmed, 0 closed<br>
+                        • <span class="tooltip" data-tooltip="Final day of testing week with continued focus on CL 1124041">Week completion with sustained testing effort</span><br>
+                        • Continued exploratory testing on Mainline 26 CL: 1124041
+                    </div>
+                </div>
+            </div>
+
+            <h3>Team Resource Allocation:</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">10</div>
+                    <div class="metric-label">RTTS Testing Team</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">5</div>
+                    <div class="metric-label">Diamond Dynasty Team</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">4</div>
+                    <div class="metric-label">MTO/Franchise Team</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">Storylines/CRAS Team</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Features -->
+        <div class="section">
+            <h2>Upcoming Features & Development Focus</h2>
+            
+            <h3>Diamond Dynasty Feature Development</h3>
+            <div class="recommendation">
+                <h4>🚀 Diamond Dynasty Pipeline (from DD Meeting Notes - 10/23/25)</h4>
+                <ul>
+                    <li><strong>King of the Hill Debug Implementation:</strong> <span class="tooltip" data-tooltip="New Diamond Dynasty competitive mode in early development phase">DD matchmaking testing phase initiated, no gameplay screens yet - Colin directing Kenneth and Clayton to test matchmaking system</span></li>
+                    <li><strong>World Baseball Classic Theme:</strong> <span class="tooltip" data-tooltip="New Diamond Dynasty theme requiring extensive content creation">DD launch preparation underway, presentations and commentary for teams and players needed</span></li>
+                    <li><strong>Mini Seasons Rework:</strong> <span class="tooltip" data-tooltip="Based on QA feedback from Kenneth and Clayton's team, engineers revising DD reward systems">DD Mini Seasons awards and stat changes being revised based on team feedback</span></li>
+                    <li><strong>PXP 2 System:</strong> <span class="tooltip" data-tooltip="Player Experience Point system version 2 for Diamond Dynasty progression">DD progression system currently behind debug, Clayton reporting no access yet</span></li>
+                    <li><strong>Progression Speed Adjustments:</strong> <span class="tooltip" data-tooltip="Colin observed faster parallel level advancement in Diamond Dynasty">Parallel levels advancing more quickly during DD gameplay - being monitored</span></li>
+                </ul>
+            </div>
+
+            <div class="recommendation">
+                <h4>📋 Diamond Dynasty Action Items</h4>
+                <ul>
+                    <li><strong>King of the Hill Testing:</strong> Begin matchmaking functionality testing and issue identification</li>
+                    <li><strong>WBC Feature Preparation:</strong> Team ready to test World Baseball Classic features when available</li>
+                    <li><strong>Meeting Notes Distribution:</strong> Kenneth to distribute DD meeting notes to team</li>
+                    <li><strong>Status Updates:</strong> Team committed to keeping Colin and Clayton informed of progress</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Critical Bug Details -->
+        <div class="section">
+            <h2 id="bug-CB-12882">Critical Bug Details</h2>
+            
+            <div class="critical-issues">
+                <h3>🚨 CB-12882 - Play Vs Friends Assert</h3>
+                <p><strong>Impact:</strong> Complete blocking of social gaming features across all platforms</p>
+                <p><strong>Reproduction:</strong> Assert occurs when user joins Play Vs Friends game via invite while in the midst of saving</p>
+                <p><strong>Platforms Affected:</strong> PS5, XB2, NSW</p>
+                <p><strong>Priority:</strong> Critical - Social features are core to user engagement</p>
+            </div>
+
+            <div class="critical-issues" id="bug-CB-13119">
+                <h3>🚨 CB-13119 - DD Co-Op 2v2 Failures</h3>
+                <p><strong>Impact:</strong> Diamond Dynasty cooperative gameplay completely broken</p>
+                <p><strong>Platforms Affected:</strong> PS5, XB2, NSW</p>
+                <p><strong>Tests Affected:</strong> Both Ranked and Casual Co-Op 2v2</p>
+                <p><strong>Priority:</strong> High - Affects competitive multiplayer experience</p>
+            </div>
+        </div>
+
+        <!-- Key Decision Points -->
+        <div class="section">
+            <h2>Key Decision Points & Analysis</h2>
+            
+            <div class="recommendation">
+                <h4>🎯 Critical Issues Requiring Executive Attention</h4>
+                <ul>
+                    <li><strong>NSW RTTS Blocking Issue:</strong> <span class="tooltip has-bug-link" data-tooltip="CB-12979 prevents Nintendo Switch players from accessing career mode content - Click to view in Jira" data-bug-url="https://jira.sds.ship.scea.com/jira/browse/CB-12979">Complete mode blockage affects NSW user experience and platform parity</span> - <a href="https://jira.sds.ship.scea.com/jira/browse/CB-12979" class="bug-link">CB-12979</a></li>
+                    <li><strong>Cross-Platform Social Features:</strong> <span class="tooltip has-bug-link" data-tooltip="CB-12882 impacts social gaming functionality across all platforms - Click to view in Jira" data-bug-url="https://jira.sds.ship.scea.com/jira/browse/CB-12882">Play Vs Friends unavailable on PS5, XB2, and NSW - affects community engagement</span> - <a href="https://jira.sds.ship.scea.com/jira/browse/CB-12882" class="bug-link">CB-12882</a></li>
+                    <li><strong>Multiplayer Stability Trends:</strong> <span class="tooltip has-bug-link" data-tooltip="CB-14603 represents new multiplayer hang pattern - Click to view in Jira" data-bug-url="https://jira.sds.ship.scea.com/jira/browse/CB-14603">New H2H hang discovered - indicates potential systemic multiplayer issues</span> - <a href="https://jira.sds.ship.scea.com/jira/browse/CB-14603" class="bug-link">CB-14603</a></li>
+                    <li><strong>Build Quality Metrics:</strong> <span class="tooltip" data-tooltip="62% smoke test pass rate below typical quality thresholds">Current pass rates suggest stability concerns that may impact release timeline</span></li>
+                </ul>
+            </div>
+
+            <div class="recommendation">
+                <h4>📊 Resource Allocation Insights</h4>
+                <ul>
+                    <li><strong>Platform Performance Gap:</strong> <span class="tooltip" data-tooltip="NSW: 70%, XB2: 75%, PS5: 81% pass rates show platform disparity">NSW showing lowest pass rates with most critical blocking issues</span></li>
+                    <li><strong>Testing Coverage Analysis:</strong> <span class="tooltip" data-tooltip="454 total hours with 75 bugs discovered indicates active issue discovery">High bug discovery rate suggests thorough testing but potential quality concerns</span></li>
+                    <li><strong>Mode-Specific Impact:</strong> <span class="tooltip" data-tooltip="Diamond Dynasty Co-Op, RTTS, and social features most affected">Multiplayer and career modes showing highest concentration of critical issues</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Risk Assessment -->
+        <div class="section">
+            <h2>Risk Assessment & Timeline Impact</h2>
+            
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-header" style="background: #dc3545;">🔴 HIGH RISK</div>
+                    <div class="status-body">
+                        <strong>Release Timeline Risk:</strong> <span class="tooltip" data-tooltip="With NSW submission deadline of 12/18/25 and PS/XB submission of 1/28/26, current stability issues require assessment for timeline impact">Critical bugs requiring resolution for release readiness</span>
+                        <br><br>
+                        <strong>Key Concerns:</strong>
+                        <ul>
+                            <li>NSW platform stability issues</li>
+                            <li>Multiplayer functionality degradation</li>
+                            <li>Core mode accessibility problems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header" style="background: #ffc107; color: #333;">🟡 MEDIUM RISK</div>
+                    <div class="status-body">
+                        <strong>Feature Completion Risk:</strong> <span class="tooltip" data-tooltip="New features like King of the Hill still in early development">New features may require extended testing cycles</span>
+                        <br><br>
+                        <strong>Monitoring Required:</strong>
+                        <ul>
+                            <li>King of the Hill implementation</li>
+                            <li>World Baseball Classic content</li>
+                            <li>PXP 2 system development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header" style="background: #28a745;">🟢 LOW RISK</div>
+                    <div class="status-body">
+                        <strong>Stable Components:</strong> <span class="tooltip" data-tooltip="Core single-player and competitive modes showing good stability">Foundation gameplay systems performing well</span>
+                        <br><br>
+                        <strong>Strong Areas:</strong>
+                        <ul>
+                            <li>Exhibition gameplay</li>
+                            <li>Franchise mode</li>
+                            <li>Diamond Dynasty single-player</li>
+                            <li>Most offline content</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Week Focus -->
+        <div class="section">
+            <h2>Next Week Testing Focus</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Priority 1</div>
+                    <div class="timeline-content">
+                        <strong>Critical Bug Resolution Verification</strong><br>
+                        • Verify fixes for <a href="#bug-CB-12979" class="bug-link">CB-12979</a>, <a href="#bug-CB-12882" class="bug-link">CB-12882</a>, and <a href="#bug-CB-14603" class="bug-link">CB-14603</a><br>
+                        • <span class="tooltip" data-tooltip="Full regression testing needed after critical fixes">Complete smoke test re-runs on affected platforms</span><br>
+                        • <span class="tooltip" data-tooltip="Testing to ensure previously fixed bugs haven't reappeared in current build">A bug regression testing across all major game modes</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Priority 2</div>
+                    <div class="timeline-content">
+                        <strong>NSW Platform Stabilization</strong><br>
+                        • Focused RTTS testing on Nintendo Switch<br>
+                        • <span class="tooltip" data-tooltip="NSW showing most critical issues, requires dedicated attention">Platform-specific issue investigation and resolution</span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Priority 3</div>
+                    <div class="timeline-content">
+                        <strong>New Feature Integration Testing</strong><br>
+                        • King of the Hill matchmaking validation<br>
+                        • World Baseball Classic content testing<br>
+                        • <span class="tooltip" data-tooltip="New features need thorough validation before wider release">Mini Seasons rework verification</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="section" style="text-align: center; background: #1e3c72; color: white;">
+            <p><strong>Report Generated:</strong> October 24, 2025</p>
+            <p><strong>Next Report Due:</strong> October 31, 2025</p>
+            <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+                This report contains confidential MLB The Show 26 development information.<br>
+                For questions about this report, contact Kenneth Davis or the QA team.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling to bug links
+        document.querySelectorAll('a[href^="#bug-"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    // Highlight the target briefly
+                    target.style.background = '#fff3cd';
+                    setTimeout(() => {
+                        target.style.background = '';
+                    }, 2000);
+                }
+            });
+        });
+
+        // Dynamic tooltip positioning to prevent cutoff
+        document.querySelectorAll('.tooltip').forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', function(e) {
+                // Create tooltip element for positioning calculation
+                const rect = this.getBoundingClientRect();
+                const tooltipContent = this.getAttribute('data-tooltip');
+                
+                // Remove existing tooltip temporarily
+                const existingTooltip = document.querySelector('.dynamic-tooltip');
+                if (existingTooltip) {
+                    existingTooltip.remove();
+                }
+                
+                // Create new tooltip element
+                const tooltipDiv = document.createElement('div');
+                tooltipDiv.className = 'dynamic-tooltip';
+                tooltipDiv.innerHTML = tooltipContent;
+                tooltipDiv.style.cssText = `
+                    position: fixed;
+                    background: ${this.classList.contains('has-bug-link') ? '#2a5298' : '#333'};
+                    border: ${this.classList.contains('has-bug-link') ? '2px solid #ff6b6b' : 'none'};
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    font-size: 0.85rem;
+                    z-index: 99999;
+                    max-width: 320px;
+                    white-space: normal;
+                    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+                    line-height: 1.4;
+                    pointer-events: ${this.classList.contains('has-bug-link') ? 'auto' : 'none'};
+                    cursor: ${this.classList.contains('has-bug-link') ? 'pointer' : 'default'};
+                `;
+                
+                document.body.appendChild(tooltipDiv);
+                
+                // Calculate optimal position
+                const tooltipRect = tooltipDiv.getBoundingClientRect();
+                let top = rect.top - tooltipRect.height - 8;
+                let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+                
+                // Adjust if tooltip goes off screen
+                if (top < 10) {
+                    top = rect.bottom + 8;
+                }
+                if (left < 10) {
+                    left = 10;
+                } else if (left + tooltipRect.width > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltipRect.width - 10;
+                }
+                
+                tooltipDiv.style.top = `${top}px`;
+                tooltipDiv.style.left = `${left}px`;
+                tooltipDiv.style.opacity = '1';
+            });
+            
+            tooltip.addEventListener('mouseleave', function(e) {
+                const tooltipDiv = document.querySelector('.dynamic-tooltip');
+                if (tooltipDiv && !tooltipDiv.matches(':hover')) {
+                    tooltipDiv.remove();
+                }
+            });
+        });
+
+        // Make tooltips with bug links clickable
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('dynamic-tooltip')) {
+                const parentTooltip = document.querySelector('.tooltip.has-bug-link:hover');
+                if (parentTooltip) {
+                    const bugUrl = parentTooltip.getAttribute('data-bug-url');
+                    if (bugUrl) {
+                        window.open(bugUrl, '_blank');
+                    }
+                }
+            }
+        });
+
+        // Clean up tooltips when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.tooltip') && !e.target.classList.contains('dynamic-tooltip')) {
+                const tooltips = document.querySelectorAll('.dynamic-tooltip');
+                tooltips.forEach(tooltip => tooltip.remove());
+            }
+        });
+    </script>
+</body>
+</html>

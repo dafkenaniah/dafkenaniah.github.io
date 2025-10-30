@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB '25 Project Lifecycle Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ps-blue-dark: #003087;
+            --ps-blue-light: #0070D1;
+            --bg-color: #F0F2F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #172B4D;
+            --text-secondary: #5E6C84;
+            --border-color: #DFE1E6;
+            --color-blocker: #DE350B;
+            --color-progress: #00875A;
+            --color-roadblock: #FFAB00;
+            --color-decision: #403294;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .header-title { display: flex; align-items: center; gap: 12px; }
+        h1 { font-size: 1.8em; font-weight: 600; color: var(--text-primary); margin: 0; }
+        .lang-switcher { display: flex; }
+        .lang-btn { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; cursor: pointer; font-size: 0.9em; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; }
+        .lang-btn:first-child { border-radius: 6px 0 0 6px; border-right: none; }
+        .lang-btn:last-child { border-radius: 0 6px 6px 0; }
+        .lang-btn.active { background-image: linear-gradient(to right, var(--ps-blue-light), var(--ps-blue-dark)); color: white; border-color: var(--ps-blue-dark); }
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
+        .tabs { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn { background: none; border: none; padding: 15px 20px; cursor: pointer; font-size: 1em; font-weight: 500; color: var(--text-secondary); position: relative; }
+        .tab-btn.active { color: var(--ps-blue-dark); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background-color: var(--ps-blue-dark); border-radius: 3px 3px 0 0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 4px; background-color: #EAEBF0; border-radius: 2px; }
+        .timeline-item { position: relative; margin-bottom: 30px; padding-left: 60px; }
+        .timeline-icon { position: absolute; left: 0; top: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: var(--card-bg); border: 4px solid #EAEBF0; }
+        .timeline-item.blocker .timeline-icon { border-color: var(--color-blocker); }
+        .timeline-item.progress .timeline-icon { border-color: var(--color-progress); }
+        .timeline-item.roadblock .timeline-icon { border-color: var(--color-roadblock); }
+        .timeline-item.decision .timeline-icon { border-color: var(--color-decision); }
+        .timeline-content { background-color: #F7F8FA; border-radius: 8px; padding: 20px; }
+        .timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;}
+        .timeline-title { font-weight: 600; font-size: 1.1em; }
+        .timeline-date { font-size: 0.9em; color: var(--text-secondary); flex-shrink: 0; }
+        .timeline-body { color: var(--text-secondary); }
+        .bug-link { color: var(--ps-blue-dark); font-weight: 600; text-decoration: none; position: relative; cursor: pointer; }
+        .bug-link:hover { text-decoration: underline; }
+        .tooltip { visibility: hidden; width: 300px; background-color: #253858; color: #fff; text-align: left; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -150px; opacity: 0; transition: opacity 0.3s; font-size: 0.9em; line-height: 1.4; }
+        .tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #253858 transparent transparent transparent; }
+        .bug-link:hover .tooltip { visibility: visible; opacity: 1; }
+        .legend { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 15px; height: 15px; border-radius: 50%; }
+        .insights-grid, .stages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .insight-card, .stage-card { background-color: #F7F8FA; padding: 20px; border-radius: 8px; }
+        .insight-card h3, .stage-card h3 { font-size: 1.2em; margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px; }
+        .insight-card .lesson { font-style: italic; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-title">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="#0070D1"/></svg>
+                <h1 class="lang" data-en="MLB '25 Project Lifecycle Analysis" data-es="Análisis del Ciclo de Vida del Proyecto MLB '25">MLB '25 Project Lifecycle Analysis</h1>
+            </div>
+            <div class="lang-switcher">
+                <button id="btn-en" class="lang-btn active">English</button>
+                <button id="btn-es" class="lang-btn">Español</button>
+            </div>
+        </header>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active lang" data-tab="pre-launch" data-en="Pre-Launch Timeline" data-es="Cronología Pre-Lanzamiento">Pre-Launch Timeline</button>
+                <button class="tab-btn lang" data-tab="post-launch" data-en="Post-Launch Timeline" data-es="Cronología Post-Lanzamiento">Post-Launch Timeline</button>
+                <button class="tab-btn lang" data-tab="insights" data-en="Key Insights & Lessons" data-es="Perspectivas y Lecciones Clave">Key Insights & Lessons</button>
+                <button class="tab-btn lang" data-tab="stages" data-en="Testing Stages in Practice" data-es="Etapas de Pruebas en Práctica">Testing Stages in Practice</button>
+                <button class="tab-btn lang" data-tab="blockers" data-en="Major Blockers" data-es="Bloqueadores Principales">Major Blockers</button>
+            </div>
+
+            <div id="pre-launch" class="tab-content active">
+                <!-- Pre-Launch content will be populated by script -->
+            </div>
+
+            <div id="post-launch" class="tab-content">
+                <!-- Post-Launch content will be populated by script -->
+            </div>
+
+            <div id="insights" class="tab-content">
+                <!-- Insights content will be populated by script -->
+            </div>
+
+            <div id="stages" class="tab-content">
+                 <!-- Stages content will be populated by script -->
+            </div>
+
+            <div id="blockers" class="tab-content">
+                <!-- Major blockers content will be added here by the script -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bugData = {
+            "CB-2192": { title: "[Functionality] Title becomes unresponsive when viewing settings menu during Home Run Derby." },
+            "MLB24-18633": { title: "Community Crash Reporter: XB2: TextureSet::LoadHeadersV8" },
+            "CB-1474": { title: "[NSW][ASSERT] DD: The title asserts when loading into a game in Battle Royale while a user has Shea Langeliers in their lineup" },
+            "CB-2023": { title: "NSW: Title crashes when taking a recap connected online" },
+            "CB-5864": { title: "[CRASH] [PS5] DD: User crashes when entering a game with a specific account on PS5 " },
+            "CB-7108": { title: "FRTTS: Rob Manfred shows up with no suit when drafted between the 9th to 12th round and drafted by the Mariners " },
+            "CB-9313": { title: "[CRASH] General: Game crashes and can cause corruption and deletion of all Save files when resuming RTTS career after not saving logo in DD" },
+            "CB-9417": { title: "[NSW] [HANG] RTTS: Title hangs before conversation with college coach in team airplane" },
+            "CB-9930": { title: "Citi Field: Yellow glowing cup present in the Home dugout" },
+            "CB-10107": { title: "RTTS: Outfield fielding opportunities are the exact same" },
+            "CB-10062": { title: "DD CO-OP: Pause menu option Surrender/Quit is not highlighted when hovering over it and selecting it and opens an invisible menu" },
+            "CB-9530": { title: "Diamond Quest: PlayStation button prompts are displayed on all consoles during the Diamond Quest 101 tutorial" },
+            "CB-10419": { title: "General: Ryan McCrystal has a corrupted 'birdman' face" },
+            "CB-11316": { title: "[PS] [CRASH] General: Crash occurs attempting to enter any stadium after returning from a CRAS stadium with no assets" },
+            "CB-9870": { title: "H2H: Exploit allows user to steal home with a 99 Speed Player" },
+            "CB-10935": { title: "[BLOCKER] General: User is unable to search for opponents in all H2H modes" },
+            "CB-11812": { title: "[XR] General: A child's xbox profile is not able to access online multiplayer modes after being granted access" },
+            "CB-2274": { title: "Task: Test 'Now and Later' packs just prior to launch" }
+        };
+
+        const preLaunchTimelineData = [
+            { type: 'blocker', date: {en: 'Jan 2, 2025', es: 'Ene 2, 2025'}, title: {en: 'Matchmaking Failure', es: 'Falla en Matchmaking'}, description: {en: 'Initial tests for MLB 21 matchmaking fail. The server is unstable, preventing online smoke checks.', es: 'Las pruebas iniciales para el matchmaking de MLB 21 fallan. El servidor está inestable, impidiendo las pruebas de humo online.'} },
+            { type: 'roadblock', date: {en: 'Jan 3, 2025', es: 'Ene 3, 2025'}, title: {en: 'PS5 Friends List Issue', es: 'Problema con Lista de Amigos en PS5'}, description: {en: 'A new problem arises on PS5 where the in-game friends list does not populate, preventing direct invites.', es: 'Surge un nuevo problema en PS5 donde la lista de amigos del juego no se carga, impidiendo las invitaciones directas.'} },
+            { type: 'roadblock', date: {en: 'Jan 3, 2025', es: 'Ene 3, 2025'}, title: {en: 'Stub Purchase Failure', es: 'Falla en Compra de Stubs'}, description: {en: 'Users report a "Failed to consume entitlement" error when purchasing Stubs on PS5, impacting monetization testing.', es: 'Los usuarios reportan un error de "Fallo al consumir el derecho" al comprar Stubs en PS5, afectando las pruebas de monetización.'} },
+            { type: 'progress', date: {en: 'Jan 4, 2025', es: 'Ene 4, 2025'}, title: {en: 'Xbox Builds Verified', es: 'Builds de Xbox Verificadas'}, description: {en: 'QA team confirms the Xbox builds on the store are stable and working as expected.', es: 'El equipo de QA confirma que las compilaciones de Xbox en la tienda están estables y funcionan como se esperaba.'} },
+            { type: 'decision', date: {en: 'Jan 4, 2025', es: 'Ene 4, 2025'}, title: {en: 'Submission Delayed', es: 'Entrega a Certificación Retrasada'}, description: {en: 'Production decides to delay the submission to Friday to allow for more testing and potential fixes.', es: 'Producción decide retrasar la entrega al viernes para permitir más pruebas y posibles correcciones.'} },
+            { type: 'progress', date: {en: 'Jan 5, 2025', es: 'Ene 5, 2025'}, title: {en: 'Builds Deployed to GEMS', es: 'Builds Desplegadas en GEMS'}, description: {en: 'Builds for MLB 21 are successfully uploaded to the GEMS deployment system, a key step for submission.', es: 'Las compilaciones de MLB 21 se suben con éxito al sistema de despliegue GEMS, un paso clave para la entrega.'} },
+            { type: 'progress', date: {en: 'Jan 6, 2025', es: 'Ene 6, 2025'}, title: {en: 'Patch Approved', es: 'Parche Aprobado'}, description: {en: 'The MLB The Show 21 patch is officially approved, concluding its submission cycle.', es: 'El parche de MLB The Show 21 es aprobado oficialmente, concluyendo su ciclo de entrega.'} },
+            { type: 'roadblock', date: {en: 'Jan 7, 2025', es: 'Ene 7, 2025'}, title: {en: 'Major Crash Investigation', es: 'Investigación de Crash Mayor'}, description: {en: 'A significant crash on XB2, <a href="https://jira.sds.ship.scea.com/jira/browse/MLB24-18633" target="_blank" class="bug-link" data-bug-id="MLB24-18633">MLB24-18633</a>, is investigated. Initially thought to be related to post-season moments, it is later identified as a bad texture issue.', es: 'Se investiga un crash significativo en XB2, <a href="https://jira.sds.ship.scea.com/jira/browse/MLB24-18633" target="_blank" class="bug-link" data-bug-id="MLB24-18633">MLB24-18633</a>. Inicialmente se pensó que estaba relacionado con momentos de postemporada, pero luego se identifica como un problema de textura.'} },
+            { type: 'blocker', date: {en: 'Jan 8, 2025', es: 'Ene 8, 2025'}, title: {en: 'NSW Daily Rewards Assert', es: 'Assert en Recompensas Diarias de NSW'}, description: {en: 'A blocking assert, <a href="https://jira.sds.ship.scea.com/jira/browse/CB-1474" target="_blank" class="bug-link" data-bug-id="CB-1474">CB-1474</a>, occurs on Nintendo Switch related to specific daily rewards, preventing progress.', es: 'Ocurre un assert de bloqueo, <a href="https://jira.sds.ship.scea.com/jira/browse/CB-1474" target="_blank" class="bug-link" data-bug-id="CB-1474">CB-1474</a>, en Nintendo Switch relacionado con recompensas diarias específicas, impidiendo el progreso.'} },
+            { type: 'progress', date: {en: 'Jan 8, 2025', es: 'Ene 8, 2025'}, title: {en: 'NSW Recap Crash Fixed', es: 'Crash de Recap en NSW Corregido'}, description: {en: 'A long-standing crash on NSW when taking a recap (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-2023" target="_blank" class="bug-link" data-bug-id="CB-2023">CB-2023</a>) is finally resolved, improving testing efficiency on the platform.', es: 'Un crash de larga data en NSW al tomar un recap (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-2023" target="_blank" class="bug-link" data-bug-id="CB-2023">CB-2023</a>) finalmente se resuelve, mejorando la eficiencia de las pruebas en la plataforma.'} },
+            { type: 'blocker', date: {en: 'Jan 9, 2025', es: 'Ene 9, 2025'}, title: {en: 'Smoke Check Failures', es: 'Fallas en Pruebas de Humo'}, description: {en: 'Multiple asserts are hit during smoke checks across all platforms, indicating a highly unstable build. Key modes like Moments and RTTS Combine are blocked.', es: 'Se encuentran múltiples asserts durante las pruebas de humo en todas las plataformas, lo que indica una compilación muy inestable. Modos clave como Moments y el Combine de RTTS están bloqueados.'} },
+            { type: 'blocker', date: {en: 'Jan 9, 2025', es: 'Ene 9, 2025'}, title: {en: 'Save Data Bug', es: 'Bug de Datos de Guardado'}, description: {en: 'A critical bug is confirmed where save data is not working on TEST builds for any platform, blocking all progression testing.', es: 'Se confirma un bug crítico donde los datos de guardado no funcionan en las compilaciones de TEST para ninguna plataforma, bloqueando todas las pruebas de progresión.'} },
+            { type: 'progress', date: {en: 'Jan 10, 2025', es: 'Ene 10, 2025'}, title: {en: 'Cross-Play Verified', es: 'Cross-Play Verificado'}, description: {en: 'QA confirms that different patch versions can successfully matchmake with versioning enabled, a critical online feature.', es: 'QA confirma que diferentes versiones de parche pueden hacer matchmaking con éxito con el versionado activado, una característica online crítica.'} },
+            { type: 'progress', date: {en: 'Jan 10, 2025', es: 'Ene 10, 2025'}, title: {en: 'Massive Bug Fix List', es: 'Lista Masiva de Bugs Corregidos'}, description: {en: 'A huge list of over 25 major "A" bugs, including asserts and softlocks, are confirmed as fixed, showing significant progress in stability.', es: 'Una enorme lista de más de 25 bugs mayores de clase "A", incluyendo asserts y softlocks, se confirman como corregidos, mostrando un progreso significativo en la estabilidad.'} },
+            { type: 'roadblock', date: {en: 'Jan 11, 2025', es: 'Ene 11, 2025'}, title: {en: 'Builds Broken on Entry', es: 'Builds Rotos al Iniciar'}, description: {en: 'Production reports that new builds are broken on game entry, causing a full day of delays with no new builds delivered to QA.', es: 'Producción informa que las nuevas compilaciones están rotas al iniciar el juego, causando un día completo de retrasos sin nuevas compilaciones entregadas a QA.'} },
+            { type: 'blocker', date: {en: 'Jan 12, 2025', es: 'Ene 12, 2025'}, title: {en: 'Major Modes Blocked', es: 'Modos Principales Bloqueados'}, description: {en: 'Another day of build delays as Franchise and RTTS are completely blocked by crashes, forcing QA to pivot to ad-hoc testing on a separate website.', es: 'Otro día de retrasos en la compilación ya que Franchise y RTTS están completamente bloqueados por crashes, lo que obliga a QA a cambiar a pruebas ad-hoc en un sitio web separado.'} },
+            { type: 'progress', date: {en: 'Jan 13, 2025', es: 'Ene 13, 2025'}, title: {en: 'Save Files on TEST Fixed', es: 'Archivos de Guardado en TEST Corregidos'}, description: {en: 'A major breakthrough: the bug preventing save files from working on TEST builds is fixed, unblocking progression testing.', es: 'Un gran avance: se corrige el bug que impedía que los archivos de guardado funcionaran en las compilaciones de TEST, desbloqueando las pruebas de progresión.'} },
+            { type: 'decision', date: {en: 'Jan 13, 2025', es: 'Ene 13, 2025'}, title: {en: 'Build Reverted', es: 'Reversión de la Compilación'}, description: {en: 'Due to widespread asserts in the latest build, leadership makes the call to revert to the previous week\'s more stable build to maintain momentum.', es: 'Debido a asserts generalizados en la última compilación, el liderazgo toma la decisión de revertir a la compilación más estable de la semana anterior para mantener el impulso.'} },
+            { type: 'progress', date: {en: 'Jan 25, 2025', es: 'Ene 25, 2025'}, title: {en: 'Exit Checks Begin', es: 'Comienzan las Pruebas Finales'}, description: {en: 'The final, exhaustive pre-launch testing phase begins. The team starts working extended hours until midnight.', es: 'Comienza la fase final y exhaustiva de pruebas pre-lanzamiento. El equipo empieza a trabajar en horario extendido hasta la medianoche.'} },
+            { type: 'blocker', date: {en: 'Jan 26, 2025', es: 'Ene 26, 2025'}, title: {en: 'Critical DD Crash Returns', es: 'Regresa Crash Crítico de DD'}, description: {en: 'A severe, account-specific crash (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-5864" target="_blank" class="bug-link" data-bug-id="CB-5864">CB-5864</a>) that blocks entry into Diamond Dynasty resurfaces, threatening the launch timeline.', es: 'Un crash severo y específico de la cuenta (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-5864" target="_blank" class="bug-link" data-bug-id="CB-5864">CB-5864</a>) que bloquea la entrada a Diamond Dynasty reaparece, amenazando el cronograma de lanzamiento.'} },
+            { type: 'blocker', date: {en: 'Jan 27, 2025', es: 'Ene 27, 2025'}, title: {en: 'CRAS & RTTS Blocked', es: 'CRAS y RTTS Bloqueados'}, description: {en: 'A new build arrives with all CRAS stadiums crashing, which completely blocks RTTS. This forces a delay in delivering a stable build for weekend testing.', es: 'Llega una nueva compilación con todos los estadios de CRAS crasheando, lo que bloquea completamente RTTS. Esto obliga a retrasar la entrega de una compilación estable para las pruebas de fin de semana.'} },
+            { type: 'blocker', date: {en: 'Jan 28, 2025', es: 'Ene 28, 2025'}, title: {en: 'Save File Corruption Crash', es: 'Crash por Corrupción de Guardado'}, description: {en: 'A catastrophic bug, <a href="https://jira.sds.ship.scea.com/jira/browse/CB-9313" target="_blank" class="bug-link" data-bug-id="CB-9313">CB-9313</a>, is discovered where a specific sequence in Diamond Dynasty can corrupt and delete all user save files.', es: 'Se descubre un bug catastrófico, <a href="https://jira.sds.ship.scea.com/jira/browse/CB-9313" target="_blank" class="bug-link" data-bug-id="CB-9313">CB-9313</a>, donde una secuencia específica en Diamond Dynasty puede corromper y eliminar todos los archivos de guardado del usuario.'} },
+            { type: 'blocker', date: {en: 'Jan 29, 2025', es: 'Ene 29, 2025'}, title: {en: 'The Manfred Suit Incident', es: 'El Incidente del Traje de Manfred'}, description: {en: 'On the final RC build, a visual bug (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-7108" target="_blank" class="bug-link" data-bug-id="CB-7108">CB-7108</a>) is found where Rob Manfred appears without a suit in the RTTS draft scene, a major presentational issue. The team works late to find the 100% repro steps.', es: 'En la compilación RC final, se encuentra un bug visual (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-7108" target="_blank" class="bug-link" data-bug-id="CB-7108">CB-7108</a>) donde Rob Manfred aparece sin traje en la escena del draft de RTTS, un problema de presentación mayor. El equipo trabaja hasta tarde para encontrar los pasos de reproducción al 100%.'} },
+            { type: 'roadblock', date: {en: 'Jan 29, 2025', es: 'Ene 29, 2025'}, title: {en: 'RTTS Regressions Found', es: 'Regresiones Encontradas en RTTS'}, description: {en: 'While investigating the Manfred bug, QA discovers that several recently fixed RTTS bugs have regressed on the final build, forcing a potential restart of exit checks.', es: 'Mientras se investiga el bug de Manfred, QA descubre que varios bugs de RTTS recientemente corregidos han regresado en la compilación final, forzando un posible reinicio de las pruebas finales.'} },
+            { type: 'decision', date: {en: 'Jan 30, 2025', es: 'Ene 30, 2025'}, title: {en: 'Final Build Submitted', es: 'Entrega de la Compilación Final'}, description: {en: 'After a frantic night of investigation and confirmation that the regressions were isolated, the final build is submitted for certification.', es: 'Después de una noche frenética de investigación y confirmación de que las regresiones estaban aisladas, la compilación final se envía a certificación.'} },
+            { type: 'progress', date: {en: 'Jan 31, 2025', es: 'Ene 31, 2025'}, title: {en: 'PlayStation Certification Passed', es: 'Certificación de PlayStation Aprobada'}, description: {en: 'The PS5 version passes certification with zero issues reported, a major milestone for the team.', es: 'La versión de PS5 pasa la certificación sin problemas reportados, un hito importante para el equipo.'} },
+            { type: 'progress', date: {en: 'Feb 1, 2025', es: 'Feb 1, 2025'}, title: {en: 'Xbox Certification Passed', es: 'Certificación de Xbox Aprobada'}, description: {en: 'The Xbox version also passes certification, officially clearing the game for launch.', es: 'La versión de Xbox también pasa la certificación, dejando oficialmente el juego listo para su lanzamiento.'} },
+        ];
+
+        const postLaunchTimelineData = [
+            { type: 'roadblock', date: {en: 'Mar 17, 2025', es: 'Mar 17, 2025'}, title: {en: 'Community Reports Overheating', es: 'Comunidad Reporta Sobrecalentamiento'}, description: {en: 'A significant number of users report PS5 consoles overheating. QA investigates potential causes, determining it is a widespread issue beyond environmental factors.', es: 'Un número significativo de usuarios reporta sobrecalentamiento en consolas PS5. QA investiga las posibles causas, determinando que es un problema generalizado más allá de factores ambientales.'} },
+            { type: 'progress', date: {en: 'Mar 17, 2025', es: 'Mar 17, 2025'}, title: {en: 'Legacy Bug Closed', es: 'Bug Heredado Cerrado'}, description: {en: 'The infamous "Nuka Cola Cup" visual bug (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-9930" target="_blank" class="bug-link" data-bug-id="CB-9930">CB-9930</a>) is confirmed fixed and closed, resolving a recurring community complaint.', es: 'El infame bug visual de la "Taza Nuka Cola" (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-9930" target="_blank" class="bug-link" data-bug-id="CB-9930">CB-9930</a>) se confirma como corregido y se cierra, resolviendo una queja recurrente de la comunidad.'} },
+            { type: 'blocker', date: {en: 'Mar 19, 2025', es: 'Mar 19, 2025'}, title: {en: 'Critical Co-op Softlock', es: 'Softlock Crítico en Co-op'}, description: {en: 'A new softlock is discovered in Ranked Co-op (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-10062" target="_blank" class="bug-link" data-bug-id="CB-10062">CB-10062</a>) where the surrender menu becomes invisible, trapping players. This is identified as a regression from a previous fix.', es: 'Se descubre un nuevo softlock en Co-op Clasificatorio (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-10062" target="_blank" class="bug-link" data-bug-id="CB-10062">CB-10062</a>) donde el menú de rendición se vuelve invisible, atrapando a los jugadores. Se identifica como una regresión de una corrección anterior.'} },
+            { type: 'progress', date: {en: 'Mar 21, 2025', es: 'Mar 21, 2025'}, title: {en: 'PS5 Patch 1.04 Approved', es: 'Parche 1.04 de PS5 Aprobado'}, description: {en: 'The patch successfully passes certification, delivering fixes to the live environment.', es: 'El parche pasa la certificación con éxito, entregando correcciones al entorno de producción.'} },
+            { type: 'decision', date: {en: 'Mar 27, 2025', es: 'Mar 27, 2025'}, title: {en: 'Emergency Patch Required', es: 'Se Requiere Parche de Emergencia'}, description: {en: 'Production decides an emergency patch is needed to address inappropriate team logos ("Tetas", "Anaels") found by the community. The schedule is accelerated.', es: 'Producción decide que se necesita un parche de emergencia para corregir logos de equipo inapropiados ("Tetas", "Anaels") encontrados por la comunidad. El cronograma se acelera.'} },
+            { type: 'roadblock', date: {en: 'Mar 28, 2025', es: 'Mar 28, 2025'}, title: {en: 'Build Confusion', es: 'Confusión con la Compilación'}, description: {en: 'A mix-up with build versions causes the QA team to test the wrong patch, temporarily believing the logo fixes had failed. This highlights the complexity of managing multiple rapid patches.', es: 'Una confusión con las versiones de la compilación hace que el equipo de QA pruebe el parche incorrecto, creyendo temporalmente que las correcciones de los logos habían fallado. Esto resalta la complejidad de gestionar múltiples parches rápidos.'} },
+            { type: 'progress', date: {en: 'Mar 29, 2025', es: 'Mar 29, 2025'}, title: {en: 'Emergency Patch 1.05 Approved', es: 'Parche de Emergencia 1.05 Aprobado'}, description: {en: 'After a frantic day of rebuilding and re-testing, the emergency patch is successfully submitted and approved.', es: 'Después de un día frenético de reconstrucción y nuevas pruebas, el parche de emergencia se envía y aprueba con éxito.'} },
+            { type: 'roadblock', date: {en: 'Mar 30, 2025', es: 'Mar 30, 2025'}, title: {en: 'Content Leak on Production', es: 'Filtración de Contenido en Producción'}, description: {en: 'The unannounced SF Giants City Connect logo is leaked to the public via a presentation scene in-game, prompting another high-priority investigation and sweep.', es: 'El logo no anunciado del City Connect de los SF Giants se filtra al público a través de una escena de presentación en el juego, lo que provoca otra investigación y barrido de alta prioridad.'} },
+            { type: 'progress', date: {en: 'Apr 1, 2025', es: 'Abr 1, 2025'}, title: {en: 'Birdman Eradicated (Again)', es: 'Birdman Erradicado (de Nuevo)'}, description: {en: 'The recurring "Birdman" visual bug on a new player (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-10419" target="_blank" class="bug-link" data-bug-id="CB-10419">CB-10419</a>) is quickly fixed via a live roster update, showing effective live content response.', es: 'El bug visual recurrente de "Birdman" en un nuevo jugador (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-10419" target="_blank" class="bug-link" data-bug-id="CB-10419">CB-10419</a>) se corrige rápidamente mediante una actualización de roster en vivo, mostrando una respuesta eficaz al contenido en vivo.'} },
+            { type: 'blocker', date: {en: 'Apr 1, 2025', es: 'Abr 1, 2025'}, title: {en: 'Cross-Platform Matchmaking Failure', es: 'Falla en Matchmaking Multiplataforma'}, description: {en: 'A major blocker appears where PS5 users cannot matchmake with Xbox or Switch players, breaking a core feature.', es: 'Aparece un bloqueo mayor donde los usuarios de PS5 no pueden hacer matchmaking con jugadores de Xbox o Switch, rompiendo una característica central.'} },
+            { type: 'progress', date: {en: 'Apr 2, 2025', es: 'Abr 2, 2025'}, title: {en: 'Matchmaking Fixed via Server Update', es: 'Matchmaking Corregido por Actualización del Servidor'}, description: {en: 'The server team successfully deploys a fix for the cross-platform matchmaking issue without requiring a new client patch.', es: 'El equipo del servidor despliega con éxito una solución para el problema de matchmaking multiplataforma sin necesidad de un nuevo parche de cliente.'} },
+            { type: 'roadblock', date: {en: 'Apr 7, 2025', es: 'Abr 7, 2025'}, title: {en: 'CRAS Exploit Identified', es: 'Exploit de CRAS Identificado'}, description: {en: 'The community discovers an exploit using Created Stadiums to easily farm XP. Production decides to default H2H games with CRAS stadiums to Coors Field as a temporary server-side fix.', es: 'La comunidad descubre un exploit usando Estadios Creados para farmear XP fácilmente. Producción decide que los juegos H2H con estadios de CRAS usarán Coors Field por defecto como una solución temporal del lado del servidor.'} },
+            { type: 'blocker', date: {en: 'Apr 23, 2025', es: 'Abr 23, 2025'}, title: {en: 'New H2H Blocker', es: 'Nuevo Bloqueo en H2H'}, description: {en: 'A new issue (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-10935" target="_blank" class="bug-link" data-bug-id="CB-10935">CB-10935</a>) prevents users from finding any opponents in H2H modes, blocking all online play. This requires a new patch and server update to resolve.', es: 'Un nuevo problema (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-10935" target="_blank" class="bug-link" data-bug-id="CB-10935">CB-10935</a>) impide que los usuarios encuentren oponentes en los modos H2H, bloqueando todo el juego en línea. Esto requiere un nuevo parche y una actualización del servidor para resolverse.'} },
+            { type: 'progress', date: {en: 'Apr 25, 2025', es: 'Abr 25, 2025'}, title: {en: 'CRAS Vaults Fixed', es: 'Bóvedas de CRAS Corregidas'}, description: {en: 'A long-standing issue preventing users from saving stadiums downloaded from the vault in MLB24 is resolved.', es: 'Se resuelve un problema de larga data que impedía a los usuarios guardar estadios descargados de la bóveda en MLB24.'} },
+            { type: 'decision', date: {en: 'May 13, 2025', es: 'May 13, 2025'}, title: {en: 'In-Game Surveys Pulled', es: 'Encuestas en el Juego Retiradas'}, description: {en: 'After encountering server exceptions and usability issues, the in-game survey feature is pulled from the patch to be reworked for a future update.', es: 'Después de encontrar excepciones del servidor y problemas de usabilidad, la función de encuestas en el juego se retira del parche para ser rediseñada para una futura actualización.'} },
+            { type: 'progress', date: {en: 'Jun 10, 2025', es: 'Jun 10, 2025'}, title: {en: 'Child Account XR Fixed', es: 'XR de Cuentas Infantiles Corregido'}, description: {en: 'A critical Xbox certification issue (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-11812" target="_blank" class="bug-link" data-bug-id="CB-11812">CB-11812</a>) preventing child accounts from accessing online modes is finally resolved after extensive testing.', es: 'Un problema crítico de certificación de Xbox (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-11812" target="_blank" class="bug-link" data-bug-id="CB-11812">CB-11812</a>) que impedía a las cuentas infantiles acceder a los modos en línea finalmente se resuelve después de pruebas exhaustivas.'} },
+            { type: 'roadblock', date: {en: 'Jul 14, 2025', es: 'Jul 14, 2025'}, title: {en: 'ASG Crash Investigation', es: 'Investigación de Crash en ASG'}, description: {en: 'A persistent, hard-to-reproduce crash occurs during the All-Star Game in Franchise mode, requiring extensive testing across multiple platforms and game modes to isolate.', es: 'Ocurre un crash persistente y difícil de reproducir durante el All-Star Game en el modo Franchise, lo que requiere pruebas exhaustivas en múltiples plataformas y modos de juego para aislarlo.'} },
+            { type: 'progress', date: {en: 'Jul 31, 2025', es: 'Jul 31, 2025'}, title: {en: 'Emergency Bristol Patch', es: 'Parche de Emergencia para Bristol'}, description: {en: 'An emergency patch is successfully deployed to adjust the crowd size at Bristol Motor Speedway, fulfilling a request from MLB.', es: 'Se despliega con éxito un parche de emergencia para ajustar el tamaño de la multitud en el Bristol Motor Speedway, cumpliendo con una solicitud de la MLB.'} },
+        ];
+
+        const insightsData = [
+            { 
+                title: {en: 'Server & Build Stability is Paramount', es: 'La Estabilidad del Servidor y la Compilación es Primordial'},
+                description: {en: "The project lost significant time to server outages and 'bum builds' that blocked major modes. This underscores the need for a robust CI/CD pipeline with pre-delivery sanity checks and a clear protocol for reverting to stable builds to maintain testing momentum.", es: "El proyecto perdió un tiempo significativo debido a caídas del servidor y 'compilaciones defectuosas' que bloquearon modos principales. Esto subraya la necesidad de un pipeline de CI/CD robusto con verificaciones previas a la entrega y un protocolo claro para revertir a compilaciones estables para mantener el impulso de las pruebas."},
+                lesson: {en: "Lesson Learned: Implement automated smoke tests on builds before delivery. Have a documented, low-friction process for QA to request a build revert.", es: "Lección Aprendida: Implementar smoke tests automatizados en las compilaciones antes de la entrega. Tener un proceso documentado y de baja fricción para que QA solicite una reversión de la compilación."}
+            },
+            { 
+                title: {en: 'The Shift to Reactive QA Post-Launch', es: 'El Cambio a QA Reactivo Post-Lanzamiento'},
+                description: {en: "Post-launch, the primary source of critical issues shifted from internal discovery to community reports. This requires a workflow focused on rapid verification of public-facing issues, clear communication with community support, and the ability to pivot testing focus instantly.", es: "Después del lanzamiento, la fuente principal de problemas críticos pasó del descubrimiento interno a los informes de la comunidad. Esto requiere un flujo de trabajo centrado en la verificación rápida de problemas públicos, una comunicación clara con el soporte comunitario y la capacidad de cambiar el enfoque de las pruebas al instante."},
+                lesson: {en: "Lesson Learned: Dedicate specific QA resources to monitor social media and forums during patch launches. Use a 'prod' label in Jira to track community-found bugs and prioritize them accordingly.", es: "Lección Aprendida: Dedicar recursos de QA específicos para monitorear redes sociales y foros durante los lanzamientos de parches. Usar una etiqueta 'prod' en Jira para rastrear los bugs encontrados por la comunidad y priorizarlos en consecuencia."}
+            },
+            { 
+                title: {en: 'Emergency Patch Protocol is Essential', es: 'El Protocolo de Parche de Emergencia es Esencial'},
+                description: {en: "The cycle saw multiple 'emergency' patches for high-visibility issues (e.g., inappropriate logos, content leaks). This highlights the need for a streamlined hotfix process: targeted fixes, minimal changes, and focused regression testing to ensure the fix doesn't introduce new problems.", es: "El ciclo vio múltiples parches de 'emergencia' para problemas de alta visibilidad (ej. logos inapropiados, filtraciones de contenido). Esto resalta la necesidad de un proceso de hotfix optimizado: correcciones dirigidas, cambios mínimos y pruebas de regresión enfocadas para asegurar que la solución no introduzca nuevos problemas."},
+                lesson: {en: "Lesson Learned: Maintain a separate, faster pipeline for hotfixes. QA must have a pre-defined 'emergency smoke check' test plan that validates the fix and core functionalities only, enabling rapid submission.", es: "Lección Aprendida: Mantener un pipeline separado y más rápido para los hotfixes. QA debe tener un plan de pruebas 'smoke check de emergencia' predefinido que valide solo la solución y las funcionalidades principales, permitiendo una entrega rápida."}
+            }
+        ];
+
+        const stagesData = [
+            {
+                title: {en: '1. Planning', es: '1. Planificación'},
+                description: {en: 'Establishing the strategy, resources, and schedule for testing activities.', es: 'Establecer la estrategia, los recursos y el cronograma para las actividades de prueba.'},
+                examples: [
+                    {en: "<strong>Resource Allocation:</strong> Confirming weekend and OT coverage for the final submission push.", es: "<strong>Asignación de Recursos:</strong> Confirmar la cobertura de fin de semana y horas extras para el empujón final de la entrega."},
+                    {en: "<strong>Scheduling:</strong> Setting the patch release schedule ('Patch 17 subs 6/27, Launches 7/3') and adjusting submission times (e.g., moving from noon to EOD).", es: "<strong>Programación:</strong> Establecer el calendario de lanzamiento de parches ('Parche 17 se entrega el 27/6, se lanza el 3/7') y ajustar los horarios de entrega (ej. mover del mediodía al final del día)."},
+                    {en: "<strong>Future Features:</strong> Creating a task for the 'Now and Later' packs (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-2274' target='_blank' class='bug-link'>CB-2274</a>) to ensure a feature not ready at launch is not forgotten.", es: "<strong>Características Futuras:</strong> Crear una tarea para los paquetes 'Ahora y Después' (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-2274' target='_blank' class='bug-link'>CB-2274</a>) para asegurar que una característica no lista en el lanzamiento no se olvide."}
+                ]
+            },
+            {
+                title: {en: '2. Design', es: '2. Diseño'},
+                description: {en: 'Creating the specific test cases, sweeps, and plans to execute the strategy.', es: 'Crear los casos de prueba específicos, barridos y planes para ejecutar la estrategia.'},
+                examples: [
+                    {en: "<strong>Test Case Creation:</strong> Designing the 'MLB Player Audio Line Sweep' in TestRail with specific protocols for handling missing players and documenting failures.", es: "<strong>Creación de Casos de Prueba:</strong> Diseñar el 'Barrido de Líneas de Audio de Jugadores de MLB' en TestRail con protocolos específicos para manejar jugadores faltantes y documentar fallos."},
+                    {en: "<strong>Strategy Design:</strong> Deciding to split H2H smoke checks between PSSQA and KWS to see if different groups produced different results.", es: "<strong>Diseño de Estrategia:</strong> Decidir dividir los smoke checks de H2H entre PSSQA y KWS para ver si diferentes grupos producían resultados distintos."},
+                    {en: "<strong>Task Design:</strong> Outlining the specific test requirements for the new Community Stats OSDs, including which modes to check and edge cases to consider.", es: "<strong>Diseño de Tareas:</strong> Delinear los requisitos de prueba específicos para los nuevos OSDs de Estadísticas de la Comunidad, incluyendo qué modos verificar y casos límite a considerar."}
+                ]
+            },
+            {
+                title: {en: '3. Implementation', es: '3. Implementación'},
+                description: {en: 'The hands-on execution of the designed tests and plans.', es: 'La ejecución práctica de las pruebas y planes diseñados.'},
+                examples: [
+                    {en: "<strong>Executing Sweeps:</strong> The team performing the full sweep of uniforms to find incorrect Majestic logos and verifying the new '25cloth' changes.", es: "<strong>Ejecución de Barridos:</strong> El equipo realizando el barrido completo de uniformes para encontrar logos de Majestic incorrectos y verificando los nuevos cambios de '25cloth'."},
+                    {en: "<strong>Running Exit Checks:</strong> QA teams working extended hours over the weekend to complete over 1100 test cases before the 1.00 submission.", es: "<strong>Ejecución de Exit Checks:</strong> Los equipos de QA trabajando horas extras durante el fin de semana para completar más de 1100 casos de prueba antes de la entrega de la versión 1.00."},
+                    {en: "<strong>Ad-Hoc Testing:</strong> When builds were broken, the team pivoted to stress-testing the 'Finest24' promotional website to find vulnerabilities.", es: "<strong>Pruebas Ad-Hoc:</strong> Cuando las compilaciones estaban rotas, el equipo cambió a realizar pruebas de estrés en el sitio web promocional 'Finest24' para encontrar vulnerabilidades."}
+                ]
+            },
+            {
+                title: {en: '4. Control', es: '4. Control'},
+                description: {en: 'Managing and directing the testing process, and handling deviations from the plan.', es: 'Gestionar y dirigir el proceso de pruebas, y manejar las desviaciones del plan.'},
+                examples: [
+                    {en: "<strong>Process Definition:</strong> Establishing the new bug writing convention for commentary/PA announcers to include specific tags (e.g., 'PxP_BS').", es: "<strong>Definición de Procesos:</strong> Establecer la nueva convención de redacción de bugs para comentaristas/anunciadores de PA para incluir etiquetas específicas (ej. 'PxP_BS')."},
+                    {en: "<strong>Risk Management:</strong> Using 'At Risk' emails before every submission to formally communicate potential launch risks to all stakeholders.", es: "<strong>Gestión de Riesgos:</strong> Usar correos de 'En Riesgo' antes de cada entrega para comunicar formalmente los posibles riesgos de lanzamiento a todos los interesados."},
+                    {en: "<strong>Scope Management:</strong> The decision to limit bug writing to only 'A' and major 'B' bugs during the final exit check phase to focus efforts on showstoppers.", es: "<strong>Gestión del Alcance:</strong> La decisión de limitar la redacción de bugs solo a problemas de clase 'A' y 'B' mayores durante la fase final de exit checks para centrar los esfuerzos en los problemas críticos."}
+                ]
+            },
+            {
+                title: {en: '5. Monitoring', es: '5. Monitoreo'},
+                description: {en: 'Observing the project\'s health and tracking progress against the plan.', es: 'Observar la salud del proyecto y seguir el progreso en comparación con el plan.'},
+                examples: [
+                    {en: "<strong>Reporting:</strong> Sending the weekly LRR (Launch Readiness Report) to stakeholders, showing the current bug counts and risk level (Yellow/Green).", es: "<strong>Reportes:</strong> Enviar el LRR (Reporte de Preparación para el Lanzamiento) semanal a los interesados, mostrando el recuento actual de bugs y el nivel de riesgo (Amarillo/Verde)."},
+                    {en: "<strong>Live Monitoring:</strong> Actively checking Reddit and Twitter post-launch to identify community-reported issues like the 'auto-hit' exploit and server crashes.", es: "<strong>Monitoreo en Vivo:</strong> Revisar activamente Reddit y Twitter después del lanzamiento para identificar problemas reportados por la comunidad como el exploit de 'auto-hit' y las caídas del servidor."},
+                    {en: "<strong>Data Analysis:</strong> Checking the Community Crash Reporter (CCR) to identify the top crashes happening on production servers and prioritizing internal investigation based on that data.", es: "<strong>Análisis de Datos:</strong> Revisar el Community Crash Reporter (CCR) para identificar las principales caídas que ocurren en los servidores de producción y priorizar la investigación interna basada en esos datos."}
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentLang = 'en';
+            const staticLangElements = document.querySelectorAll('.lang');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const btnEn = document.getElementById('btn-en');
+            const btnEs = document.getElementById('btn-es');
+
+            const createTimeline = (data, lang) => {
+                const timeline = document.createElement('div');
+                timeline.className = 'timeline';
+                const iconSVG = {
+                    blocker: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 15.59L15.59 17L12 13.41L8.41 17L7 15.59L10.59 12L7 8.41L8.41 7L12 10.59L15.59 7L17 8.41L13.41 12L17 15.59Z" fill="#DE350B"/></svg>',
+                    progress: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="#00875A"/></svg>',
+                    roadblock: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#FFAB00"/></svg>',
+                    decision: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.59 12L12 8.41L8.41 12L12 15.59L15.59 12Z" fill="#403294"/></svg>'
+                };
+                data.forEach(item => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = `timeline-item ${item.type}`;
+                    timelineItem.innerHTML = `
+                        <div class="timeline-icon">${iconSVG[item.type]}</div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">${item.title[lang]}</div>
+                                <div class="timeline-date">${item.date[lang]}</div>
+                            </div>
+                            <div class="timeline-body">${item.description[lang]}</div>
+                        </div>
+                    `;
+                    timeline.appendChild(timelineItem);
+                });
+                return timeline;
+            };
+
+            const populateContent = (lang) => {
+                // Populate Timelines
+                const legendHTML = `<div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-blocker);"></div><span class="lang" data-en="Blocker" data-es="Bloqueo Crítico">Blocker</span></div>
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-progress);"></div><span class="lang" data-en="Progress" data-es="Progreso">Progress</span></div>
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-roadblock);"></div><span class="lang" data-en="Roadblock" data-es="Obstáculo">Roadblock</span></div>
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-decision);"></div><span class="lang" data-en="Key Decision" data-es="Decisión Clave">Key Decision</span></div>
+                </div>`;
+                
+                const preLaunchContainer = document.getElementById('pre-launch');
+                preLaunchContainer.innerHTML = legendHTML;
+                preLaunchContainer.appendChild(createTimeline(preLaunchTimelineData, lang));
+
+                const postLaunchContainer = document.getElementById('post-launch');
+                postLaunchContainer.innerHTML = legendHTML;
+                postLaunchContainer.appendChild(createTimeline(postLaunchTimelineData, lang));
+
+                // Populate Insights
+                const insightsContainer = document.getElementById('insights');
+                const insightsGrid = document.createElement('div');
+                insightsGrid.className = 'insights-grid';
+                insightsData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'insight-card';
+                    card.innerHTML = `<h3>${item.title[lang]}</h3><p>${item.description[lang]}</p><p class="lesson">${item.lesson[lang]}</p>`;
+                    insightsGrid.appendChild(card);
+                });
+                insightsContainer.innerHTML = '';
+                insightsContainer.appendChild(insightsGrid);
+
+                // Populate Stages
+                const stagesContainer = document.getElementById('stages');
+                const stagesGrid = document.createElement('div');
+                stagesGrid.className = 'stages-grid';
+                stagesData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'stage-card';
+                    const examplesHTML = item.examples.map(ex => `<li>${ex[lang]}</li>`).join('');
+                    card.innerHTML = `<h3>${item.title[lang]}</h3><p>${item.description[lang]}</p><ul>${examplesHTML}</ul>`;
+                    stagesGrid.appendChild(card);
+                });
+                stagesContainer.innerHTML = '';
+                stagesContainer.appendChild(stagesGrid);
+
+                // Populate Blockers
+                const majorBlockersContainer = document.getElementById('blockers');
+                const blockersHTML = Object.keys(bugData).map(bugId => {
+                    if (bugData[bugId]) {
+                        return `<div class="insight-card"><h3><a href="https://jira.sds.ship.scea.com/jira/browse/${bugId}" target="_blank" class="bug-link">${bugId}</a></h3><p>${bugData[bugId].title}</p></div>`;
+                    }
+                }).join('');
+                majorBlockersContainer.innerHTML = `<div class="insights-grid">${blockersHTML}</div>`;
+
+                // Add tooltips to dynamic content
+                document.querySelectorAll('.bug-link[data-bug-id]').forEach(link => {
+                    const bugId = link.dataset.bugId;
+                    if (bugData[bugId]) {
+                        const tooltip = document.createElement('span');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = bugData[bugId].title;
+                        link.appendChild(tooltip);
+                    }
+                });
+
+                // Translate static elements
+                staticLangElements.forEach(el => {
+                    if (el.dataset[lang]) el.innerHTML = el.dataset[lang];
+                });
+            };
+
+            const setLanguage = (lang) => {
+                currentLang = lang;
+                populateContent(lang);
+                if (lang === 'en') {
+                    btnEn.classList.add('active');
+                    btnEs.classList.remove('active');
+                } else {
+                    btnEs.classList.add('active');
+                    btnEn.classList.remove('active');
+                }
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+
+            btnEn.addEventListener('click', () => setLanguage('en'));
+            btnEs.addEventListener('click', () => setLanguage('es'));
+
+            // Initial population
+            populateContent(currentLang);
+        });
+    </script>
+</body>
+</html>

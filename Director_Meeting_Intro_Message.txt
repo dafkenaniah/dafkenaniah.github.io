@@ -1,0 +1,12 @@
+Hi [Director's Name],
+
+The managers reached out and mentioned you wanted to meet and discuss some of the technical work I've been doing. I've put together an HTML portfolio that showcases the key projects and initiatives if you'd like to review it beforehand.
+
+We can go more in-depth on anything you have questions about during our meeting tomorrow. I'm looking forward to discussing how the AI and automation work aligns with the broader engineering strategy.
+
+Please let me know if there's anything specific you'd like me to prepare or focus on.
+
+Best regards,
+Kenneth Davis
+
+[Attach: Kenneth_Davis_Portfolio.html]

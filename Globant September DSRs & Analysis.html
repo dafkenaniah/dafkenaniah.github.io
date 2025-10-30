@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globant Vendor Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{font-family:'Segoe UI',sans-serif;margin:0;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh}
+        .container{max-width:1200px;margin:20px auto;padding:20px;background:white;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,0.1)}
+        .header{text-align:center;padding:30px;background:linear-gradient(135deg,#1e3c72,#2a5298);color:white;margin:-20px -20px 30px -20px;border-radius:10px 10px 0 0}
+        .header h1{font-size:2.2em;margin-bottom:5px;font-weight:300}
+        .tabs{display:flex;flex-wrap:wrap;background:#f8f9fa;border-radius:6px;margin-bottom:15px;padding:3px}
+        .tab-button{padding:5px 8px;cursor:pointer;border:none;background:transparent;border-radius:4px;margin:1px;font-weight:600;color:#6c757d;font-size:0.75em}
+        .tab-button.active{background:linear-gradient(135deg,#1e3c72,#2a5298);color:white}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        .day-header{color:#1e3c72;font-size:1.1em;margin:8px 0;border-bottom:1px solid #ddd;padding-bottom:5px}
+        .team{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+        .member{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:8px;border-radius:4px;text-align:center;font-size:0.8em}
+        .member-name{font-weight:bold;font-size:0.75em}
+        .member-hours{font-weight:bold;margin-top:2px}
+        .card{background:#f8f9fa;border:1px solid #ddd;border-radius:4px;padding:8px;margin:4px 0}
+        .card h4{color:#1e3c72;margin:0 0 5px 0;font-size:0.9em}
+        .card p{margin:2px 0;font-size:0.8em}
+        .bugs{background:#fff3cd;border:1px solid #ffeaa7;border-radius:4px;padding:8px;margin:4px 0}
+        .bugs a{color:#1e3c72;text-decoration:none;font-weight:600;font-size:0.8em}
+        .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}
+        .metric{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px;border-radius:6px;text-align:center}
+        .metric-num{font-size:1.8em;font-weight:bold;display:block}
+        .metric-label{font-size:0.85em;opacity:0.9}
+        .chart{background:white;border-radius:6px;padding:12px;margin:8px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+        .analysis{background:linear-gradient(135deg,#a8edea,#fed6e3);padding:15px;border-radius:6px;margin:15px 0}
+        .analysis-card{background:white;padding:12px;border-radius:4px;margin:8px 0;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+        ul{padding-left:12px;margin:3px 0}
+        li{margin:2px 0;font-size:0.8em}
+        .note{background:linear-gradient(135deg,#ffeaa7,#fab1a0);padding:6px;border-radius:4px;margin:6px 0;font-style:italic;font-size:0.75em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Globant Vendor Performance Analysis</h1>
+            <p>MLB The Show 25/26 Testing - September 2025</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('overview')">Overview</button>
+            <button class="tab-button" onclick="openTab('sep08')">Sep 8</button>
+            <button class="tab-button" onclick="openTab('sep09')">Sep 9</button>
+            <button class="tab-button" onclick="openTab('sep10')">Sep 10</button>
+            <button class="tab-button" onclick="openTab('sep11')">Sep 11</button>
+            <button class="tab-button" onclick="openTab('sep12')">Sep 12</button>
+            <button class="tab-button" onclick="openTab('sep15')">Sep 15</button>
+            <button class="tab-button" onclick="openTab('sep16')">Sep 16</button>
+            <button class="tab-button" onclick="openTab('sep17')">Sep 17</button>
+            <button class="tab-button" onclick="openTab('sep18')">Sep 18</button>
+            <button class="tab-button" onclick="openTab('sep19')">Sep 19</button>
+            <button class="tab-button" onclick="openTab('sep22')">Sep 22</button>
+            <button class="tab-button" onclick="openTab('sep23')">Sep 23</button>
+            <button class="tab-button" onclick="openTab('sep24')">Sep 24</button>
+            <button class="tab-button" onclick="openTab('sep25')">Sep 25</button>
+            <button class="tab-button" onclick="openTab('sep26')">Sep 26</button>
+            <button class="tab-button" onclick="openTab('sep29')">Sep 29</button>
+            <button class="tab-button" onclick="openTab('sep30')">Sep 30</button>
+            <button class="tab-button" onclick="openTab('analysis')">Analysis</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="metrics">
+                <div class="metric"><span class="metric-num">12</span><div class="metric-label">Total Bugs</div></div>
+                <div class="metric"><span class="metric-num">17</span><div class="metric-label">Working Days</div></div>
+                <div class="metric"><span class="metric-num">4</span><div class="metric-label">Team Members</div></div>
+                <div class="metric"><span class="metric-num">8</span><div class="metric-label">Days to First Bug</div></div>
+            </div>
+            <div class="chart">
+                <h4>Bug Reporting Trend</h4>
+                <canvas id="bugChart"></canvas>
+            </div>
+            <div class="chart">
+                <h4>Team Productivity (Hours per Day)</h4>
+                <canvas id="hoursChart"></canvas>
+            </div>
+        </div>
+
+        <div id="sep08" class="tab-content">
+            <div class="day-header">Monday, September 8, 2025 - Day 1</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>PS5 setup complete, Nintendo Switch initial setup, URLs unblocked, Game exploration, Documentation review</p></div>
+            <div class="card"><h4>Issues</h4><p>Testrail access pending, SHIP access pending</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5 Build Version (09_02-sep_CL1104680)</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: Jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep09" class="tab-content">
+            <div class="day-header">Tuesday, September 9, 2025 - Day 2</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Nintendo Switch development kit setup started. Documentation generation completed. PS5 technical documentation preparatory phase.</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5 Build Version (PATCHED-PPSA23479_00-MLBTHESHOW25SHIP) - Familiarization session (Journey to the Show)</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep10" class="tab-content">
+            <div class="day-header">Wednesday, September 10, 2025 - Day 3</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Game familiarization session using Testrail</p></div>
+            <div class="card"><h4>Issues</h4><p>No Jira access. Online connection difficulties with MLB game</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5 Build Version (PATCHED-PPSA23479_00-MLBTHESHOW25SHIP)</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep11" class="tab-content">
+            <div class="day-header">Thursday, September 11, 2025 - Day 4</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Nintendo Switch development kit setup continued. PS5 installation manual work</p></div>
+            <div class="card"><h4>Issues</h4><p>No Jira access. Online connection difficulties with MLB game</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5 Build Version (PATCHED-PPSA23479_00-MLBTHESHOW25SHIP)</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep12" class="tab-content">
+            <div class="day-header">Friday, September 12, 2025 - Day 5</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>All pending issues resolved. Game familiarization. Nintendo Switch documentation</p></div>
+            <div class="card"><h4>Issues</h4><p>All resolved. Jira access obtained</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5 Build Version (PATCHED-PPSA23479_00-MLBTHESHOW25SHIP)</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep15" class="tab-content">
+            <div class="day-header">Monday, September 15, 2025 - Day 6</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Familiarization tests for MLB The Show on PS5. Nintendo Switch setup</p></div>
+            <div class="card"><h4>Platforms</h4><p>PlayStation 5 platform, build version PATCHED-PPSA23479_00-MLBTHESHOW25SHIP</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep16" class="tab-content">
+            <div class="day-header">Tuesday, September 16, 2025 - Day 7 (Remote)</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">Remote</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">Remote</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">Remote</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">Remote</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Remote work due to safety concerns. Documentation and bug reporting tasks. Onboarding documentation finalized</p></div>
+            <div class="card"><h4>Platforms</h4><p>N/A</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep17" class="tab-content">
+            <div class="day-header">Wednesday, September 17, 2025 - Day 8</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Morning: familiarization tests. Afternoon: smoke tests assigned by JP via Testrail</p></div>
+            <div class="card"><h4>Platforms</h4><p>N/A</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep18" class="tab-content">
+            <div class="day-header">Thursday, September 18, 2025 - Day 9 (First Bugs)</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Smoke tests and bug reporting. Nintendo Switch setup continued</p></div>
+            <div class="card"><h4>Platforms</h4><p>10-2PM: PS5 Build (PATCHED-PPSA23479_00-MLBTHESHOW25TEST.pkg). 2-7PM: PS5 MLB25 Patch 01.026 04_18-SEP-25_CL1111307</p></div>
+            <div class="bugs"><h4>Bugs Written (3)</h4><ul><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-807">MLBG-807</a>: HRD Online Assert error</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-808">MLBG-808</a>: Commentator wrong name</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-809">MLBG-809</a>: Throw animation issue</li></ul></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep19" class="tab-content">
+            <div class="day-header">Friday, September 19, 2025 - Day 10</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">8 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">8 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">8 Hours</div></div>
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">8 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Smoke tests and bug reporting. Nintendo Switch setup finished</p></div>
+            <div class="card"><h4>Platforms</h4><p>PATCHED-PPSA23479_00-MLBTHESHOW25TEST - MLB25 Patch 01.026 04_18-SEP-25_CL1111307</p></div>
+            <div class="bugs"><h4>Bugs Written (3)</h4><ul><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-810">MLBG-810</a>: Leg protectors clipping</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-811">MLBG-811</a>: Player collision issues</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-812">MLBG-812</a>: Character arm clipping</li></ul></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep22" class="tab-content">
+            <div class="day-header">Monday, September 22, 2025 - Day 11</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>PS5 smoke tests (Vanessa), Nintendo Switch smoke tests (Gabriela), Nintendo Switch documentation (Laura)</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5: PATCHED-PPSA23479_00-MLBTHESHOW25TEST - MLB25 Patch 01.026. NSW: MLBTheShowNSWTestOnPlayGo_TEST_09-18-2025-01-43 Patch 01.026</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep23" class="tab-content">
+            <div class="day-header">Tuesday, September 23, 2025 - Day 12</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>PS5 smoke tests (Vanessa), Nintendo Switch smoke tests (Gabriela), internal onboarding process leadership (Laura)</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5: MLB25 Patch 01.026 05_22-SEP-25_CL1112428. NSW: MLB25 Patch 01.026 05_22-SEP-25_CL1112428</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep24" class="tab-content">
+            <div class="day-header">Wednesday, September 24, 2025 - Day 13</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">0 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">0 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">0 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">0 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Asked to leave the offices at 4 PM due to safety concerns. Remaining time spent on documentation from home.</p></div>
+            <div class="card"><h4>Platforms</h4><p>PS5: MLB25 Patch 01.026 05_22-SEP-25_CL1112428. NSW: MLB25 Patch 01.026 05_22-SEP-25_CL1112428</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep25" class="tab-content">
+            <div class="day-header">Thursday, September 25, 2025 - Day 14 (Remote)</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">0 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">0 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">0 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">0 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Asked to leave offices early due to roadblocks. Remote work focusing on document updates and gaming knowledge enhancement</p></div>
+            <div class="card"><h4>Platforms</h4><p>N/A</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep26" class="tab-content">
+            <div class="day-header">Friday, September 26, 2025 - Day 15</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">8 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">8 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">8 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">8 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Download MLB26 builds. Onboarding documentation for next wave</p></div>
+            <div class="card"><h4>Platforms</h4><p>MLB26 (PS5) 13_23-SEP-25_CL1113005. MLB26 (Switch) 14_23-SEP-25_CL1113005</p></div>
+            <div class="card"><h4>Bugs</h4><p>Written: N/A | Confirmed: N/A | Closed: N/A</p></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep29" class="tab-content">
+            <div class="day-header">Monday, September 29, 2025 - Day 16</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Download new MLB26 builds. Smoke testing and bug reporting</p></div>
+            <div class="card"><h4>Platforms</h4><p>MLB26 (PS5) 14_29-SEP-25_CL1115264. MLB26 (Switch) 14_29-SEP-25_CL1115264</p></div>
+            <div class="bugs"><h4>Bugs Written (2)</h4><ul><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-816">MLBG-816</a>: Front End carousel banners blank</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-817">MLBG-817</a>: Oracle Park Stadium missing textures</li></ul></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="sep30" class="tab-content">
+            <div class="day-header">Monday, September 30, 2025 - Day 17</div>
+            <div class="team">
+                <div class="member"><div class="member-name">Jose Ospina</div><div>PM</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Laura Duque</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Vanessa Pineda</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+                <div class="member"><div class="member-name">Gabriela Therán</div><div>QA</div><div class="member-hours">9 Hours</div></div>
+            </div>
+            <div class="card"><h4>Activities</h4><p>Smoke testing MLB26 builds. Onboarding new team members (Brandon, David, Kevin)</p></div>
+            <div class="card"><h4>Platforms</h4><p>MLB26 (PS5) 14_29-SEP-25_CL1115264. MLB26 (Switch) 14_29-SEP-25_CL1115264</p></div>
+            <div class="bugs"><h4>Bugs Written (4)</h4><ul><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-825">MLBG-825</a>: Corrupt player faces (PS5)</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-826">MLBG-826</a>: PitchCom audio missing (NSW)</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-827">MLBG-827</a>: Robot voice issue (NSW)</li><li><a href="https://jira.sds.ship.scea.com/jira/browse/MLBG-828">MLBG-828</a>: Closed captions cut off (NSW)</li></ul></div>
+            <div class="note">Contact: jose.ospina@globant.com</div>
+        </div>
+
+        <div id="analysis" class="tab-content">
+            <div class="analysis">
+                <h3>Performance Analysis & Efficiency Assessment</h3>
+                <div class="analysis-card">
+                    <h4>🎯 Timeline Efficiency</h4>
+                    <p><strong>Excellent Performance - 8 days to first bug report</strong></p>
+                    <ul><li><strong>Week 1:</strong> Setup and blocker resolution (4 days to resolve all access issues)</li><li><strong>Week 2:</strong> Transition to active testing (familiarization completed)</li><li><strong>Week 3+:</strong> Full productivity with multi-platform testing</li></ul>
+                </div>
+                <div class="analysis-card">
+                    <h4>📊 Key Metrics</h4>
+                    <ul><li><strong>Onboarding Speed:</strong> Faster than industry average (8 days vs 12-15 typical)</li><li><strong>Issue Resolution:</strong> Proactive approach with all blockers resolved in week 1</li><li><strong>Adaptability:</strong> Successfully handled remote work disruptions</li><li><strong>Scalability:</strong> Team began onboarding new members by month end</li></ul>
+                </div>
+                <div class="analysis-card">
+                    <h4>💡 Recommendations</h4>
+                    <ul><li><strong>Leverage Documentation Strengths:</strong> Use team's comprehensive documentation as template for future vendors</li><li><strong>Expand Responsibilities:</strong> Consider additional testing areas given efficiency</li><li><strong>Process Improvement:</strong> Apply team's proactive issue identification to broader workflows</li></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            var i, tabcontent, tabbuttons;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bugCtx = document.getElementById('bugChart').getContext('2d');
+            new Chart(bugCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sep 18', 'Sep 19', 'Sep 29', 'Sep 30'],
+                    datasets: [{
+                        label: 'Bugs Reported',
+                        data: [3, 3, 2, 4],
+                        backgroundColor: 'rgba(30, 60, 114, 0.7)',
+                        borderColor: 'rgba(30, 60, 114, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { title: { display: true, text: 'Bug Reporting Volume' } }
+                }
+            });
+
+            const hoursCtx = document.getElementById('hoursChart').getContext('2d');
+            new Chart(hoursCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Sep 8', 'Sep 9', 'Sep 10', 'Sep 11', 'Sep 12', 'Sep 15', 'Sep 16', 'Sep 17', 'Sep 18', 'Sep 19', 'Sep 22', 'Sep 23', 'Sep 24', 'Sep 25', 'Sep 26', 'Sep 29', 'Sep 30'],
+                    datasets: [{
+                        label: 'Total Hours Worked',
+                        data: [36, 36, 36, 36, 36, 36, 32, 36, 36, 32, 36, 36, 0, 0, 32, 36, 36],
+                        backgroundColor: 'rgba(42, 82, 152, 0.2)',
+                        borderColor: 'rgba(42, 82, 152, 1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: false } },
+                    plugins: { title: { display: true, text: 'Daily Team Productivity' } }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

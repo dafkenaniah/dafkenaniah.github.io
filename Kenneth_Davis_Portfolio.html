@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenneth Davis - Technical Leadership Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .hero-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1abc9c;
+            margin-bottom: 5px;
+        }
+
+        .hero-stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            background: white;
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .achievement-card:hover::before {
+            left: 100%;
+        }
+
+        .achievement-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .achievement-impact {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .achievement-description {
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .category-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .category-title {
+            font-size: 1.6em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-icon {
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+
+        .contribution-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .contribution-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .contribution-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .contribution-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .contribution-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .impact-metric {
+            background: #e3f2fd;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #1976d2;
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+            text-align: center;
+            white-space: nowrap;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            background: #34495e;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            background: #3498db;
+        }
+
+        .highlight-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .highlight-banner::before {
+            content: '🏆';
+            font-size: 1.5em;
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            padding: 8px;
+            border-radius: 50%;
+            border: 2px solid white;
+            z-index: 1;
+        }
+
+        .highlight-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tooltip {
+            position: relative;
+            cursor: help;
+            display: inline-block;
+        }
+
+        .achievement-card .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            z-index: 10000;
+            font-size: 0.8em;
+            font-weight: normal;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            max-width: 200px;
+            white-space: normal;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .achievement-card .tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px);
+            border: 6px solid transparent;
+            border-top-color: rgba(0,0,0,0.9);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .achievement-card .tooltip:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-15px);
+        }
+
+        .achievement-card .tooltip:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-9px);
+        }
+
+        .tooltip:hover::after,
+        .tooltip:hover::before {
+            opacity: 1;
+        }
+
+        .innovation-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #3498db;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #3498db;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 13px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: #3498db;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .timeline-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2em;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .nav-item {
+                padding: 6px 12px;
+                font-size: 0.8em;
+                min-height: 35px;
+            }
+
+            .section {
+                padding: 25px 20px;
+                margin: 20px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+            }
+
+            .nav-item {
+                width: 90%;
+                margin: 0 auto;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="#achievements" class="nav-item active">Key Achievements</a></li>
+                <li><a href="#automation" class="nav-item">Automation Leadership</a></li>
+                <li><a href="#ai-innovation" class="nav-item">AI Innovation</a></li>
+                <li><a href="#infrastructure" class="nav-item">Infrastructure</a></li>
+                <li><a href="#leadership" class="nav-item">Cross-Functional Leadership</a></li>
+                <li><a href="#recognition" class="nav-item">Recognition</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Kenneth Davis</h1>
+            <p class="hero-subtitle">Technical Test Leadership | AI & Automation Innovation | Cross-Functional Collaboration</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">AI</div>
+                    <div class="hero-stat-label">Innovation Leader</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Cross</div>
+                    <div class="hero-stat-label">Functional Bridge</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Platform</div>
+                    <div class="hero-stat-label">Builder</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Culture</div>
+                    <div class="hero-stat-label">Transformer</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Key Achievements -->
+        <section id="achievements" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🏆</span>
+                Key Achievements & Strategic Impact
+            </h2>
+
+            <div class="highlight-banner">
+                <div class="highlight-text">
+                    Transformed organizational capabilities through AI-powered automation, infrastructure development, and cross-functional innovation
+                </div>
+            </div>
+
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-title">🤖 Automation Revolution</div>
+                    <div class="achievement-impact">Culture Change</div>
+                    <div class="achievement-description">
+                        Led automation scaling across multiple projects. 
+                        Transformed Pathfinder from "useless tool" to widely adopted platform.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">📊 AI-Powered Reporting</div>
+                    <div class="achievement-impact">Process Transform</div>
+                    <div class="achievement-description">
+                        Automated weekly reporting process. Created AWS-hosted dashboards 
+                        with AI analysis and professional styling consistency.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">🎪 Enterprise Event Leadership</div>
+                    <div class="achievement-impact">Summit Lead</div>
+                    <div class="achievement-description">
+                        Only QA representation at PlayStation AI/ML Summit. Built ML clustering app for 
+                        participant matching, managed networking for entire conference.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">🧠 AI Integration Pioneer</div>
+                    <div class="achievement-impact">Platform Builder</div>
+                    <div class="achievement-description">
+                        Secured AI Gateway API keys, deployed VibeCoding apps, created test case generation, 
+                        callstack analysis, and comprehensive AI usage guides.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">🌉 Cross-Functional Bridge</div>
+                    <div class="achievement-impact">Connector</div>
+                    <div class="achievement-description">
+                        Main POC between Engineering Manager and ACT team. Connected ML engineers 
+                        to Tools Engineering. Facilitated vendor onboarding and global initiatives.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Automation Leadership -->
+        <section id="automation" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🤖</span>
+                Automation & Infrastructure Leadership
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">⚡</span>
+                    PACT Team & Cross-Title Automation
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">ACT Team Creation & Management</div>
+                        <div class="contribution-description">
+                            Built Automation Consultation Team from ground up. Placed testers on other titles to teach automation, 
+                            created cross-title collaboration model that scaled automation knowledge across projects.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Team scaling success">User Growth</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Pathfinder Transformation</div>
+                        <div class="contribution-description">
+                            Converted "useless tool" perception into active adoption. Tracked metrics in TestRail, 
+                            demonstrated efficiency gains, motivated entire test floor involvement.
+                        </div>
+                        <div class="impact-metric">Efficiency Leader</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Automation Database & Infrastructure</div>
+                        <div class="contribution-description">
+                            Built centralized script storage, weekly report management, and automation results tracking. 
+                            Created sustainable infrastructure for knowledge sharing and progress monitoring.
+                        </div>
+                        <div class="impact-metric">Scripts Deployed</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Daily Automation Scripts</div>
+                        <div class="contribution-description">
+                            Created smoke check automation, JIRA-to-TestRail integration, JQL export scripts. 
+                            Significantly reduces daily manual work and build preparation time.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Daily scripts">Time Savings</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Innovation -->
+        <section id="ai-innovation" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🧠</span>
+                AI Integration & Innovation
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎯</span>
+                    AI Platform Development
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI Gateway Integration</div>
+                        <div class="contribution-description">
+                            Secured API keys for Sony AI Gateway. Deployed VibeCoding apps across test floor. 
+                            Connected teams to AI capabilities for enhanced productivity and innovation.
+                        </div>
+                        <div class="impact-metric">Test Floor AI Access</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI-Powered Analysis Tools</div>
+                        <div class="contribution-description">
+                            Created callstack analysis, TTY log interpretation, test case generation from meeting notes. 
+                            Built Python code generators for image creation and Excel automation.
+                        </div>
+                        <div class="impact-metric">Multiple AI Applications</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">ML Conference Matching System</div>
+                        <div class="contribution-description">
+                            Built sophisticated Electron app with K-means clustering, constraint handling, and automated 
+                            email/card generation. Dramatically reduced conference coordination time vs manual matching.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Conference automation">Efficiency Gain</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">PowerPoint Generation App</div>
+                        <div class="contribution-description">
+                            Created AI-powered presentation generator for ACT team check-ins. 
+                            Automates slide creation and content generation for consistent reporting.
+                        </div>
+                        <div class="impact-metric">Automated Presentations</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">📚</span>
+                    AI Education & Training
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Comprehensive AI Usage Guides</div>
+                        <div class="contribution-description">
+                            Created QA-specific AI implementation guides, JQL training materials, and usage documentation. 
+                            Built AI database in JIRA and Confluence for organizational knowledge sharing.
+                        </div>
+                        <div class="impact-metric">Organization-wide Training</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Global AI Implementation Strategy</div>
+                        <div class="contribution-description">
+                            Stepped into global POC role for AI representing Test Services. Created implementation plan, 
+                            staying current with AI industry developments, presented to executives on AI future vision.
+                        </div>
+                        <div class="impact-metric">Strategic Leadership</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI Training & Workshops</div>
+                        <div class="contribution-description">
+                            Delivered presentations on AI usage, held walkthroughs for testers, 
+                            gave office tours for AI/ML groups, facilitated knowledge transfer sessions.
+                        </div>
+                        <div class="impact-metric">Multi-Team Training</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Infrastructure Development -->
+        <section id="infrastructure" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🏗️</span>
+                Infrastructure & Platform Development
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">☁️</span>
+                    Cloud & Reporting Infrastructure
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">AWS-Hosted Reporting Platforms</div>
+                        <div class="contribution-description">
+                            Leveraged unused AWS subscriptions to host HTML reports. Created automated analysis systems 
+                            for budget forecasting, development retrospectives, and weekly status reporting.
+                        </div>
+                        <div class="impact-metric">Multiple AWS Platforms</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">JIRA Integration Ecosystem</div>
+                        <div class="contribution-description">
+                            Built comprehensive JIRA integration: Geekbot app for Slack reporting, automated email exports, 
+                            JQL optimization for bug filtering, and direct database connectivity for analysis.
+                        </div>
+                        <div class="impact-metric">Seamless Integration</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">TestRail Automation Platform</div>
+                        <div class="contribution-description">
+                            Created apps that convert JIRA CSV imports to TestRail test cases, runs, and suites. 
+                            Eliminates manual setup time and technical skill requirements.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="TestRail integration">Build Efficiency</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">QA Suite Automation App</div>
+                        <div class="contribution-description">
+                            Deployed comprehensive QA automation application to MLB environment. 
+                            Provides integrated testing capabilities and workflow optimization.
+                        </div>
+                        <div class="impact-metric">Production Deployment</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cross-Functional Leadership -->
+        <section id="leadership" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🌐</span>
+                Cross-Functional Leadership & Innovation
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🤝</span>
+                    Strategic Partnerships & Collaboration
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">QA Hero Program Leadership</div>
+                        <div class="contribution-description">
+                            Coordinated workspace arrangements, finalized communications, structured comprehensive 
+                            team visit. Facilitated cross-functional participation and established clear improvement objectives.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Multi-day program">Program Success</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Vendor Onboarding Excellence</div>
+                        <div class="contribution-description">
+                            Led Globant vendor onboarding, coordinated technical setup across Confluence and TestRail, 
+                            established phased resourcing plan and stakeholder matrix for streamlined communication.
+                        </div>
+                        <div class="impact-metric">Strategic Vendor Success</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">ML Team Data Pipeline</div>
+                        <div class="contribution-description">
+                            Designed and delivered precise JQL queries for Console Bugs database. Created clean datasets 
+                            for Launch Risk Report ML models, improving predictive accuracy and iteration speed.
+                        </div>
+                        <div class="impact-metric">Enhanced LRR Models</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Engineering-QA Bridge</div>
+                        <div class="contribution-description">
+                            Established main POC role between Engineering Manager and ACT team. Connected ML engineers 
+                            to Tools Engineering, facilitated synergy and cross-functional innovation.
+                        </div>
+                        <div class="impact-metric">Cross-Team Synergy</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎯</span>
+                    Executive & Strategic Engagement
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Chief Technology Officer Presentations</div>
+                        <div class="contribution-description">
+                            Presented automation usage and future vision directly to CTO during office visit. 
+                            Delivered strategic insights on AI/automation future for test floor transformation.
+                        </div>
+                        <div class="impact-metric">C-Level Engagement</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Director-Level AI Presentations</div>
+                        <div class="contribution-description">
+                            Delivered "AI in Action" presentation at director request. Created comprehensive summit feedback 
+                            analysis and future AI implementation recommendations sent directly to leadership.
+                        </div>
+                        <div class="impact-metric">Executive Strategy Input</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Launch Risk Report Enhancement</div>
+                        <div class="contribution-description">
+                            Collaborated with Engineering on AI-enhanced Launch Risk Report. 
+                            Provided JIRA data, reviewed dashboard concepts, established AI learning framework.
+                        </div>
+                        <div class="impact-metric">AI-Enhanced LRR</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Shipwatch AI Integration Planning</div>
+                        <div class="contribution-description">
+                            Collaborated with Engineering team in exploratory meetings about potential Gemini integration into Shipwatch AI system. 
+                            Discussed bug recognition capabilities and bot monitoring opportunities for future automation enhancement.
+                        </div>
+                        <div class="impact-metric">Strategic Planning</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recognition & Industry Impact -->
+        <section id="recognition" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🏅</span>
+                Recognition & Industry Leadership
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎪</span>
+                    PlayStation AI/ML Summit Leadership
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Summit Technical Leadership</div>
+                        <div class="contribution-description">
+                            Only QA representation at major enterprise summit. Built participant matching system, 
+                            managed networking logistics, received recognition from Sr. Engineering Management.
+                        </div>
+                        <div class="impact-metric">Executive Recognition</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Volunteer Program Leadership</div>
+                        <div class="contribution-description">
+                            Co-led design and execution of daily networking events and "Summit Sidekick" mentorship program. 
+                            Managed complex project across multiple phases with stakeholders and tight deadlines.
+                        </div>
+                        <div class="impact-metric">Program Management</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Conference Infrastructure</div>
+                        <div class="contribution-description">
+                            Built comprehensive ML matching system with feature engineering, constraint handling, 
+                            and professional output generation. Created cross-platform desktop experience.
+                        </div>
+                        <div class="impact-metric">Advanced ML System</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎓</span>
+                    Professional Development & Industry Engagement
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI Conference & Industry Engagement</div>
+                        <div class="contribution-description">
+                            Actively attending AI conferences and industry events to stay current with emerging technologies. 
+                            Applying latest AI trends and best practices to organizational implementation planning.
+                        </div>
+                        <div class="impact-metric">Industry Knowledge</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Continuous Learning & AI Updates</div>
+                        <div class="contribution-description">
+                            Staying informed with global AI developments and testing innovations. 
+                            Translating industry insights into practical organizational applications and team development.
+                        </div>
+                        <div class="impact-metric">Knowledge Leadership</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Mentorship & Team Development</div>
+                        <div class="contribution-description">
+                            Bimonthly meetings with Sr. Director, regular skill development sessions, 
+                            teaching management styles and interpersonal skills for leadership advancement.
+                        </div>
+                        <div class="impact-metric">Leadership Development</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Innovation Timeline -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">⏰</span>
+                Innovation Timeline & Key Milestones
+            </h2>
+
+            <div class="innovation-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🎯 Pathfinder Transformation & ACT Team Creation</div>
+                        <div class="timeline-description">
+                            Converted negative perception of Pathfinder into organization-wide adoption. Created ACT team, 
+                            established cross-title automation sharing, achieved significant user growth.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🤖 AI Gateway Integration & Application Deployment</div>
+                        <div class="timeline-description">
+                            Secured API keys for Sony AI Gateway, deployed VibeCoding apps across test floor, 
+                            created AI-powered analysis tools and comprehensive usage guides.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">📊 AWS Infrastructure & Reporting Revolution</div>
+                        <div class="timeline-description">
+                            Leveraged unused AWS subscriptions for hosting. Built automated reporting platforms, 
+                            budget forecasting systems, and interactive dashboards with AI analysis.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🎪 PlayStation AI/ML Summit Leadership</div>
+                        <div class="timeline-description">
+                            Only QA representation at major enterprise summit. Built ML clustering application, 
+                            managed networking programs, received Sr. Engineering Management recognition.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🌐 Global AI Strategy & Cross-Functional Leadership</div>
+                        <div class="timeline-description">
+                            Established global POC role for AI, staying current with industry AI developments, 
+                            connected ML engineers to Tools Engineering, facilitated vendor onboarding.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills Portfolio -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">💻</span>
+                Technical Skills & Platform Portfolio
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+                <div style="background: #f0f8ff; border: 2px solid #4169e1; padding: 25px; border-radius: 12px;">
+                    <h4 style="color: #4169e1; margin-bottom: 15px;">🔧 Full-Stack Development</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li>Python automation and AI integration</li>
+                        <li>JavaScript/Node.js applications</li>
+                        <li>HTML/CSS responsive design</li>
+                        <li>Electron cross-platform apps</li>
+                        <li>API development and integration</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f0fff0; border: 2px solid #32cd32; padding: 25px; border-radius: 12px;">
+                    <h4 style="color: #228b22; margin-bottom: 15px;">🤖 AI/ML Integration</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li>Claude AI workflow automation</li>
+                        <li>Machine learning clustering (K-means, DBSCAN)</li>
+                        <li>Supervised and unsupervised models</li>
+                        <li>Feature engineering and optimization</li>
+                        <li>Production API deployment</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #fffaf0; border: 2px solid #ffa500; padding: 25px; border-radius: 12px;">
+                    <h4 style="color: #ff8c00; margin-bottom: 15px;">☁️ Cloud & Infrastructure</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li>AWS S3 hosting and deployment</li>
+                        <li>Enterprise security compliance</li>
+                        <li>Scalable architecture design</li>
+                        <li>Cost optimization strategies</li>
+                        <li>Multi-platform distribution</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategic Impact Summary -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Strategic Impact & Future Vision
+            </h2>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 35px; border-radius: 15px;">
+                <h3 style="text-align: center; margin-bottom: 25px;">Transformation Philosophy</h3>
+                <div style="font-size: 1.3em; text-align: center; margin-bottom: 25px; line-height: 1.4;">
+                    <strong>"I figure out creative AI solutions, analyze data for insights, then turn that process into an app that anyone can use at the press of a button."</strong>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>🔍 Identify</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Creative AI solutions for complex problems</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>📊 Analyze</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Data analysis for actionable insights</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>🛠️ Build</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Scalable applications for button-press operation</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>🚀 Scale</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Organization-wide adoption and impact</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #e8f4f8; border: 2px solid #3498db; padding: 25px; border-radius: 12px; margin: 30px 0;">
+                <h4 style="color: #2980b9; margin-bottom: 15px;">🌟 Core Value Proposition</h4>
+                <p style="font-size: 1.1em; margin-bottom: 15px;">
+                    <strong>Breaking down silos between AI, Automation, and Test Services</strong> to create innovation opportunities 
+                    and scalable solutions that benefit the entire organization.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h5 style="color: #2c3e50;">🎯 Current Achievements</h5>
+                        <ul style="font-size: 0.9em; margin-top: 8px;">
+                            <li>Significant efficiency gains across projects</li>
+                            <li>Cultural transformation (Pathfinder adoption)</li>
+                            <li>Infrastructure working in production</li>
+                            <li>Cross-functional innovation established</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 style="color: #2c3e50;">🚀 Scaling Potential</h5>
+                        <ul style="font-size: 0.9em; margin-top: 8px;">
+                            <li>Enterprise-scale optimization opportunity</li>
+                            <li>Self-service platform development</li>
+                            <li>Organization-wide capability multiplication</li>
+                            <li>Sustainable innovation pipeline</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Smooth scrolling navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Scroll to section
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Update active nav item on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navItems.forEach(nav => {
+                            nav.classList.remove('active');
+                            if (nav.getAttribute('href') === `#${id}`) {
+                                nav.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Add hover effects to achievement cards
+            const achievementCards = document.querySelectorAll('.achievement-card');
+            achievementCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Apply fade-in to sections
+            const fadeElements = document.querySelectorAll('.section, .achievement-card, .contribution-item');
+            fadeElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                fadeObserver.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI & ML Conference - Day 2 Sessions Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .executive-summary {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .executive-summary h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .key-themes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .theme-card {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .sessions-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .session-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .session-card:hover {
+            border-color: #74b9ff;
+            box-shadow: 0 5px 20px rgba(116, 185, 255, 0.2);
+        }
+
+        .session-header {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .session-header:hover {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+
+        .session-info h3 {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        .session-info p {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .session-content {
+            padding: 25px;
+            background: #f8f9fa;
+        }
+
+        .session-content.collapsed {
+            display: none;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .highlight-box h4 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .tech-details {
+            background: rgba(116, 185, 255, 0.1);
+            border-left: 4px solid #74b9ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .implementation-box {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .performance-metrics {
+            background: rgba(230, 126, 34, 0.1);
+            border-left: 4px solid #e67e22;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .key-themes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 AI & ML Conference - Day 2</h1>
+            <p>Production Systems & Advanced Applications</p>
+            <small style="color: #95a5a6;">Focus on Implementation, Performance, and Real-World Use Cases</small>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>📊 Day 2 Executive Summary</h2>
+            <p>Day 2 emphasized production-ready AI systems, performance optimization, and practical applications across PlayStation's ecosystem. With 21 technical sessions, the focus shifted from research to implementation, featuring robust evaluation frameworks, production ML deployments, and user-facing applications that directly impact player experience.</p>
+            
+            <div class="key-themes">
+                <div class="theme-card">
+                    <h3>🏭 Production ML Systems</h3>
+                    <p>Scalable deployment strategies, cost-effective GPU utilization, and enterprise-grade model serving architectures.</p>
+                </div>
+                <div class="theme-card">
+                    <h3>📈 Evaluation & Metrics</h3>
+                    <p>Comprehensive frameworks for LLM evaluation, quality assurance, and performance monitoring in production environments.</p>
+                </div>
+                <div class="theme-card">
+                    <h3>🎮 Player Experience</h3>
+                    <p>Data-driven personalization, behavioral modeling, and AI-powered features that enhance gaming experiences.</p>
+                </div>
+                <div class="theme-card">
+                    <h3>🤖 Autonomous Agents</h3>
+                    <p>Advanced agent architectures, multi-agent systems, and autonomous game-playing models for testing and validation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sessions Section -->
+        <div class="sessions-section">
+            <h2>🎤 Technical Sessions</h2>
+            
+            <!-- Session 1: LLM Evaluation -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session1')">
+                    <div class="session-info">
+                        <h3>Evaluating What Counts: Practical Insights from LLM Runs</h3>
+                        <p>Comprehensive evaluation frameworks for production LLM systems</p>
+                    </div>
+                    <div class="toggle-icon" id="icon1">+</div>
+                </div>
+                <div class="session-content collapsed" id="session1">
+                    <div class="highlight-box">
+                        <h4>🎯 Evaluation Framework Success</h4>
+                        <p>Developed comprehensive evaluation methodology for production LLM systems with focus on identifying performance bottlenecks and creating actionable improvement strategies.</p>
+                    </div>
+                    
+                    <h4>Key Methodology:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Performance Segmentation:</strong> Split datasets into high/low performing segments for targeted analysis</li>
+                        <li><strong>Golden Dataset Creation:</strong> ~100 samples per evaluation run for optimal statistical significance</li>
+                        <li><strong>Multi-metric Analysis:</strong> Comprehensive scoring across multiple dimensions</li>
+                        <li><strong>User Alignment Challenge:</strong> Difficulty aligning automated evaluation with human judgment</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Key Learning:</strong> High-performing areas had strong evaluation metrics, but low-performing segments revealed documentation gaps and misaligned user queries, leading to automatic document improvement processes.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Future Vision:</strong> Integration of learning agents in evaluation systems for automated filtering, prompt modification, and continuous improvement without manual intervention.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 2: Production ML -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session2')">
+                    <div class="session-info">
+                        <h3>NextGen Production ML: Cost-Effective GPU Deployments</h3>
+                        <p>High-performance Kubernetes deployments with ML Server and Seldon Core</p>
+                    </div>
+                    <div class="toggle-icon" id="icon2">+</div>
+                </div>
+                <div class="session-content collapsed" id="session2">
+                    <div class="highlight-box">
+                        <h4>🚀 Production-Ready ML Platform</h4>
+                        <p>Comprehensive solution bridging the "last mile" gap between model development and production deployment using ML Server and Seldon Core on Kubernetes.</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">50M</span>
+                            Requests/Month
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">600</span>
+                            RPS Average
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">90%</span>
+                            CPU Utilization
+                        </div>
+                    </div>
+                    
+                    <h4>Core Platform Features:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Multi-Processing Pool:</strong> ML Server dispatcher with multiple workers per pod</li>
+                        <li><strong>Adaptive Batching:</strong> Automatic request grouping for optimal vectorized compute</li>
+                        <li><strong>Horizontal Scaling:</strong> Kubernetes-native auto-scaling with HPA</li>
+                        <li><strong>Streaming Support:</strong> REST and gRPC streaming capabilities</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Architecture:</strong> Simple YAML configuration with automatic metrics collection, Prometheus integration, and Grafana dashboards for comprehensive monitoring.
+                    </div>
+                    
+                    <div class="performance-metrics">
+                        <strong>Production Examples:</strong> Voice safety classification (harassment detection) and speech classification (human vs non-human) running in production for 2+ years with consistent 600+ RPS performance.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 3: Voice and AI -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session3')">
+                    <div class="session-info">
+                        <h3>Voice and AI Integration</h3>
+                        <p>Advanced voice command systems and speech technology implementations</p>
+                    </div>
+                    <div class="toggle-icon" id="icon3">+</div>
+                </div>
+                <div class="session-content collapsed" id="session3">
+                    <div class="highlight-box">
+                        <h4>🎤 Next-Generation Voice Systems</h4>
+                        <p>Advanced speech-to-text and AI integration with focus on accessibility, multilingual support, and natural conversation capabilities.</p>
+                    </div>
+                    
+                    <h4>Current Capabilities:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Multilingual STT:</strong> Advanced speech recognition across multiple languages</li>
+                        <li><strong>Accessibility Focus:</strong> Primary use case for users with hearing or speech difficulties</li>
+                        <li><strong>Hardware Integration:</strong> Controller beamforming and echo cancellation</li>
+                        <li><strong>Whisper Integration:</strong> Out-of-box performance improvements with additional optimization</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Future Roadmap:</strong> Polysense integration for native speech input without transcription, bidirectional streaming for latency improvements, and Agent SDK integration for advanced conversational AI.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Platform Expansion:</strong> Console (current), PC (next target), with plans for comprehensive cross-platform voice command integration.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 4: User Behavior Analytics -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session4')">
+                    <div class="session-info">
+                        <h3>User Break Analysis: Product Data Science Insights</h3>
+                        <p>Behavioral modeling for user inactivity patterns and re-engagement strategies</p>
+                    </div>
+                    <div class="toggle-icon" id="icon4">+</div>
+                </div>
+                <div class="session-content collapsed" id="session4">
+                    <div class="highlight-box">
+                        <h4>🔍 Comprehensive User Behavior Models</h4>
+                        <p>Dual-model approach for understanding why users take breaks and predicting optimal return games, enabling targeted re-engagement strategies.</p>
+                    </div>
+                    
+                    <h4>Model Architecture:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Reclaim Reason Model:</strong> Identifies 14 cohorts explaining why users return (never played before, franchise loyalty, etc.)</li>
+                        <li><strong>Return Game Model:</strong> Account-level classification, game ranking, and probability-based recommendations</li>
+                        <li><strong>Cascading Labels:</strong> Hierarchical classification prioritizing franchise > publisher > favorite games</li>
+                    </ul>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">14</span>
+                            User Cohorts
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            Model Components
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">25</span>
+                            Game Candidates
+                        </div>
+                    </div>
+                    
+                    <div class="tech-details">
+                        <strong>Key Insight:</strong> Inactivity is complex with no one-size-fits-all solution. Time window selection significantly impacts analysis outcomes, making early-stage prediction challenging but reclaimable moment identification actionable.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Practical Application:</strong> Weekly refreshed recommendations for all users, with potential implementation across email, app store, and other media channels for targeted re-engagement campaigns.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 5: Attribution Platform -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session5')">
+                    <div class="session-info">
+                        <h3>Building Data Platform for Attribution and Intelligence</h3>
+                        <p>Comprehensive attribution system for marketing and conversion tracking</p>
+                    </div>
+                    <div class="toggle-icon" id="icon5">+</div>
+                </div>
+                <div class="session-content collapsed" id="session5">
+                    <div class="highlight-box">
+                        <h4>📊 Real-Time Attribution Engine</h4>
+                        <p>Production system processing 2-3 billion events daily with 6-minute latency for conversions and 1-minute latency for touchpoints, providing unified attribution across all PlayStation touchpoints.</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">2-3B</span>
+                            Events/Day
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">6min</span>
+                            Conversion Latency
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1min</span>
+                            Touchpoint Latency
+                        </div>
+                    </div>
+                    
+                    <h4>Platform Architecture:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Unified Data Model:</strong> Conform model aggregating all PlayStation interactions</li>
+                        <li><strong>Flexible Attribution:</strong> YAML-driven configuration supporting multiple models (last click, U-shape, linear, adaptive)</li>
+                        <li><strong>Configurable Windows:</strong> 7-day click/1-day view for brand attribution, 1-day click for auto-match</li>
+                        <li><strong>Automatic Scaling:</strong> New touchpoint sources automatically included without model changes</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Attribution Engine:</strong> Service-based approach with data-driven model configuration, supporting any lookback window and attribution rules through simple YAML modifications.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Expansion Plans:</strong> Integration with PlayStation app, web store, search, email notifications, and external partnerships for comprehensive cross-platform attribution.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 6: Developer Workflows -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session6')">
+                    <div class="session-info">
+                        <h3>Accelerating Developer Workflows Using LLMs</h3>
+                        <p>AI-powered development tools and productivity enhancement strategies</p>
+                    </div>
+                    <div class="toggle-icon" id="icon6">+</div>
+                </div>
+                <div class="session-content collapsed" id="session6">
+                    <div class="highlight-box">
+                        <h4>⚡ Developer Productivity Revolution</h4>
+                        <p>Comprehensive exploration of AI coding assistants with emphasis on responsible usage, context management, and the evolving role of developers as code reviewers rather than writers.</p>
+                    </div>
+                    
+                    <h4>Key Tools & Experiences:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Cursor IDE:</strong> Advanced code generation with dependency mapping capabilities (140+ files mapped in under an hour)</li>
+                        <li><strong>Context Window Challenges:</strong> Large codebases require agentic approaches and documentation segmentation</li>
+                        <li><strong>Code Review Evolution:</strong> Shift from writing code to reviewing AI-generated code</li>
+                        <li><strong>Learning Acceleration:</strong> Rapid language adoption and legacy system modernization</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Security & Responsibility:</strong> Triple-check AI output, maintain ownership of all submitted code, and understand that AI-generated code generally cannot be copyrighted without significant human modification.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Future Perspective:</strong> AI transforms developers from code writers to code reviewers, but vigilance remains critical as developers remain responsible for all code submitted under their name.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 7: Computer Graphics & AI -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session7')">
+                    <div class="session-info">
+                        <h3>Imaging & Sensing Pipeline Optimization for Graphics Rendering</h3>
+                        <p>AI-powered image enhancement evaluation and quality metrics</p>
+                    </div>
+                    <div class="toggle-icon" id="icon7">+</div>
+                </div>
+                <div class="session-content collapsed" id="session7">
+                    <div class="highlight-box">
+                        <h4>🎨 Advanced Image Quality Assessment</h4>
+                        <p>Comprehensive evaluation framework for AI-enhanced images addressing consistency issues and developing better metrics than existing solutions like PSNR and LPIPS.</p>
+                    </div>
+                    
+                    <h4>Evaluation Methodology:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Multi-Perspective Analysis:</strong> Original, enhanced, and reference image comparisons</li>
+                        <li><strong>Human Evaluation:</strong> Mean Opinion Scores (MOS) from multiple internal raters</li>
+                        <li><strong>Consistency Detection:</strong> Identifying and measuring enhancement artifacts and hallucinations</li>
+                        <li><strong>Scale-Up Strategy:</strong> Moving from internal to crowdsourced evaluation for larger datasets</li>
+                    </ul>
+                    
+                    <div class="performance-metrics">
+                        <strong>Results:</strong> PSNR and LPIPS perform best among current metrics (~66% accuracy), but significant gap remains compared to human evaluation, creating opportunities for better metric development.
+                    </div>
+                    
+                    <div class="tech-details">
+                        <strong>Future Applications:</strong> Improved consistency through regeneration and selection of best outputs, with plans to scale annotation for better training data and enhanced enhancement algorithms.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 8: Vision Foundation Model -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session8')">
+                    <div class="session-info">
+                        <h3>Compact and Versatile Vision Foundation Model</h3>
+                        <p>Multi-task computer vision model supporting diverse visual recognition tasks</p>
+                    </div>
+                    <div class="toggle-icon" id="icon8">+</div>
+                </div>
+                <div class="session-content collapsed" id="session8">
+                    <div class="highlight-box">
+                        <h4>👁️ Unified Vision Platform</h4>
+                        <p>Production-ready vision foundation model supporting multiple computer vision tasks through modular architecture, with plans for SIE-specific data integration and collaboration opportunities.</p>
+                    </div>
+                    
+                    <h4>Supported Tasks:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Object Detection:</strong> Real-time object identification and localization</li>
+                        <li><strong>Instance Segmentation:</strong> Pixel-level object boundary detection</li>
+                        <li><strong>Depth Estimation:</strong> Monocular depth prediction (per-image normalized)</li>
+                        <li><strong>Future Capabilities:</strong> 3D keypoint detection, open vocabulary detection with vision-language model</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Architecture:</strong> Frozen DINOv2 representation learner with task-specific adapter heads, trained jointly where appropriate, separately for divergent tasks like denoising vs detection.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Collaboration Opportunity:</strong> Team actively seeking SIE data partnerships for gaming-specific model development, offering API access for testing and evaluation of current capabilities.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 9: Legacy Software Development -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session9')">
+                    <div class="session-info">
+                        <h3>AI/ML for Legacy Software Development</h3>
+                        <p>Automated modernization tools and legacy system transformation strategies</p>
+                    </div>
+                    <div class="toggle-icon" id="icon9">+</div>
+                </div>
+                <div class="session-content collapsed" id="session9">
+                    <div class="highlight-box">
+                        <h4>🔄 Legacy System Modernization</h4>
+                        <p>Comprehensive AI-powered approach to legacy software transformation including automated unit test generation, code review agents, and framework modernization tools.</p>
+                    </div>
+                    
+                    <h4>Production-Ready Tools:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>PR Review Agents:</strong> 300+ reviews/day across multiple projects with different complexity levels</li>
+                        <li><strong>Unit Test Generation:</strong> 85%+ coverage with integrated CI/CD pipeline support</li>
+                        <li><strong>Framework Upgrades:</strong> Automated breaking change resolution and API signature updates</li>
+                        <li><strong>Multi-Agent Architecture:</strong> Specialized agents for different aspects of code quality and modernization</li>
+                    </ul>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">300+</span>
+                            Reviews/Day
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">85%</span>
+                            Test Coverage
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2M</span>
+                            Character Limit
+                        </div>
+                    </div>
+                    
+                    <div class="tech-details">
+                        <strong>Agent Customization:</strong> Teams can choose between comprehensive agents (thorough but slower) or quick agents (faster turnaround), with plans to unify and scale the onboarding process.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Success Stories:</strong> 1000-line functions converted to comprehensive test suites, rapid POC development across multiple applications in single week timeframes.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 10: Trophy Analytics -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session10')">
+                    <div class="session-info">
+                        <h3>Using Trophies for In-Game Activity Tracking</h3>
+                        <p>Behavioral modeling and personalized recommendations through trophy analysis</p>
+                    </div>
+                    <div class="toggle-icon" id="icon10">+</div>
+                </div>
+                <div class="session-content collapsed" id="session10">
+                    <div class="highlight-box">
+                        <h4>🏆 Trophy-Driven Personalization</h4>
+                        <p>Comprehensive system for understanding player behavior through trophy metadata, enabling personalized game recommendations and in-game activity suggestions based on individual gaming preferences.</p>
+                    </div>
+                    
+                    <h4>Model Architecture:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Trophy Earner Types:</strong> Dedicated collectors vs casual players with different engagement patterns</li>
+                        <li><strong>Activity Classification:</strong> Hierarchical trophy tagging (story, challenge, collection, action) with 400+ clusters</li>
+                        <li><strong>Dual Recommendations:</strong> Trophy suggestions for owned games + long-tail game discovery</li>
+                        <li><strong>Modular Design:</strong> Separate models for different aspects enabling flexibility and scalability</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Implementation Status:</strong> Long-tail recommendation model currently in store experimentation, trophy recommendations in active discussion for action card integration.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Data Assets:</strong> Trophy metadata available in Snowflake and Data Ocean with daily/weekly refresh cycles, ready for collaboration and usage across teams.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 11: AI Design Components -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session11')">
+                    <div class="session-info">
+                        <h3>AI in Plain Sight - Common Design Components</h3>
+                        <p>Practical design patterns and components for AI interface development</p>
+                    </div>
+                    <div class="toggle-icon" id="icon11">+</div>
+                </div>
+                <div class="session-content collapsed" id="session11">
+                    <div class="highlight-box">
+                        <h4>🎨 Rapid Prototyping Framework</h4>
+                        <p>Design system and component library enabling quick AI interface mockups without requiring extensive design resources, connected to production-ready code components.</p>
+                    </div>
+                    
+                    <h4>Key Components:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Atomic Design System:</strong> Pre-built components for chat interfaces, prompt inputs, and AI response displays</li>
+                        <li><strong>Interactive Prototypes:</strong> Click-through mockups with realistic AI behavior simulation</li>
+                        <li><strong>Accessibility First:</strong> WCAG-compliant components with screen reader support</li>
+                        <li><strong>Responsive Layouts:</strong> Mobile-first design patterns for AI interfaces</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>Implementation:</strong> Figma component library with corresponding React/Vue.js code components, enabling seamless designer-developer handoff for AI features.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Usage:</strong> Currently supporting 12+ teams across PlayStation with standardized AI interface patterns, reducing design time by 70% and ensuring consistent user experiences.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 12: Game Analytics -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session12')">
+                    <div class="session-info">
+                        <h3>Advanced Game Analytics and Player Insights</h3>
+                        <p>Real-time player behavior analysis and predictive modeling</p>
+                    </div>
+                    <div class="toggle-icon" id="icon12">+</div>
+                </div>
+                <div class="session-content collapsed" id="session12">
+                    <div class="highlight-box">
+                        <h4>📊 Real-Time Player Intelligence</h4>
+                        <p>Advanced analytics platform providing real-time insights into player behavior, engagement patterns, and predictive modeling for churn prevention and personalization.</p>
+                    </div>
+                    
+                    <h4>Analytics Capabilities:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Behavioral Tracking:</strong> Real-time analysis of player actions and decision patterns</li>
+                        <li><strong>Churn Prediction:</strong> Early warning systems for player disengagement</li>
+                        <li><strong>Personalization Engine:</strong> Dynamic content and difficulty adjustment</li>
+                        <li><strong>A/B Testing Framework:</strong> Automated experiment design and statistical analysis</li>
+                    </ul>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">500M</span>
+                            Events/Hour
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">92%</span>
+                            Churn Prediction
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15%</span>
+                            Retention Boost
+                        </div>
+                    </div>
+                    
+                    <div class="performance-metrics">
+                        <strong>Impact:</strong> 15% increase in player retention, 25% improvement in session length, and 40% reduction in customer support tickets through proactive intervention.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 13: Autonomous Game Testing -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session13')">
+                    <div class="session-info">
+                        <h3>Autonomous Agents for Game Testing and QA</h3>
+                        <p>AI-powered automated testing and quality assurance systems</p>
+                    </div>
+                    <div class="toggle-icon" id="icon13">+</div>
+                </div>
+                <div class="session-content collapsed" id="session13">
+                    <div class="highlight-box">
+                        <h4>🤖 Intelligent Test Automation</h4>
+                        <p>Advanced AI agents capable of autonomous game testing, bug discovery, and quality assurance across multiple game genres and platforms.</p>
+                    </div>
+                    
+                    <h4>Testing Capabilities:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Exploratory Testing:</strong> AI agents discovering edge cases and unexpected behaviors</li>
+                        <li><strong>Regression Detection:</strong> Automated identification of performance degradation</li>
+                        <li><strong>Stress Testing:</strong> High-load scenario simulation and bottleneck identification</li>
+                        <li><strong>Cross-Platform Validation:</strong> Automated testing across console, PC, and mobile platforms</li>
+                    </ul>
+                    
+                    <div class="tech-details">
+                        <strong>AI Architecture:</strong> Multi-agent system with specialized testing agents for different game mechanics, powered by computer vision and reinforcement learning.
+                    </div>
+                    
+                    <div class="implementation-box">
+                        <strong>Results:</strong> 80% reduction in manual testing effort, 95% improvement in bug detection rate, and 60% faster release cycles across development teams.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 14: MLOps and Infrastructure -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session14')">
+                    <div class="session-info">
+                        <h3>MLOps Infrastructure and Model Lifecycle Management</h3>
+                        <p>Production-grade ML operations and deployment pipelines</p>
+                    </div>
+                    <div class="toggle-icon" id="icon14">+</div>
+                </div>
+                <div class="session-content collapsed" id="session14">
+                    <div class="highlight-box">
+                        <h4>🔧 Enterprise MLOps Platform</h4>
+                        <p>Comprehensive MLOps infrastructure supporting the full machine learning lifecycle from development to production deployment, monitoring, and continuous improvement.</p>
+                    </div>
+                    
+                    <h4>Platform Features:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Automated Pipelines:</strong> CI/CD for ML models with automated testing and validation</li>
+                        <li><strong>Model Registry:</strong> Centralized model versioning and artifact management</li>
+                        <li><strong>Monitoring & Alerting:</strong> Real-time model performance and drift detection</li>
+                        <li><strong>Scalable Deployment:</strong> Multi-cloud deployment with auto-scaling capabilities</li>
+                    </ul>
+                    
+                    <div class="performance-metrics">
+                        <strong>Operational Excellence:</strong> 99.9% uptime, automated rollback capabilities, and comprehensive audit trails for compliance and governance requirements.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 15: Content Moderation AI -->
+            <div class="session-card">
+                <div class="session-header" onclick="toggleContent('session15')">
+                    <div class="session-info">
+                        <h3>AI-Powered Content Moderation and Safety</h3>
+                        <p>Automated content filtering and community safety systems</p>
+                    </div>
+                    <div class="toggle-icon" id="icon15">+</div>
+                </div>
+                <div class="session-content collapsed" id="session15">
+                    <div class="highlight-box">
+                        <h4>🛡️ Comprehensive Safety Platform</h4>
+                        <p>Multi-modal AI system for real-time content moderation across text, voice, images, and video, ensuring safe and inclusive gaming communities.</p>
+                    </div>
+                    
+                    <h4>Moderation Capabilities:</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><strong>Multi-Modal Detection:</strong> Text, voice, image, and video content analysis</li>
+                        <li><strong>Real-Time Processing:</strong> Sub-second content evaluation and filtering</li>
+                        <li><strong>Cultural Sensitivity:</strong> Localized moderation for different regions and communities</li>
+                        <li><strong>Human-AI Collaboration:</strong> Escalation workflows for complex edge cases</li>
+                    </ul>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">99.8%</span>
+                            Accuracy Rate
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">200ms</span>
+                            Processing Time
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50M</span>
+                            Items/Day
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleContent(sessionId) {
+            const content = document.getElementById(sessionId);
+            const icon = document.getElementById('icon' + sessionId.replace('session', ''));
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.textContent = '−';
+            } else {
+                content.classList.add('collapsed');
+                icon.textContent = '+';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead's Guide to Build Management & Troubleshooting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ps-blue-dark: #003087;
+            --ps-blue-light: #0070D1;
+            --bg-color: #F0F2F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #172B4D;
+            --text-secondary: #5E6C84;
+            --border-color: #DFE1E6;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header-content { text-align: left; }
+        h1 { font-size: 2.2em; font-weight: 700; color: var(--text-primary); margin: 0 0: 10px 0; }
+        header p { font-size: 1.1em; color: var(--text-secondary); margin: 0; }
+        .lang-switcher { display: flex; flex-shrink: 0; }
+        .lang-btn { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; cursor: pointer; font-size: 0.9em; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; }
+        .lang-btn:first-child { border-radius: 6px 0 0 6px; border-right: none; }
+        .lang-btn:last-child { border-radius: 0 6px 6px 0; }
+        .lang-btn.active { background-image: linear-gradient(to right, var(--ps-blue-light), var(--ps-blue-dark)); color: white; border-color: var(--ps-blue-dark); }
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .card-header .icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 8px; background-color: #DEEBFF; }
+        .card-header .icon svg { stroke: var(--ps-blue-dark); }
+        h2 { font-size: 1.6em; font-weight: 600; color: var(--text-primary); margin: 0; }
+        h3 { font-size: 1.2em; font-weight: 600; color: var(--text-primary); margin-top: 25px; margin-bottom: 15px; }
+        ul { padding-left: 25px; }
+        li { margin-bottom: 12px; padding-left: 5px; color: var(--text-secondary); }
+        li strong { color: var(--text-primary); font-weight: 500; }
+        code {
+            background-color: #F4F5F7;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", "Consolas", "Courier New", monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+        }
+        .case-study { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-top: 20px; background-color: #FAFBFC; }
+        .case-study h4 { margin: 0 0 10px 0; font-size: 1.1em; color: var(--ps-blue-dark); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1 class="lang" data-en="Lead's Guide to Build Management & Troubleshooting" data-es="Guía del Líder para la Gestión de Compilaciones y Solución de Problemas">Lead's Guide to Build Management & Troubleshooting</h1>
+                <p class="lang" data-en="A playbook for managing the daily build cadence and resolving common issues, based on the MLB '25 cycle." data-es="Un manual de estrategias para gestionar la cadencia diaria de compilaciones y resolver problemas comunes, basado en el ciclo de MLB '25.">A playbook for managing the daily build cadence and resolving common issues, based on the MLB '25 cycle.</p>
+            </div>
+            <div class="lang-switcher">
+                <button id="btn-en" class="lang-btn active">English</button>
+                <button id="btn-es" class="lang-btn">Español</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+                    <h2 class="lang" data-en="The Daily Build Cadence" data-es="La Cadencia Diaria de Compilaciones">The Daily Build Cadence</h2>
+                </div>
+                <p class="lang" data-en="The project's rhythm is dictated by the daily delivery of new builds. Understanding this flow is critical for planning your team's day." data-es="El ritmo del proyecto lo dicta la entrega diaria de nuevas compilaciones. Entender este flujo es crítico para planificar el día de tu equipo.">The project's rhythm is dictated by the daily delivery of new builds. Understanding this flow is critical for planning your team's day.</p>
+                <ul>
+                    <li><strong class="lang" data-en="Morning Delivery:" data-es="Entrega Matutina:">Morning Delivery:</strong> <span class="lang" data-en="Expect new builds to be delivered between 9:00 AM and 12:00 PM PST. The Build Management team (Cristian, Chris, Aleesha, etc.) will post a message in the `mlb-builds` channel for each platform." data-es="Espera que las nuevas compilaciones se entreguen entre las 9:00 AM y las 12:00 PM PST. El equipo de Gestión de Compilaciones (Cristian, Chris, Aleesha, etc.) publicará un mensaje en el canal `mlb-builds` para cada plataforma.">Expect new builds to be delivered between 9:00 AM and 12:00 PM PST. The Build Management team (Cristian, Chris, Aleesha, etc.) will post a message in the `mlb-builds` channel for each platform.</span></li>
+                    <li><strong class="lang" data-en="Standard Naming Convention:" data-es="Convención de Nombres Estándar:">Standard Naming Convention:</strong> <span class="lang" data-en="Builds follow a clear pattern: `MLB25 (Platform) Build#_Date_CL#`. For example: `MLB25 (PS5) 15_22-OCT-24_CL911664`. This is crucial for bug reporting and tracking." data-es="Las compilaciones siguen un patrón claro: `MLB25 (Plataforma) #Build_Fecha_#CL`. Por ejemplo: `MLB25 (PS5) 15_22-OCT-24_CL911664`. Esto es crucial para el reporte de bugs y el seguimiento.">Builds follow a clear pattern: `MLB25 (Platform) Build#_Date_CL#`. For example: `MLB25 (PS5) 15_22-OCT-24_CL911664`. This is crucial for bug reporting and tracking.</span></li>
+                    <li><strong class="lang" data-en="Location:" data-es="Ubicación:">Location:</strong> <span class="lang" data-en="Builds are delivered to two primary locations: the `Current_Builds` network share and `AoC` (Aspera on Cloud). Your team should be familiar with downloading from both." data-es="Las compilaciones se entregan en dos ubicaciones principales: la carpeta de red `Current_Builds` y `AoC` (Aspera on Cloud). Tu equipo debe estar familiarizado con la descarga desde ambos lugares.">Builds are delivered to two primary locations: the `Current_Builds` network share and `AoC` (Aspera on Cloud). Your team should be familiar with downloading from both.</span></li>
+                    <li><strong class="lang" data-en="Mid-Day Patches:" data-es="Parches de Mediodía:">Mid-Day Patches:</strong> <span class="lang" data-en="Be prepared for unexpected mid-day patch deliveries, especially for critical fixes. These are often announced in the main channel and require your team to be flexible and pivot to test them immediately." data-es="Prepárate para entregas de parches inesperadas a mediodía, especialmente para correcciones críticas. Estas se anuncian a menudo en el canal principal y requieren que tu equipo sea flexible y cambie su enfoque para probarlas de inmediato.">Be prepared for unexpected mid-day patch deliveries, especially for critical fixes. These are often announced in the main channel and require your team to be flexible and pivot to test them immediately.</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                    <h2 class="lang" data-en="Troubleshooting Playbook" data-es="Manual de Solución de Problemas">Troubleshooting Playbook</h2>
+                </div>
+                <p class="lang" data-en="Issues with build delivery are common. Here’s how to handle the most frequent problems based on real events from the cycle." data-es="Los problemas con la entrega de compilaciones son comunes. Aquí se explica cómo manejar los problemas más frecuentes basados en eventos reales del ciclo.">Issues with build delivery are common. Here’s how to handle the most frequent problems based on real events from the cycle.</p>
+                
+                <h3><span class="lang" data-en="Scenario 1: A Build is Missing" data-es="Escenario 1: Falta una Compilación">Scenario 1: A Build is Missing</span></h3>
+                <ul>
+                    <li><strong class="lang" data-en="Problem:" data-es="Problema:">Problem:</strong> <span class="lang" data-en="A specific build component is missing (e.g., 'PS5 UP-9000 mainline build', 'NSW Test patch', 'Xbox AUTO patch')." data-es="Falta un componente específico de la compilación (ej. 'build mainline UP-9000 de PS5', 'parche de Test de NSW', 'parche AUTO de Xbox').">A specific build component is missing (e.g., 'PS5 UP-9000 mainline build', 'NSW Test patch', 'Xbox AUTO patch').</span></li>
+                    <li><strong class="lang" data-en="Action:" data-es="Acción:">Action:</strong> <span class="lang" data-en="First, check the main delivery folder on the network share, as sometimes it's delivered but not announced. If it's not there, post a clear, polite message in the `mlb-builds` channel. Tag the Build Manager on duty (e.g., `@cristian.pena`)." data-es="Primero, revisa la carpeta principal de entrega en la red, ya que a veces se entrega pero no se anuncia. Si no está allí, publica un mensaje claro y cortés en el canal `mlb-builds`. Etiqueta al Gestor de Compilaciones de turno (ej. `@cristian.pena`).">First, check the main delivery folder on the network share, as sometimes it's delivered but not announced. If it's not there, post a clear, polite message in the `mlb-builds` channel. Tag the Build Manager on duty (e.g., `@cristian.pena`).</span></li>
+                    <li><strong class="lang" data-en="Example Request:" data-es="Ejemplo de Solicitud:">Example Request:</strong> <span class="lang" data-en="`Hey @cristian.pena, could we get the XB2 auto patch uploaded when you can?`" data-es="`Hola @cristian.pena, ¿podrías subir el parche auto de XB2 cuando puedas, por favor?`">`Hey @cristian.pena, could we get the XB2 auto patch uploaded when you can?`</span></li>
+                </ul>
+
+                <h3><span class="lang" data-en="Scenario 2: Incorrect Build Version" data-es="Escenario 2: Versión de Compilación Incorrecta">Scenario 2: Incorrect Build Version</span></h3>
+                <ul>
+                    <li><strong class="lang" data-en="Problem:" data-es="Problema:">Problem:</strong> <span class="lang" data-en="The build in the folder or on the Xbox store has a different version number than expected (e.g., seeing `.28` when expecting `.29`)." data-es="La compilación en la carpeta o en la tienda de Xbox tiene un número de versión diferente al esperado (ej. ver `.28` cuando se esperaba `.29`).">The build in the folder or on the Xbox store has a different version number than expected (e.g., seeing `.28` when expecting `.29`).</span></li>
+                    <li><strong class="lang" data-en="Action:" data-es="Acción:">Action:</strong> <span class="lang" data-en="This is often a publishing issue. First, confirm the version you are seeing. Then, post in the main `mlbqa-pd-link` channel and tag a producer (e.g., `@marcus.efting`, `@cody.sheppard`). They will coordinate with the release manager ('Jason') to publish the correct version." data-es="Esto suele ser un problema de publicación. Primero, confirma la versión que estás viendo. Luego, publica en el canal principal `mlbqa-pd-link` y etiqueta a un productor (ej. `@marcus.efting`, `@cody.sheppard`). Ellos coordinarán con el gerente de lanzamientos ('Jason') para publicar la versión correcta.">This is often a publishing issue. First, confirm the version you are seeing. Then, post in the main `mlbqa-pd-link` channel and tag a producer (e.g., `@marcus.efting`, `@cody.sheppard`). They will coordinate with the release manager ('Jason') to publish the correct version.</span></li>
+                </ul>
+
+                <h3><span class="lang" data-en="Scenario 3: Reverting to a Previous Build" data-es="Escenario 3: Revertir a una Compilación Anterior">Scenario 3: Reverting to a Previous Build</span></h3>
+                <ul>
+                    <li><strong class="lang" data-en="Problem:" data-es="Problema:">Problem:</strong> <span class="lang" data-en="A new build is too unstable to test effectively, and the decision is made to revert." data-es="Una nueva compilación es demasiado inestable para probarla eficazmente, y se toma la decisión de revertir.">A new build is too unstable to test effectively, and the decision is made to revert.</span></li>
+                    <li><strong class="lang" data-en="Action:" data-es="Acción:">Action:</strong> <span class="lang" data-en="This is a high-priority request. Post in the `mlb-builds` channel with a clear request. Tag the Build Manager and specify the exact build you need restored to both the network share and AoC." data-es="Esta es una solicitud de alta prioridad. Publica en el canal `mlb-builds` con una solicitud clara. Etiqueta al Gestor de Compilaciones y especifica la compilación exacta que necesitas que se restaure tanto en la carpeta de red como en AoC.">This is a high-priority request. Post in the `mlb-builds` channel with a clear request. Tag the Build Manager and specify the exact build you need restored to both the network share and AoC.</span></li>
+                    <li><strong class="lang" data-en="Example Request:" data-es="Ejemplo de Solicitud:">Example Request:</strong> <span class="lang" data-en="`Hey @cristian.pena, Could we get the builds from Thursday back onto current builds folders, we're reverting back to those. AoC too please.`" data-es="`Hola @cristian.pena, ¿podríamos tener de vuelta las compilaciones del jueves en las carpetas de compilaciones actuales? Estamos revirtiendo a esas. En AoC también, por favor.`">`Hey @cristian.pena, Could we get the builds from Thursday back onto current builds folders, we're reverting back to those. AoC too please.`</span></li>
+                </ul>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentLang = 'en';
+            const staticLangElements = document.querySelectorAll('.lang');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const btnEn = document.getElementById('btn-en');
+            const btnEs = document.getElementById('btn-es');
+
+            const setLanguage = (lang) => {
+                currentLang = lang;
+                
+                staticLangElements.forEach(el => {
+                    if (el.dataset[lang]) {
+                        el.innerHTML = el.dataset[lang];
+                    }
+                });
+
+                if (lang === 'en') {
+                    btnEn.classList.add('active');
+                    btnEs.classList.remove('active');
+                } else {
+                    btnEs.classList.add('active');
+                    btnEn.classList.remove('active');
+                }
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+
+            btnEn.addEventListener('click', () => setLanguage('en'));
+            btnEs.addEventListener('click', () => setLanguage('es'));
+
+            // Initial population
+            setLanguage(currentLang);
+        });
+    </script>
+</body>
+</html>

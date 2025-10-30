@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRAS Lead's Guide to Project Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ps-blue-dark: #003087;
+            --ps-blue-light: #0070D1;
+            --bg-color: #F0F2F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #172B4D;
+            --text-secondary: #5E6C84;
+            --border-color: #DFE1E6;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header-content { text-align: left; }
+        h1 { font-size: 2.2em; font-weight: 700; color: var(--text-primary); margin: 0 0 10px 0; }
+        header p { font-size: 1.1em; color: var(--text-secondary); margin: 0; }
+        .lang-switcher { display: flex; flex-shrink: 0; }
+        .lang-btn { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; cursor: pointer; font-size: 0.9em; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; }
+        .lang-btn:first-child { border-radius: 6px 0 0 6px; border-right: none; }
+        .lang-btn:last-child { border-radius: 0 6px 6px 0; }
+        .lang-btn.active { background-image: linear-gradient(to right, var(--ps-blue-light), var(--ps-blue-dark)); color: white; border-color: var(--ps-blue-dark); }
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .card-header .icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 8px; background-color: #DEEBFF; }
+        .card-header .icon svg { stroke: var(--ps-blue-dark); }
+        h2 { font-size: 1.6em; font-weight: 600; color: var(--text-primary); margin: 0; }
+        ul { padding-left: 25px; }
+        li { margin-bottom: 12px; padding-left: 5px; color: var(--text-secondary); }
+        li strong { color: var(--text-primary); font-weight: 500; }
+        .case-study { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-top: 20px; background-color: #FAFBFC; }
+        .case-study h4 { margin: 0 0 10px 0; font-size: 1.1em; color: var(--ps-blue-dark); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1 class="lang" data-en="CRAS Lead's Guide to Project Management" data-es="Guía del Líder de CRAS para la Gestión de Proyectos">CRAS Lead's Guide to Project Management</h1>
+                <p class="lang" data-en="A playbook for navigating the unique challenges of the Create-A-Stadium feature." data-es="Un manual para navegar los desafíos únicos de la función Crear un Estadio.">A playbook for navigating the unique challenges of the Create-A-Stadium feature.</p>
+            </div>
+            <div class="lang-switcher">
+                <button id="btn-en" class="lang-btn active">English</button>
+                <button id="btn-es" class="lang-btn">Español</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                    <h2 class="lang" data-en="Managing Scope & 'Do Not Bug' Lists" data-es="Gestión del Alcance y Listas de 'No Reportar'">Managing Scope & 'Do Not Bug' Lists</h2>
+                </div>
+                <p class="lang" data-en="CRAS is a complex mode with many interconnected systems. It's crucial to maintain a clear 'Do Not Bug' list to focus the team's efforts on what is currently testable and avoid wasted time on known, work-in-progress features." data-es="CRAS es un modo complejo con muchos sistemas interconectados. Es crucial mantener una lista clara de 'No Reportar' para enfocar los esfuerzos del equipo en lo que es actualmente comprobable y evitar perder tiempo en características conocidas que están en desarrollo.">CRAS is a complex mode with many interconnected systems. It's crucial to maintain a clear 'Do Not Bug' list to focus the team's efforts on what is currently testable and avoid wasted time on known, work-in-progress features.</p>
+                <ul>
+                    <li><strong class="lang" data-en="Temporary & Placeholder Props:" data-es="Props Temporales y de Relleno:">Temporary & Placeholder Props:</strong> <span class="lang" data-en="Regularly communicate with production about props that are temporary. Instruct the team to disregard props with filenames starting with 'ax' (Amateur Experience) or 'MS2' (Mini Seasons), as these are often slated for removal from the main CRAS editor." data-es="Comunícate regularmente con producción sobre los props que son temporales. Indica al equipo que ignore los props con nombres de archivo que comiencen con 'ax' (Experiencia Amateur) o 'MS2' (Mini Temporadas), ya que a menudo se planea eliminarlos del editor principal de CRAS.">Regularly communicate with production about props that are temporary. Instruct the team to disregard props with filenames starting with 'ax' (Amateur Experience) or 'MS2' (Mini Seasons), as these are often slated for removal from the main CRAS editor.</span></li>
+                    <li><strong class="lang" data-en="Work-in-Progress UI:" data-es="UI en Desarrollo:">Work-in-Progress UI:</strong> <span class="lang" data-en="Clearly define which UI elements are not ready for testing. Early in the cycle, the Stadiumprops UI, Inventory UI, and the Tutorial were all marked as not buggable." data-es="Define claramente qué elementos de la interfaz de usuario no están listos para ser probados. Al principio del ciclo, la UI de Stadiumprops, la UI de Inventario y el Tutorial se marcaron como no reportables.">Clearly define which UI elements are not ready for testing. Early in the cycle, the Stadiumprops UI, Inventory UI, and the Tutorial were all marked as not buggable.</span></li>
+                    <li><strong class="lang" data-en="Server-Side Fixes:" data-es="Correcciones del Lado del Servidor:">Server-Side Fixes:</strong> <span class="lang" data-en="Be aware that some issues, like restricting CRAS stadiums in competitive H2H modes, will be handled by server-side changes. This means the client build may not reflect the final behavior, so coordinate with the online team before extensive testing." data-es="Ten en cuenta que algunos problemas, como la restricción de estadios de CRAS en modos H2H competitivos, se manejarán con cambios del lado del servidor. Esto significa que la compilación del cliente puede no reflejar el comportamiento final, así que coordina con el equipo online antes de realizar pruebas exhaustivas.">Be aware that some issues, like restricting CRAS stadiums in competitive H2H modes, will be handled by server-side changes. This means the client build may not reflect the final behavior, so coordinate with the online team before extensive testing.</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+                    <h2 class="lang" data-en="Managing Vault & Year-to-Year Content" data-es="Gestión de la Bóveda y Contenido Anual">Managing Vault & Year-to-Year Content</h2>
+                </div>
+                <p class="lang" data-en="The CRAS Vault is a persistent feature, leading to complex year-to-year (Y2Y) bugs and community-driven exploits. This requires a dedicated testing strategy." data-es="La Bóveda de CRAS es una característica persistente, lo que conduce a complejos bugs de año a año (Y2Y) y exploits impulsados por la comunidad. Esto requiere una estrategia de prueba dedicada.">The CRAS Vault is a persistent feature, leading to complex year-to-year (Y2Y) bugs and community-driven exploits. This requires a dedicated testing strategy.</p>
+                <ul>
+                    <li><strong class="lang" data-en="Prioritize Vault Testing:" data-es="Prioriza las Pruebas de la Bóveda:">Prioritize Vault Testing:</strong> <span class="lang" data-en="Regularly schedule heavy vault testing, especially after fixes are checked in for issues like <a href='https://jira.sds.ship.scea.com/jira/browse/CB-9856' target='_blank' class='bug-link'>CB-9856</a>. This should include uploading from previous titles (MLB24) and downloading into the current one (MLB25)." data-es="Programa regularmente pruebas intensivas de la bóveda, especialmente después de que se registren correcciones para problemas como <a href='https://jira.sds.ship.scea.com/jira/browse/CB-9856' target='_blank' class='bug-link'>CB-9856</a>. Esto debe incluir la carga desde títulos anteriores (MLB24) y la descarga en el actual (MLB25).">Regularly schedule heavy vault testing, especially after fixes are checked in for issues like <a href='https://jira.sds.ship.scea.com/jira/browse/CB-9856' target='_blank' class='bug-link'>CB-9856</a>. This should include uploading from previous titles (MLB24) and downloading into the current one (MLB25).</span></li>
+                    <li><strong class="lang" data-en="Monitor Community Exploits:" data-es="Monitorea los Exploits de la Comunidad:">Monitor Community Exploits:</strong> <span class="lang" data-en="Keep an eye on community forums (like Reddit) for exploits. The issue where users could break foul territory parameters (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-11579' target='_blank' class='bug-link'>CB-11579</a>) was found this way. Encourage creative testing, like using a second controller to simulate stick drift, to reproduce these complex bugs." data-es="Vigila los foros de la comunidad (como Reddit) en busca de exploits. El problema donde los usuarios podían romper los parámetros del territorio de foul (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-11579' target='_blank' class='bug-link'>CB-11579</a>) se encontró de esta manera. Fomenta las pruebas creativas, como usar un segundo control para simular el drift del stick, para reproducir estos bugs complejos.">Keep an eye on community forums (like Reddit) for exploits. The issue where users could break foul territory parameters (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-11579' target='_blank' class='bug-link'>CB-11579</a>) was found this way. Encourage creative testing, like using a second controller to simulate stick drift, to reproduce these complex bugs.</span></li>
+                    <li><strong class="lang" data-en="Verify Competitive Safe Flags:" data-es="Verifica las Banderas de 'Competitivo Seguro':">Verify Competitive Safe Flags:</strong> <span class="lang" data-en="The logic for what makes a stadium 'competitive safe' is a recurring source of bugs. Testers found that re-uploading a non-safe stadium could bypass the check. This area requires constant regression testing." data-es="La lógica de lo que hace a un estadio 'competitivo seguro' es una fuente recurrente de bugs. Los testers descubrieron que volver a subir un estadio no seguro podía eludir la verificación. Esta área requiere pruebas de regresión constantes.">The logic for what makes a stadium 'competitive safe' is a recurring source of bugs. Testers found that re-uploading a non-safe stadium could bypass the check. This area requires constant regression testing.</span></li>
+                </ul>
+                <div class="case-study">
+                    <h4 class="lang" data-en="Case Study: The Y2Y Vault Crisis" data-es="Caso de Estudio: La Crisis de la Bóveda Y2Y">Case Study: The Y2Y Vault Crisis</h4>
+                    <p class="lang" data-en="A major issue arose where stadiums uploaded from MLB24 would not load correctly in MLB25 (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-9856' target='_blank' class='bug-link'>CB-9856</a>). The lead's response was to create a specific task force: QA was instructed to upload stadiums from '24, label them clearly, and then attempt to download and use them in '25 on the next patch. This structured approach allowed for a clear validation of the fix." data-es="Surgió un problema importante donde los estadios subidos desde MLB24 no se cargaban correctamente en MLB25 (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-9856' target='_blank' class='bug-link'>CB-9856</a>). La respuesta del líder fue crear un grupo de trabajo específico: se instruyó a QA para que subiera estadios del '24, los etiquetara claramente y luego intentara descargarlos y usarlos en el '25 en el siguiente parche. Este enfoque estructurado permitió una validación clara de la solución.">A major issue arose where stadiums uploaded from MLB24 would not load correctly in MLB25 (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-9856' target='_blank' class='bug-link'>CB-9856</a>). The lead's response was to create a specific task force: QA was instructed to upload stadiums from '24, label them clearly, and then attempt to download and use them in '25 on the next patch. This structured approach allowed for a clear validation of the fix.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langElements = document.querySelectorAll('.lang');
+            const btnEn = document.getElementById('btn-en');
+            const btnEs = document.getElementById('btn-es');
+
+            const setLanguage = (lang) => {
+                langElements.forEach(el => {
+                    if (el.dataset[lang]) {
+                        el.innerHTML = el.dataset[lang];
+                    }
+                });
+                if (lang === 'en') {
+                    btnEn.classList.add('active');
+                    btnEs.classList.remove('active');
+                } else {
+                    btnEs.classList.add('active');
+                    btnEn.classList.remove('active');
+                }
+            };
+
+            btnEn.addEventListener('click', () => setLanguage('en'));
+            btnEs.addEventListener('click', () => setLanguage('es'));
+        });
+    </script>
+</body>
+</html>

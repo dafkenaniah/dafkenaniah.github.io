@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB Budget Forecast vs Actuals Comparison Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .comparison-card {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .accuracy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .accuracy-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .accuracy-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .accuracy-excellent {
+            color: #27ae60;
+        }
+
+        .accuracy-good {
+            color: #f39c12;
+        }
+
+        .accuracy-poor {
+            color: #e74c3c;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .data-table th {
+            background: #34495e;
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .currency {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .variance-positive {
+            color: #27ae60;
+        }
+
+        .variance-negative {
+            color: #e74c3c;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight {
+            background: #d1ecf1;
+            border: 1px solid #b8daff;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .forecast-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dotted #3498db;
+            color: #2980b9;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 350px;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 12px;
+            position: absolute;
+            z-index: 999;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -175px;
+            opacity: 0;
+            transition: opacity 0.5s, visibility 0.5s;
+            font-size: 13px;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 2px solid #3498db;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: #3498db transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #ecf0f1;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Forecast vs Actuals Comparison Tool</h1>
+            <div class="subtitle">MLB Budget Forecast Accuracy Analysis & Validation</div>
+        </div>
+
+        <div class="content">
+            <div class="warning">
+                <h3>🔄 <span class="tooltip">System Status<span class="tooltiptext">This comparison tool requires at least two months of actual data to begin validation. Currently only September 2025 baseline data is available.</span></span></h3>
+                <p><strong>Current Status:</strong> Awaiting additional monthly data for forecast comparison</p>
+                <p><strong>Available Data:</strong> September 2025 baseline (MLB 25 & MLB 26 actuals)</p>
+                <p><strong>Next Available:</strong> October 2025 comparison (pending Excel data upload)</p>
+            </div>
+
+            <!-- Forecast Accuracy Overview -->
+            <div class="comparison-card">
+                <h2><span class="tooltip">📊 Forecast Accuracy Overview<span class="tooltiptext">Track how well MLB 26 forecasts predict actual spending to improve future projection accuracy and strategic planning decisions.</span></span></h2>
+                
+                <div class="accuracy-grid">
+                    <div class="accuracy-card">
+                        <div class="accuracy-value accuracy-excellent"><span class="tooltip">97.2%<span class="tooltiptext">MLB 25 PS5 achieved 97.2% forecast accuracy in September baseline, demonstrating excellent project management and serving as benchmark for MLB 26.</span></span></div>
+                        <div class="accuracy-label">MLB 25 PS5 Baseline</div>
+                        <span class="forecast-status status-available">✅ Baseline Set</span>
+                    </div>
+                    
+                    <div class="accuracy-card">
+                        <div class="accuracy-value accuracy-poor"><span class="tooltip">52.1%<span class="tooltiptext">MLB 25 Mobile showed 52.1% accuracy due to scope changes, providing lessons for mobile platform forecasting methodology.</span></span></div>
+                        <div class="accuracy-label">MLB 25 Mobile Baseline</div>
+                        <span class="forecast-status status-available">✅ Baseline Set</span>
+                    </div>
+                    
+                    <div class="accuracy-card">
+                        <div class="accuracy-value" style="color: #bdc3c7;"><span class="tooltip">TBD<span class="tooltiptext">MLB 26 forecast accuracy will be measured starting October 2025 when first actual spending data becomes available for comparison.</span></span></div>
+                        <div class="accuracy-label">MLB 26 Forecast</div>
+                        <span class="forecast-status status-pending">⏳ Pending October Data</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Comparison Framework -->
+            <div class="comparison-card">
+                <h2><span class="tooltip">📅 Monthly Forecast vs Actuals Framework<span class="tooltiptext">Systematic comparison of forecasted spending against actual monthly results to validate prediction accuracy and refine forecasting methodology.</span></span></h2>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><span class="tooltip">Month<span class="tooltiptext">Target month for forecast vs actual comparison analysis</span></span></th>
+                            <th><span class="tooltip">MLB 26 Forecast<span class="tooltiptext">Predicted monthly spending from MLB 26 forecast analysis based on MLB 25 patterns</span></span></th>
+                            <th><span class="tooltip">Actual Spending<span class="tooltiptext">Real monthly spending from Excel budget files when data becomes available</span></span></th>
+                            <th><span class="tooltip">Accuracy %<span class="tooltiptext">Percentage accuracy calculated as (Actual / Forecast) × 100 to measure prediction quality</span></span></th>
+                            <th><span class="tooltip">Variance<span class="tooltiptext">Dollar difference between forecast and actual spending (positive = over forecast, negative = under forecast)</span></span></th>
+                            <th><span class="tooltip">Status<span class="tooltiptext">Data availability status for comparison analysis</span></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>October 2025</strong></td>
+                            <td class="currency"><span class="tooltip">$100K<span class="tooltiptext">MLB 26 forecast predicted $100K for October 2025 based on early development ramp pattern from MLB 26 forecast analysis</span></span></td>
+                            <td class="currency" style="color: #bdc3c7;"><span class="tooltip">Pending<span class="tooltiptext">Awaiting Excel data upload to Monthly_Budget_Reports/2025-10-October/Budget Data/ folder</span></span></td>
+                            <td class="currency" style="color: #bdc3c7;">TBD</td>
+                            <td class="currency" style="color: #bdc3c7;">TBD</td>
+                            <td><span class="forecast-status status-pending">Awaiting Data</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>November 2025</strong></td>
+                            <td class="currency"><span class="tooltip">$125K<span class="tooltiptext">MLB 26 forecast predicted $125K for November 2025 during early development phase scaling</span></span></td>
+                            <td class="currency" style="color: #bdc3c7;">Pending</td>
+                            <td class="currency" style="color: #bdc3c7;">TBD</td>
+                            <td class="currency" style="color: #bdc3c7;">TBD</td>
+                            <td><span class="forecast-status status-pending">Awaiting Data</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>December 2025</strong></td>
+                            <td class="currency"><span class="tooltip">$175K<span class="tooltiptext">MLB 26 forecast predicted $175K for December 2025 during core development acceleration phase</span></span></td>
+                            <td class="currency" style="color: #bdc3c7;">Pending</td>
+                            <td class="currency" style="color: #bdc3c7;">TBD</td>
+                            <td class="currency" style="color: #bdc3c7;">TBD</td>
+                            <td><span class="forecast-status status-pending">Awaiting Data</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Accuracy Improvement Framework -->
+            <div class="comparison-card">
+                <h2><span class="tooltip">🎯 Forecast Accuracy Improvement Framework<span class="tooltiptext">Systematic approach to learning from forecast vs actual comparisons to improve future prediction accuracy and strategic planning capabilities.</span></span></h2>
+                
+                <div class="highlight">
+                    <h4><span class="tooltip">Learning from MLB 25 Patterns:<span class="tooltiptext">Key insights from September 2025 baseline data that inform MLB 26 forecasting accuracy expectations and methodology improvements.</span></span></h4>
+                    <ul>
+                        <li><strong><span class="tooltip">PS5 Platform Excellence:<span class="tooltiptext">97.2% PS5 forecast accuracy demonstrates mature console development processes that can be replicated for MLB 26 PS5 forecasting.</span></span></strong> 97.2% accuracy on PS5 shows mature project management can achieve excellent predictions</li>
+                        <li><strong><span class="tooltip">Mobile Platform Challenges:<span class="tooltiptext">52.1% mobile accuracy indicates mobile platforms require different forecasting approaches, possibly due to scope flexibility and market responsiveness needs.</span></span></strong> 52.1% mobile accuracy suggests mobile platforms need different forecasting approaches</li>
+                        <li><strong><span class="tooltip">Early Stage Variability:<span class="tooltiptext">MLB 26 early development stage (3% budget used) means initial forecasts may have higher variance until project reaches mature development phases.</span></span></strong> Early development stages (like current MLB 26) may show higher forecast variability</li>
+                    </ul>
+                </div>
+
+                <h4><span class="tooltip">Monthly Validation Process:<span class="tooltiptext">Step-by-step process for analyzing forecast accuracy each month and incorporating learnings into improved forecasting methodology.</span></span></h4>
+                <ol>
+                    <li><strong><span class="tooltip">Data Collection:<span class="tooltiptext">Upload monthly Excel budget files to appropriate month folder and extract actual spending data for comparison analysis.</span></span></strong> Upload monthly Excel files to Budget Data folders</li>
+                    <li><strong><span class="tooltip">Accuracy Calculation:<span class="tooltiptext">Calculate forecast accuracy percentage and variance amounts using standardized formulas for consistent comparison across months.</span></span></strong> Calculate accuracy percentages and variance amounts</li>
+                    <li><strong><span class="tooltip">Pattern Analysis:<span class="tooltiptext">Identify trends in forecast accuracy over time and correlation with project phases, seasonal factors, and resource allocation changes.</span></span></strong> Analyze patterns and trends in forecast performance</li>
+                    <li><strong><span class="tooltip">Methodology Updates:<span class="tooltiptext">Refine forecasting models based on accuracy learnings to improve future predictions and strategic planning reliability.</span></span></strong> Update forecasting models based on learnings</li>
+                    <li><strong><span class="tooltip">Strategic Integration:<span class="tooltiptext">Incorporate forecast accuracy insights into strategic decisions about resource allocation, timeline planning, and budget management.</span></span></strong> Apply insights to strategic planning and decisions</li>
+                </ol>
+            </div>
+
+            <!-- Future Enhancements -->
+            <div class="comparison-card">
+                <h2><span class="tooltip">🚀 Future Enhancement Roadmap<span class="tooltiptext">Planned improvements to the forecast comparison system as more data becomes available and patterns emerge from monthly analysis.</span></span></h2>
+                
+                <h4><span class="tooltip">Phase 1: Basic Validation (3+ months of data)<span class="tooltiptext">Initial forecast accuracy tracking and basic trend analysis once sufficient monthly data is available for meaningful comparison.</span></span></h4>
+                <ul>
+                    <li>Monthly accuracy tracking and trend visualization</li>
+                    <li>Variance analysis by project and platform</li>
+                    <li>Simple prediction model improvements</li>
+                </ul>
+
+                <h4><span class="tooltip">Phase 2: Advanced Analytics (6+ months of data)<span class="tooltiptext">Enhanced statistical analysis and predictive modeling capabilities once substantial historical data enables advanced forecasting improvements.</span></span></h4>
+                <ul>
+                    <li>Seasonal pattern recognition and adjustment</li>
+                    <li>Confidence interval calculations for forecasts</li>
+                    <li>Automated model tuning based on accuracy feedback</li>
+                </ul>
+
+                <h4><span class="tooltip">Phase 3: Predictive Intelligence (12+ months of data)<span class="tooltiptext">Machine learning and advanced predictive capabilities enabled by full year of actual vs forecast data for sophisticated forecasting models.</span></span></h4>
+                <ul>
+                    <li>Machine learning-enhanced prediction models</li>
+                    <li>Dynamic forecast adjustment recommendations</li>
+                    <li>Portfolio-level optimization suggestions</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>MLB Budget Forecast Comparison Tool | Generated October 27, 2025</p>
+            <p>Next Update: Available when October 2025 actual data is uploaded</p>
+        </div>
+    </div>
+</body>
+</html>

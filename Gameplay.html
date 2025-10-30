@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Dynasty & DQ Project Lifecycle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ps-blue-dark: #003087;
+            --ps-blue-light: #0070D1;
+            --bg-color: #F0F2F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #172B4D;
+            --text-secondary: #5E6C84;
+            --border-color: #DFE1E6;
+            --color-blocker: #DE350B;
+            --color-progress: #00875A;
+            --color-roadblock: #FFAB00;
+            --color-decision: #403294;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .header-title { display: flex; align-items: center; gap: 12px; }
+        h1 { font-size: 1.8em; font-weight: 600; color: var(--text-primary); margin: 0; }
+        .lang-switcher { display: flex; }
+        .lang-btn { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; cursor: pointer; font-size: 0.9em; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; }
+        .lang-btn:first-child { border-radius: 6px 0 0 6px; border-right: none; }
+        .lang-btn:last-child { border-radius: 0 6px 6px 0; }
+        .lang-btn.active { background-image: linear-gradient(to right, var(--ps-blue-light), var(--ps-blue-dark)); color: white; border-color: var(--ps-blue-dark); }
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
+        .tabs { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn { background: none; border: none; padding: 15px 20px; cursor: pointer; font-size: 1em; font-weight: 500; color: var(--text-secondary); position: relative; }
+        .tab-btn.active { color: var(--ps-blue-dark); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background-color: var(--ps-blue-dark); border-radius: 3px 3px 0 0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 4px; background-color: #EAEBF0; border-radius: 2px; }
+        .timeline-item { position: relative; margin-bottom: 30px; padding-left: 60px; }
+        .timeline-icon { position: absolute; left: 0; top: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: var(--card-bg); border: 4px solid #EAEBF0; }
+        .timeline-item.blocker .timeline-icon { border-color: var(--color-blocker); }
+        .timeline-item.progress .timeline-icon { border-color: var(--color-progress); }
+        .timeline-item.roadblock .timeline-icon { border-color: var(--color-roadblock); }
+        .timeline-item.decision .timeline-icon { border-color: var(--color-decision); }
+        .timeline-content { background-color: #F7F8FA; border-radius: 8px; padding: 20px; }
+        .timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;}
+        .timeline-title { font-weight: 600; font-size: 1.1em; }
+        .timeline-date { font-size: 0.9em; color: var(--text-secondary); flex-shrink: 0; }
+        .timeline-body { color: var(--text-secondary); }
+        .bug-link { color: var(--ps-blue-dark); font-weight: 600; text-decoration: none; position: relative; cursor: pointer; }
+        .bug-link:hover { text-decoration: underline; }
+        .tooltip { visibility: hidden; width: 300px; background-color: #253858; color: #fff; text-align: left; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -150px; opacity: 0; transition: opacity 0.3s; font-size: 0.9em; line-height: 1.4; }
+        .tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #253858 transparent transparent transparent; }
+        .bug-link:hover .tooltip { visibility: visible; opacity: 1; }
+        .legend { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 15px; height: 15px; border-radius: 50%; }
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .insight-card { background-color: #F7F8FA; padding: 20px; border-radius: 8px; }
+        .insight-card h3 { font-size: 1.2em; margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px; }
+        .insight-card .lesson { font-style: italic; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-title">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0070D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17L12 22L22 17" stroke="#0070D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="#0070D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <h1 class="lang" data-en="Diamond Dynasty & DQ Project Lifecycle" data-es="Ciclo de Vida del Proyecto Diamond Dynasty y DQ">Diamond Dynasty & DQ Project Lifecycle</h1>
+            </div>
+            <div class="lang-switcher">
+                <button id="btn-en" class="lang-btn active">English</button>
+                <button id="btn-es" class="lang-btn">Español</button>
+            </div>
+        </header>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active lang" data-tab="timeline" data-en="Timeline" data-es="Cronología">Timeline</button>
+                <button class="tab-btn lang" data-tab="insights" data-en="Key Insights" data-es="Perspectivas Clave">Key Insights</button>
+            </div>
+
+            <div id="timeline" class="tab-content active">
+                <!-- Timeline content will be populated by script -->
+            </div>
+
+            <div id="insights" class="tab-content">
+                <!-- Insights content will be populated by script -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bugData = {
+            "CB-5280": { title: "[CRASH] DD: Crash occurred when following these steps." },
+            "CB-5492": { title: "[CRASH] DD: Title crashes when entering the first tutorial moment" },
+            "CB-6136": { title: "[CRASH] Weekend Classic: Crash occurs when not skipping the intro" },
+            "CB-6689": { title: "[TRC][R5046] User is unable to view Blocked user Online ID during 'Home Run Derby' game mode." },
+            "CB-7898": { title: "[ASSERT] DD H2H: The title asserts when loading into gameplay with NSW or XB2 users present" },
+            "CB-8312": { title: "[SOFTLOCK] DD: Title softlocks when selecting the Welcome to Diamond Dynasty screen" },
+            "CB-9336": { title: "[SOFTLOCK] DD Co-Op: Softlock occurs to teammates when one non-captain advances to squad creation with My Profile open" },
+            "CB-9375": { title: "Conquest: Unhandled Server Exception occurs after completing the Arizona Diamondback stronghold in the U.S.A. - WEST map" },
+            "CB-9390": { title: "[SOFTLOCK] Diamond Quest: Softlock occurs after closing a challenge failed prompt when challenging the sweeper after exiting a multiplayer game" },
+            "CB-9530": { title: "Diamond Quest: PlayStation button prompts are displayed on all consoles during the Diamond Quest 101 tutorial" },
+            "CB-10950": { title: "Diamond Quest: The same player is showing multiple times in the lineup when challenging the zone sweeper in the egg hunt map" },
+            "CB-11279": { title: "[CRASH] Diamond Quest: Title crashes after entering a challenge in the New Threads map" }
+        };
+
+        const timelineData = [
+            { type: 'blocker', date: {en: 'Jan 15, 2025', es: 'Ene 15, 2025'}, title: {en: 'DD Modes Inaccessible', es: 'Modos de DD Inaccesibles'}, description: {en: 'Early testing reveals a server-side issue preventing entry into any Diamond Dynasty modes on the QA1 server.', es: 'Las pruebas iniciales revelan un problema del lado del servidor que impide la entrada a cualquier modo de Diamond Dynasty en el servidor QA1.'} },
+            { type: 'progress', date: {en: 'Jan 16, 2025', es: 'Ene 16, 2025'}, title: {en: 'Tutorial Crash Repro\'d', es: 'Crash del Tutorial Reproducido'}, description: {en: 'QA successfully reproduces <a href="https://jira.sds.ship.scea.com/jira/browse/CB-5280" target="_blank" class="bug-link" data-bug-id="CB-5280">CB-5280</a>, a crash in the first DD tutorial moment, and provides a critical recap on an AUTO build.', es: 'QA reproduce con éxito el bug <a href="https://jira.sds.ship.scea.com/jira/browse/CB-5280" target="_blank" class="bug-link" data-bug-id="CB-5280">CB-5280</a>, un crash en el primer momento del tutorial de DD, y proporciona un recap crucial en una compilación AUTO.'} },
+            { type: 'decision', date: {en: 'Jan 17, 2025', es: 'Ene 17, 2025'}, title: {en: 'Content Bug Hold', es: 'Pausa en Bugs de Contenido'}, description: {en: 'Production advises QA to hold off on bugging content-related issues in Moments (e.g., wrong player locks) until the build on the 22nd, as current content is placeholder.', es: 'Producción aconseja a QA que no reporte bugs relacionados con el contenido en Moments (ej. jugadores incorrectos) hasta la compilación del día 22, ya que el contenido actual es provisional.'} },
+            { type: 'progress', date: {en: 'Jan 22, 2025', es: 'Ene 22, 2025'}, title: {en: 'Diamond Quest Playable', es: 'Diamond Quest Jugable'}, description: {en: 'The new Diamond Quest mode becomes playable for the first time. Devs confirm major blockers are fixed, but warn of a crash when viewing Parallel XP post-game.', es: 'El nuevo modo Diamond Quest se vuelve jugable por primera vez. Los desarrolladores confirman que los bloqueos principales están corregidos, pero advierten sobre un crash al ver el XP Paralelo después del juego.'} },
+            { type: 'roadblock', date: {en: 'Jan 23, 2025', es: 'Ene 23, 2025'}, title: {en: 'Server Exceptions on Exit', es: 'Excepciones del Servidor al Salir'}, description: {en: 'A new server issue causes unhandled exceptions when exiting any DD mode. While not a blocker for gameplay, it disrupts the testing flow.', es: 'Un nuevo problema del servidor causa excepciones no controladas al salir de cualquier modo de DD. Aunque no bloquea el juego, interrumpe el flujo de pruebas.'} },
+            { type: 'blocker', date: {en: 'Jan 24, 2025', es: 'Ene 24, 2025'}, title: {en: 'Server Wipe Blocks DD', es: 'Wipe de Servidor Bloquea DD'}, description: {en: 'A server wipe on QA1 leads to an unhandled server exception, completely blocking access to the Diamond Dynasty main menu.', es: 'Un wipe del servidor en QA1 provoca una excepción no controlada del servidor, bloqueando por completo el acceso al menú principal de Diamond Dynasty.'} },
+            { type: 'progress', date: {en: 'Feb 14, 2025', es: 'Feb 14, 2025'}, title: {en: 'New Content Integration', es: 'Integración de Nuevo Contenido'}, description: {en: 'A major content update is pushed, including new programs and cards. Production provides a list of known issues (placeholder art, missing rewards) to prevent unnecessary bug reports.', es: 'Se implementa una actualización de contenido importante, que incluye nuevos programas y cartas. Producción proporciona una lista de problemas conocidos (arte provisional, recompensas faltantes) para evitar reportes de bugs innecesarios.'} },
+            { type: 'progress', date: {en: 'Feb 18, 2025', es: 'Feb 18, 2025'}, title: {en: 'DQ Regression Sweep Complete', es: 'Barrido de Regresión de DQ Completo'}, description: {en: 'QA completes a large regression task for Diamond Quest, successfully closing out 20 bugs and verifying the stability of the mode.', es: 'QA completa una gran tarea de regresión para Diamond Quest, cerrando con éxito 20 bugs y verificando la estabilidad del modo.'} },
+            { type: 'roadblock', date: {en: 'Feb 20, 2025', es: 'Feb 20, 2025'}, title: {en: 'Server Wipe Fixes H2H Assert', es: 'Wipe de Servidor Corrige Assert de H2H'}, description: {en: 'A server wipe on QA1 resolves the persistent H2H assert (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-7898" target="_blank" class="bug-link" data-bug-id="CB-7898">CB-7898</a>), indicating the issue was data-related rather than a client-side code bug.', es: 'Un wipe del servidor en QA1 resuelve el persistente assert de H2H (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-7898" target="_blank" class="bug-link" data-bug-id="CB-7898">CB-7898</a>), lo que indica que el problema estaba relacionado con los datos en lugar de un bug en el código del cliente.'} },
+            { type: 'blocker', date: {en: 'Mar 2, 2025', es: 'Mar 2, 2025'}, title: {en: 'Conquest Server Exception', es: 'Excepción del Servidor en Conquest'}, description: {en: 'A showstopper bug, <a href="https://jira.sds.ship.scea.com/jira/browse/CB-9375" target="_blank" class="bug-link" data-bug-id="CB-9375">CB-9375</a>, appears where completing a specific stronghold in Conquest results in an unhandled server exception, blocking progression.', es: 'Aparece un bug crítico, <a href="https://jira.sds.ship.scea.com/jira/browse/CB-9375" target="_blank" class="bug-link" data-bug-id="CB-9375">CB-9375</a>, donde completar un stronghold específico en Conquest resulta en una excepción no controlada del servidor, bloqueando la progresión.'} },
+            { type: 'progress', date: {en: 'Mar 3, 2025', es: 'Mar 3, 2025'}, title: {en: 'DQ Softlock Workaround', es: 'Solución Temporal para Softlock de DQ'}, description: {en: 'A softlock in DQ (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-9390" target="_blank" class="bug-link" data-bug-id="CB-9390">CB-9390</a>) is given a "band-aid" fix. Instead of softlocking, the game now kicks the user to the front end. This is a better user experience while a full fix is developed.', es: 'Se aplica una solución "curita" a un softlock en DQ (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-9390" target="_blank" class="bug-link" data-bug-id="CB-9390">CB-9390</a>). En lugar de un softlock, el juego ahora expulsa al usuario al menú principal. Es una mejor experiencia de usuario mientras se desarrolla una solución completa.'} },
+            { type: 'decision', date: {en: 'Mar 14, 2025', es: 'Mar 14, 2025'}, title: {en: 'DQ Tutorial Skippable', es: 'Tutorial de DQ Omitible'}, description: {en: 'A community complaint about the unskippable DQ tutorial video (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-9844" target="_blank" class="bug-link" data-bug-id="CB-9844">CB-9844</a>) is raised. Production confirms it only plays once, deciding to keep the behavior for now.', es: 'Se plantea una queja de la comunidad sobre el video tutorial no omitible de DQ (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-9844" target="_blank" class="bug-link" data-bug-id="CB-9844">CB-9844</a>). Producción confirma que solo se reproduce una vez, decidiendo mantener el comportamiento por ahora.'} },
+            { type: 'blocker', date: {en: 'Mar 16, 2025', es: 'Mar 16, 2025'}, title: {en: 'Joe Random Invasion', es: 'Invasión de Joe Random'}, description: {en: 'A server update causes all players in Diamond Dynasty to appear as "Joe Random", blocking all meaningful gameplay and testing in the mode.', es: 'Una actualización del servidor hace que todos los jugadores en Diamond Dynasty aparezcan como "Joe Random", bloqueando todo el juego y las pruebas significativas en el modo.'} },
+            { type: 'progress', date: {en: 'Mar 16, 2025', es: 'Mar 16, 2025'}, title: {en: 'Server Update Fixes Joe Random', es: 'Actualización del Servidor Corrige a Joe Random'}, description: {en: 'The server team quickly deploys another update that resolves the "Joe Random" issue, unblocking Diamond Dynasty.', es: 'El equipo del servidor despliega rápidamente otra actualización que resuelve el problema de "Joe Random", desbloqueando Diamond Dynasty.'} },
+            { type: 'roadblock', date: {en: 'Apr 22, 2025', es: 'Abr 22, 2025'}, title: {en: 'Duplicate Players in Co-op', es: 'Jugadores Duplicados en Co-op'}, description: {en: 'A bug is discovered allowing two versions of the same player (e.g., Elly De La Cruz) on the same Co-op team if they are from different card series.', es: 'Se descubre un bug que permite dos versiones del mismo jugador (ej. Elly De La Cruz) en el mismo equipo de Co-op si son de series de cartas diferentes.'} },
+            { type: 'progress', date: {en: 'May 5, 2025', es: 'May 5, 2025'}, title: {en: 'DQ Crash Sweeps', es: 'Barridos de Crash en DQ'}, description: {en: 'Following community reports of a crash, a task is created (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-11276" target="_blank" class="bug-link" data-bug-id="CB-11276">CB-11276</a>) for QA to sweep all live DQ maps. The fix is deployed and verified by QA within the same day.', es: 'Tras los informes de la comunidad sobre un crash, se crea una tarea (<a href="https://jira.sds.ship.scea.com/jira/browse/CB-11276" target="_blank" class="bug-link" data-bug-id="CB-11276">CB-11276</a>) para que QA realice un barrido de todos los mapas de DQ en vivo. La solución se despliega y verifica por QA en el mismo día.'} },
+        ];
+
+        const insightsData = [
+            { 
+                title: {en: 'Live Content Requires Live Solutions', es: 'El Contenido en Vivo Requiere Soluciones en Vivo'},
+                description: {en: "Multiple critical issues, like the 'Joe Random' bug and matchmaking failures, were resolved with server-side updates rather than client patches. This highlights the importance of a robust live-ops pipeline for a mode like Diamond Dynasty.", es: "Múltiples problemas críticos, como el bug de 'Joe Random' y las fallas de matchmaking, se resolvieron con actualizaciones del lado del servidor en lugar de parches de cliente. Esto resalta la importancia de un pipeline de operaciones en vivo robusto para un modo como Diamond Dynasty."},
+                lesson: {en: "Lesson Learned: Empower the server team with tools to quickly diagnose and deploy fixes. QA should always verify if a bug is client or server-side to avoid unnecessary patch cycles.", es: "Lección Aprendida: Empoderar al equipo del servidor con herramientas para diagnosticar y desplegar soluciones rápidamente. QA siempre debe verificar si un bug es del lado del cliente o del servidor para evitar ciclos de parches innecesarios."}
+            },
+            { 
+                title: {en: 'New Mode, New Problems', es: 'Nuevo Modo, Nuevos Problemas'},
+                description: {en: "The introduction of Diamond Quest brought a wave of unique bugs: incorrect reward logic, UI softlocks, exploitable mechanics (peanut farming), and crashes. The complexity of its board game-like systems created many unforeseen edge cases.", es: "La introducción de Diamond Quest trajo una ola de bugs únicos: lógica de recompensas incorrecta, softlocks de la interfaz, mecánicas explotables (farmeo de peanuts) y crashes. La complejidad de sus sistemas tipo juego de mesa creó muchos casos límite imprevistos."},
+                lesson: {en: "Lesson Learned: For brand-new modes, allocate extra time for exploratory testing focused on breaking core mechanics. Foster direct communication between QA and the mode's designers to quickly clarify intended behavior.", es: "Lección Aprendida: Para modos completamente nuevos, asignar tiempo extra para pruebas exploratorias enfocadas en romper las mecánicas principales. Fomentar la comunicación directa entre QA y los diseñadores del modo para aclarar rápidamente el comportamiento previsto."}
+            },
+            { 
+                title: {en: 'The Danger of Stale Data', es: 'El Peligro de los Datos Obsoletos'},
+                description: {en: "Several major issues, including the H2H assert (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-7898' target='_blank' class='bug-link'>CB-7898</a>) and the DD entry crash (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-5864' target='_blank' class='bug-link'>CB-5864</a>), were account-specific and often resolved by a server wipe. This indicates that corrupted or outdated user data can be a primary source of blockers.", es: "Varios problemas importantes, incluido el assert de H2H (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-7898' target='_blank' class='bug-link'>CB-7898</a>) y el crash al entrar a DD (<a href='https://jira.sds.ship.scea.com/jira/browse/CB-5864' target='_blank' class='bug-link'>CB-5864</a>), eran específicos de la cuenta y a menudo se resolvían con un wipe del servidor. Esto indica que los datos de usuario corruptos o desactualizados pueden ser una fuente principal de bloqueos."},
+                lesson: {en: "Lesson Learned: Implement a process for QA to easily request wipes of specific test accounts. When investigating account-specific bugs, the first step should always be to try a fresh account to isolate the issue.", es: "Lección Aprendida: Implementar un proceso para que QA pueda solicitar fácilmente wipes de cuentas de prueba específicas. Al investigar bugs específicos de una cuenta, el primer paso siempre debe ser probar con una cuenta nueva para aislar el problema."}
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentLang = 'en';
+            const staticLangElements = document.querySelectorAll('.lang');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const btnEn = document.getElementById('btn-en');
+            const btnEs = document.getElementById('btn-es');
+
+            const createTimeline = (data, lang) => {
+                const timeline = document.createElement('div');
+                timeline.className = 'timeline';
+                const iconSVG = {
+                    blocker: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 15.59L15.59 17L12 13.41L8.41 17L7 15.59L10.59 12L7 8.41L8.41 7L12 10.59L15.59 7L17 8.41L13.41 12L17 15.59Z" fill="#DE350B"/></svg>',
+                    progress: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="#00875A"/></svg>',
+                    roadblock: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#FFAB00"/></svg>',
+                    decision: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.59 12L12 8.41L8.41 12L12 15.59L15.59 12Z" fill="#403294"/></svg>'
+                };
+                data.forEach(item => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = `timeline-item ${item.type}`;
+                    timelineItem.innerHTML = `
+                        <div class="timeline-icon">${iconSVG[item.type]}</div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">${item.title[lang]}</div>
+                                <div class="timeline-date">${item.date[lang]}</div>
+                            </div>
+                            <div class="timeline-body">${item.description[lang]}</div>
+                        </div>
+                    `;
+                    timeline.appendChild(timelineItem);
+                });
+                return timeline;
+            };
+
+            const populateContent = (lang) => {
+                // Populate Timeline
+                const legendData = {
+                    en: { blocker: 'Blocker', progress: 'Progress', roadblock: 'Roadblock', decision: 'Key Decision' },
+                    es: { blocker: 'Bloqueo Crítico', progress: 'Progreso', roadblock: 'Obstáculo', decision: 'Decisión Clave' }
+                };
+                const legendHTML = `<div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-blocker);"></div><span>${legendData[lang].blocker}</span></div>
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-progress);"></div><span>${legendData[lang].progress}</span></div>
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-roadblock);"></div><span>${legendData[lang].roadblock}</span></div>
+                    <div class="legend-item"><div class="legend-color" style="background-color: var(--color-decision);"></div><span>${legendData[lang].decision}</span></div>
+                </div>`;
+                
+                const timelineContainer = document.getElementById('timeline');
+                timelineContainer.innerHTML = legendHTML;
+                timelineContainer.appendChild(createTimeline(timelineData, lang));
+
+                // Populate Insights
+                const insightsContainer = document.getElementById('insights');
+                const insightsGrid = document.createElement('div');
+                insightsGrid.className = 'insights-grid';
+                insightsData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'insight-card';
+                    card.innerHTML = `<h3>${item.title[lang]}</h3><p>${item.description[lang]}</p><p class="lesson">${item.lesson[lang]}</p>`;
+                    insightsGrid.appendChild(card);
+                });
+                insightsContainer.innerHTML = '';
+                insightsContainer.appendChild(insightsGrid);
+
+                // Add tooltips to dynamic content
+                document.querySelectorAll('.bug-link[data-bug-id]').forEach(link => {
+                    const bugId = link.dataset.bugId;
+                    if (bugData[bugId]) {
+                        const tooltip = document.createElement('span');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = bugData[bugId].title;
+                        link.appendChild(tooltip);
+                    }
+                });
+
+                // Translate static elements
+                staticLangElements.forEach(el => {
+                    if (el.dataset[lang]) el.innerHTML = el.dataset[lang];
+                });
+            };
+
+            const setLanguage = (lang) => {
+                currentLang = lang;
+                populateContent(lang);
+                if (lang === 'en') {
+                    btnEn.classList.add('active');
+                    btnEs.classList.remove('active');
+                } else {
+                    btnEs.classList.add('active');
+                    btnEn.classList.remove('active');
+                }
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+
+            btnEn.addEventListener('click', () => setLanguage('en'));
+            btnEs.addEventListener('click', () => setLanguage('es'));
+
+            // Initial population
+            populateContent(currentLang);
+        });
+    </script>
+</body>
+</html>
