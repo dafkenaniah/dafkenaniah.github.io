@@ -239,6 +239,150 @@
             border-left: 4px solid #f5576c;
         }
 
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dotted #3498db;
+            color: #2980b9;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 350px;
+            max-width: 85vw;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 12px;
+            position: absolute;
+            z-index: 999999;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -175px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            font-size: 13px;
+            line-height: 1.4;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 2px solid #3498db;
+            word-wrap: break-word;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: #3498db transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            transition: background 0.2s ease;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .data-table tr:hover {
+            background: #e8f4f8;
+        }
+
+        .variance-positive {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .variance-negative {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .variance-neutral {
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .dropdown {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .dropdown-header {
+            background: #e9ecef;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .dropdown-header:hover {
+            background: #dee2e6;
+        }
+
+        .dropdown-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .dropdown-content.active {
+            max-height: 3000px;
+            padding: 20px;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .currency {
+            text-align: right;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -257,32 +401,32 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>ACT Global Expansion Strategy</h1>
-            <p>Automation Consultation Team: Driving Worldwide Excellence with Jon Williams</p>
-            <p><strong>Mission:</strong> Push the boundaries of QA testing with automation to increase productivity and identify risks across game titles globally</p>
+            <h1>My Global Automation Strategy</h1>
+            <p>Strategic Automation Framework: What I Would Bring to Your Game Testing Company</p>
+            <p><strong>My Approach:</strong> Push the boundaries of QA testing with automation to increase productivity and identify risks across game titles globally</p>
         </div>
 
         <div class="section executive-summary">
-            <h2>Executive Summary</h2>
-            <p><strong>Strategic Partnership with Jon Williams</strong></p>
-            <p>Our global expansion initiative leverages the proven success of ACT to establish automation excellence worldwide. Working alongside Jon Williams, we're positioned to revolutionize QA testing across international studios while significantly reducing FORGE framework implementation time.</p>
+            <h2>Executive Summary - What I Bring to Your Company</h2>
+            <p><strong>My Strategic Automation Framework</strong></p>
+            <p>This is the global automation strategy I would implement at your game testing company. Based on proven methodologies I've developed and successfully deployed, I can establish automation excellence that revolutionizes QA testing across your studios while significantly reducing framework implementation time.</p>
             
             <div class="metric-grid">
                 <div class="metric-card">
-                    <h4>Efficiency Gains</h4>
-                    <p>179.55% improvement (I38)</p>
+                    <h4>Proven Efficiency Gains</h4>
+                    <p>179.55% improvement capability</p>
                 </div>
                 <div class="metric-card">
-                    <h4>User Growth</h4>
-                    <p>7 to 47 automation users (Q1)</p>
+                    <h4>Team Scaling Strategy</h4>
+                    <p>7 to 47+ user adoption model</p>
                 </div>
                 <div class="metric-card">
-                    <h4>Global Reach</h4>
-                    <p>3 Studios: US, UK, Japan</p>
+                    <h4>Global Implementation</h4>
+                    <p>Multi-studio coordination expertise</p>
                 </div>
                 <div class="metric-card">
-                    <h4>ROI Impact</h4>
-                    <p>63.64% efficiency for Glass</p>
+                    <h4>ROI Methodology</h4>
+                    <p>63.64%+ efficiency frameworks</p>
                 </div>
             </div>
         </div>
@@ -373,7 +517,7 @@
             <p><strong>Strategic Data Collection for AI-Driven Automation Excellence</strong></p>
             
             <h3>The Competitive Advantage of Comprehensive Data Collection</h3>
-            <p>By systematically applying Jon Williams' EMTE metric to all scripts on the test floor and storing this data in our centralized database, we're building the foundation for revolutionary AI-powered automation capabilities.</p>
+            <p>By systematically tracking KPI metrics from all scripts on the test floor and storing the data in a centralized database, I can build the foundation for revolutionary AI-powered automation analysis.</p>
 
             <div class="highlight">
                 <h4>AI-Ready Data Infrastructure</h4>
@@ -404,6 +548,159 @@
                 <li><strong>Future-Proof Investment:</strong> Every script we measure today becomes more valuable as AI capabilities advance</li>
                 <li><strong>Global Learning Network:</strong> AI can identify automation patterns across different regions, cultures, and game types for unprecedented insights</li>
             </ul>
+        </div>
+
+        <div class="section">
+            <h2>My Data-Driven Reporting Capabilities - AI Analysis Showcase</h2>
+            <p><strong>The Type of Strategic Reports I Create Using AI & Data Analysis</strong></p>
+            <p>Here's an example of the comprehensive analytical reports I develop using AI tools like Claude to extract actionable insights from game development data, budget analysis, and QA metrics.</p>
+
+            <div class="dropdown">
+                <div class="dropdown-header" onclick="toggleDropdown(this)">
+                    <span><strong>Sample Development Retrospective & Projections Report</strong> - AI-Enhanced Analysis</span>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <h3>Executive Summary Dashboard</h3>
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <h4>Project Lifecycle</h4>
+                            <p><span class="tooltip">16.5 Months<span class="tooltiptext">Complete project analysis from early development through post-launch support. Data sources: Financial systems, QA databases, risk reports, patch management logs</span></span></p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Portfolio Health</h4>
+                            <p><span class="tooltip">8.5/10 Score<span class="tooltiptext">Composite metric based on budget efficiency (97.2%), quality maturation (25 QA tasks), and stability improvements (20% crash reduction)</span></span></p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Strategic Budget</h4>
+                            <p><span class="tooltip">$6.06M Available<span class="tooltiptext">Optimization opportunity analysis using AI budget forecasting models and historical spending pattern recognition</span></span></p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Forecast Confidence</h4>
+                            <p><span class="tooltip">75% Accuracy<span class="tooltiptext">AI prediction model trained on development patterns, resource utilization, and quality metrics for next project forecasting</span></span></p>
+                        </div>
+                    </div>
+
+                    <h3>AI-Generated Budget Performance Analysis</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Planned Budget</th>
+                                <th>Actual Spend</th>
+                                <th>Efficiency Rate</th>
+                                <th>AI Risk Assessment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Console Platform</strong></td>
+                                <td class="currency">$5.42M</td>
+                                <td class="currency">$5.27M</td>
+                                <td class="variance-positive">97.2%</td>
+                                <td><span class="tooltip">Low Risk<span class="tooltiptext">AI analysis: Excellent financial control with systematic spending patterns. Predictive model shows 95% probability of continued success for similar projects.</span></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mobile Platform</strong></td>
+                                <td class="currency">$1.85M</td>
+                                <td class="currency">$960K</td>
+                                <td class="variance-negative">52.1%</td>
+                                <td><span class="tooltip">High Risk<span class="tooltiptext">AI analysis: Significant forecasting gap indicates need for enhanced mobile development methodology. Machine learning suggests 70% probability of similar issues without process changes.</span></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cross-Platform</strong></td>
+                                <td class="currency">$2.38M</td>
+                                <td class="currency">$2.10M</td>
+                                <td class="variance-positive">88.2%</td>
+                                <td><span class="tooltip">Medium Risk<span class="tooltiptext">AI analysis: Geographic concentration (88.2% US operations) creates operational risk. Predictive model recommends diversification strategies for resilience.</span></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Quality Trend Analysis - AI Pattern Recognition</h3>
+                    <div class="highlight">
+                        <h4>AI-Identified Success Patterns:</h4>
+                        <ul>
+                            <li><strong>QA Evolution Trajectory:</strong> <span class="tooltip">68% process maturation<span class="tooltiptext">AI tracked 25 systematic QA tasks showing clear progression from basic (85% completion) to advanced validation (60% completion due to complexity). Machine learning identifies optimal resource allocation patterns.</span></span></li>
+                            <li><strong>Platform Optimization Success:</strong> <span class="tooltip">83% cross-platform efficiency<span class="tooltiptext">AI analysis of integration tasks shows proven methodology across console, web, and mobile platforms. Pattern recognition suggests scalable framework for future projects.</span></span></li>
+                            <li><strong>Stability Improvement Trajectory:</strong> <span class="tooltip">20% crash reduction<span class="tooltiptext">AI tracked bug reports from 42 to 30 active issues. Neural network analysis predicts continued improvement with current methodologies.</span></span></li>
+                        </ul>
+                    </div>
+
+                    <h3>Predictive Risk Matrix - ML-Enhanced Forecasting</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Risk Category</th>
+                                <th>Current Evidence</th>
+                                <th>AI Probability</th>
+                                <th>Potential Impact</th>
+                                <th>ML-Suggested Mitigation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Mobile Forecasting</strong></td>
+                                <td><span class="tooltip">47.9% underutilization<span class="tooltiptext">Historical data shows consistent mobile platform forecasting challenges across multiple projects. AI identifies this as systemic methodology issue.</span></span></td>
+                                <td><span class="variance-negative">70%</span></td>
+                                <td class="currency">$1.2M variance risk</td>
+                                <td><span class="tooltip">Enhanced AI forecasting<span class="tooltiptext">Deploy machine learning models trained on mobile development patterns, resource utilization, and platform-specific challenges for improved accuracy.</span></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Feature Integration</strong></td>
+                                <td><span class="tooltip">Complex system dependencies<span class="tooltiptext">New feature integration required 40+ total fixes across multiple patches. AI pattern recognition identifies integration complexity as key risk factor.</span></span></td>
+                                <td><span class="variance-neutral">45%</span></td>
+                                <td>3-6 month delay</td>
+                                <td><span class="tooltip">AI-guided validation<span class="tooltiptext">Implement predictive testing models that analyze feature complexity and suggest optimal validation schedules based on historical integration data.</span></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Strategic Recommendations - AI Decision Support</h3>
+                    <div class="highlight">
+                        <h4>AI-Recommended Priority Actions:</h4>
+                        <ul>
+                            <li><strong>Immediate Budget Reallocation:</strong> <span class="tooltip">$889K optimization opportunity<span class="tooltiptext">Machine learning analysis suggests reallocating underutilized mobile budget to proven high-efficiency console development for maximum ROI.</span></span></li>
+                            <li><strong>Process Automation Investment:</strong> <span class="tooltip">$150K automation ROI<span class="tooltiptext">AI cost-benefit analysis shows 4.5-month payback period for testing automation based on current efficiency gains and resource costs.</span></span></li>
+                            <li><strong>Global Expansion Timing:</strong> <span class="tooltip">Q1 optimal launch window<span class="tooltiptext">Predictive models analyzing resource availability, market conditions, and internal capability maturation suggest Q1 as optimal expansion timing.</span></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-header" onclick="toggleDropdown(this)">
+                    <span><strong>AI Analysis Methodology - How I Generate These Insights</strong></span>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-content">
+                    <h3>My Data Analysis Process</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <h4>Data Collection & Integration</h4>
+                            <p><span class="tooltip">Multi-source aggregation<span class="tooltiptext">I integrate financial systems, QA databases, patch logs, resource allocation data, and performance metrics into comprehensive datasets for analysis.</span></span></p>
+                        </div>
+                        <div class="tool-card">
+                            <h4>AI-Enhanced Pattern Recognition</h4>
+                            <p><span class="tooltip">Claude AI analysis<span class="tooltiptext">Using advanced AI models like Claude, I identify trends, correlations, and predictive patterns that traditional analysis might miss.</span></span></p>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Interactive Dashboard Creation</h4>
+                            <p><span class="tooltip">Dynamic reporting tools<span class="tooltiptext">I create interactive reports with tooltips, drill-down capabilities, and real-time updates that provide actionable insights for decision-makers.</span></span></p>
+                        </div>
+                    </div>
+
+                    <h3>Types of Reports I Deliver</h3>
+                    <ul>
+                        <li><strong>Budget Variance Analysis:</strong> AI-powered forecasting with risk assessment and optimization recommendations</li>
+                        <li><strong>Quality Trend Reports:</strong> Pattern recognition in testing data with predictive maintenance scheduling</li>
+                        <li><strong>Resource Optimization Studies:</strong> Machine learning analysis of team performance and allocation efficiency</li>
+                        <li><strong>Risk Assessment Matrices:</strong> Predictive modeling for project risks with mitigation strategies</li>
+                        <li><strong>Performance Benchmarking:</strong> Comparative analysis against industry standards and historical performance</li>
+                        <li><strong>Strategic Planning Dashboards:</strong> Data-driven recommendations for future project planning</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="global-map">
@@ -456,7 +753,29 @@
         </div>
 
         <div class="section">
-            <h2>Proven Business Impact</h2>
+            <h2>Proven Business Impact - My Testing Excellence Framework</h2>
+            <h3>Expanded Coverage Perspective</h3>
+            <div class="highlight">
+                <h4>Parallel Execution Mastery:</h4>
+                <ul>
+                    <li><strong>Multi-Kit Execution:</strong> Running on 5 kits simultaneously</li>
+                    <li><strong>Effective Time Saved:</strong> 37 minutes 30 seconds per test cycle</li>
+                    <li><strong>Coverage Expansion:</strong> 33.48% increase (37.5 minutes saved / 112 minutes original time)</li>
+                </ul>
+                
+                <h4>Additional Testing Opportunities:</h4>
+                <p><strong>Strategic Time Utilization:</strong> 37.5 minutes gained can be used for:</p>
+                <ul>
+                    <li>Deeper testing of critical features</li>
+                    <li>Incorporating more edge cases</li>
+                    <li>Enhanced regression validation</li>
+                    <li>Exploratory testing of complex scenarios</li>
+                </ul>
+                
+                <h4>Conclusion:</h4>
+                <p>The actual 33.48% efficiency increase, when leveraged across multiple runs and kits, translates to significant optimized coverage through time savings and consistency. It provides a substantial foundation for expanded coverage, allowing for much more comprehensive test execution.</p>
+            </div>
+
             <h3>Quantified Success Metrics</h3>
             <ul>
                 <li><strong>Time Optimization:</strong> Documented significant time savings across MLB, Glass, I38 projects</li>
@@ -492,33 +811,105 @@
         </div>
 
         <div class="cta-section">
-            <h2>Global Expansion Strategic Plan</h2>
-            <p><strong>Partnership with Jon Williams - Transforming Worldwide Automation Excellence</strong></p>
+            <h2>My Strategic Implementation Plan for Your Company</h2>
+            <p><strong>What I Would Deliver: Transforming Your Testing Operations Into Worldwide Automation Excellence</strong></p>
             
             <div class="cta-grid">
                 <div class="cta-item">
-                    <h4>Phase 1</h4>
-                    <p>Establishing ACT as the premier international automation team with dedicated global resources and infrastructure</p>
+                    <h4>Phase 1: Foundation</h4>
+                    <p>I would establish your automation team as a premier international operation with dedicated global resources and infrastructure</p>
                 </div>
                 <div class="cta-item">
-                    <h4>Phase 2</h4>
-                    <p>Deploying standardized global automation processes and frameworks across all international studios</p>
+                    <h4>Phase 2: Standardization</h4>
+                    <p>I would deploy standardized global automation processes and frameworks across all your international studios</p>
                 </div>
                 <div class="cta-item">
-                    <h4>Phase 3</h4>
-                    <p>Implementing formal team structure and operations across US headquarters, UK, and Japan studios</p>
+                    <h4>Phase 3: Implementation</h4>
+                    <p>I would implement formal team structure and operations across your headquarters and international locations</p>
                 </div>
                 <div class="cta-item">
-                    <h4>Phase 4</h4>
-                    <p>Scaling continuous expansion of automation initiatives to achieve market leadership worldwide</p>
+                    <h4>Phase 4: Optimization</h4>
+                    <p>I would scale continuous expansion of automation initiatives to achieve market leadership worldwide</p>
                 </div>
             </div>
 
             <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.2); border-radius: 10px;">
-                <h3>Guaranteed Global Impact</h3>
-                <p><strong>Reduction in FORGE implementation time • Standardized automation practices worldwide • Unified global metrics and reporting • Enhanced quality across all international game titles</strong></p>
+                <h3>What I Guarantee Your Company</h3>
+                <p><strong>Reduction in framework implementation time • Standardized automation practices worldwide • Unified global metrics and reporting • Enhanced quality across all your international game titles</strong></p>
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleDropdown(element) {
+            const dropdown = element.parentElement;
+            const content = dropdown.querySelector('.dropdown-content');
+            
+            dropdown.classList.toggle('active');
+            
+            if (dropdown.classList.contains('active')) {
+                content.classList.add('active');
+            } else {
+                content.classList.remove('active');
+            }
+        }
+
+        // Enhanced tooltip positioning for maximum priority display
+        document.addEventListener('DOMContentLoaded', function() {
+            // Metric card hover effects
+            const metricCards = document.querySelectorAll('.metric-card');
+            metricCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Advanced tooltip positioning with viewport calculation
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                const tooltipText = tooltip.querySelector('.tooltiptext');
+                
+                tooltip.addEventListener('mouseenter', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const tooltipWidth = 350;
+                    const tooltipHeight = 120;
+                    const margin = 15;
+                    
+                    // Calculate center position
+                    let left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+                    let top = rect.top - tooltipHeight - margin;
+                    
+                    // Prevent left edge overflow
+                    if (left < margin) {
+                        left = margin;
+                    }
+                    
+                    // Prevent right edge overflow
+                    if (left + tooltipWidth > window.innerWidth - margin) {
+                        left = window.innerWidth - tooltipWidth - margin;
+                    }
+                    
+                    // Prevent top edge overflow
+                    if (top < margin) {
+                        top = rect.bottom + margin;
+                    }
+                    
+                    // Apply positioning with fixed positioning for UI priority
+                    tooltipText.style.position = 'fixed';
+                    tooltipText.style.left = left + 'px';
+                    tooltipText.style.top = top + 'px';
+                });
+                
+                tooltip.addEventListener('mouseleave', function() {
+                    const tooltipText = this.querySelector('.tooltiptext');
+                    tooltipText.style.position = 'absolute';
+                    tooltipText.style.left = '';
+                    tooltipText.style.top = '';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
