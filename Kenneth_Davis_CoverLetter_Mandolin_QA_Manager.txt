@@ -1,0 +1,52 @@
+Kenneth Davis
+QA Lead for Global AI and Automation Strategy
+KennethdavisQA@gmail.com | 225-810-2930 | San Diego, CA 92101
+LinkedIn: https://www.linkedin.com/in/kenneth-davis-977039246/
+Portfolio: https://github.com/dafkenaniah/money
+
+October 30, 2025
+
+Hiring Manager
+Mandolin
+San Francisco, CA
+
+Dear Hiring Manager,
+
+I am excited to apply for the QA Manager position at Mandolin. As QA Lead for Global AI and Automation Strategy at Sony Interactive Entertainment, I have established QA processes from the ground up, led manual and exploratory testing efforts, and built automation frameworks that scale with product growth. I am ready to bring that same strategic and hands-on approach to ensure Mandolin delivers high-quality products that delight users.
+
+What I will bring to Mandolin:
+
+• QA process design and implementation expertise having built comprehensive test strategies from first principles, establishing systematic frameworks for products at various maturity stages from early prototypes to live service games with millions of users
+
+• Advanced automation-first mindset with hands-on experience building test automation pipelines using Python, FORGE framework, Pathfinder integration, achieving 179.55% efficiency improvements and 63.64%+ ROI demonstration across multiple titles
+
+• Manual and exploratory testing leadership with proven ability to identify edge cases, usability issues, and product-breaking defects, including parallel execution mastery running 5 kits simultaneously and achieving 33.48% coverage expansion
+
+• Cross-functional collaboration excellence enabling effective partnership with engineering, product, design, and customer success teams, implementing automated Slack bridges for bug tracking and comprehensive Jira databases for seamless coordination
+
+• Metrics and reporting expertise having built AI-enhanced KPI dashboards, executive quality scorecards, and predictive risk analysis systems that provide leadership clear visibility into test coverage, defect trends, and release readiness
+
+Recent achievements at Sony Interactive Entertainment:
+
+• Led QA operations for Global AI and Automation Strategy managing testing capabilities across multiple titles, scaling automation adoption from 7 to 47+ users while delivering high-quality products on aggressive timelines
+
+• Built revolutionary AI-powered automation analysis infrastructure using systematic KPI tracking, centralized database storage, and machine learning models for predictive analytics and intelligent maintenance scheduling
+
+• Established comprehensive testing rituals including smoke, regression, and exploratory protocols that caught critical issues early, enabled faster iteration cycles, and maintained stability across aggressive development timelines
+
+• Created reusable automation frameworks and comprehensive Jira-to-TestRail integrations that eliminated thousands of hours of manual effort per quarter while improving traceability and defect detection accuracy
+
+• Mentored QA team members on advanced test design, automation best practices, AI-enhanced analysis methodologies, and systematic defect lifecycle management, fostering quality ownership culture
+
+My technical toolkit includes extensive experience with Python scripting, Selenium automation, FORGE framework, Pathfinder integration, Git workflows, advanced CI/CD systems, and proven expertise across web, mobile, and backend testing environments. I excel in fast-paced, startup environments where quality standards are evolving and where I can make immediate, measurable impact.
+
+I am particularly excited about Mandolin's innovative approach and the opportunity to build world-class QA capabilities that scale with rapid growth. My proven track record of establishing QA processes from the ground up, combined with AI-enhanced analysis capabilities, positions me to immediately contribute to Mandolin's success.
+
+Thank you for considering my application. I would love to discuss how I can help Mandolin build a world-class QA function and deliver exceptional products to your users.
+
+Sincerely,
+Kenneth Davis
+QA Lead for Global AI and Automation Strategy
+KennethdavisQA@gmail.com | 225-810-2930
+LinkedIn: https://www.linkedin.com/in/kenneth-davis-977039246/
+Portfolio: https://github.com/dafkenaniah/money
