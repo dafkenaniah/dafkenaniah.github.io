@@ -1,0 +1,28 @@
+# Cover Letters - Keep Private
+Kenneth_Davis_CoverLetter_*.txt
+*.docx
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
