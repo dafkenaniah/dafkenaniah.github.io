@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/ML Summit Insights - Kenneth Davis Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 15px 0;
+            margin: -20px -20px 20px -20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+            text-align: center;
+            white-space: nowrap;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            background: #34495e;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            background: #3498db;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .tab-navigation {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .analysis-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .role-transformation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .role-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .role-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            color: #fff;
+        }
+
+        .role-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .role-card li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .role-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00d2d3;
+            font-weight: bold;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .insight-box h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .supporting-evidence {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .action-item {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .action-item h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .key-takeaway {
+            background: rgba(155, 89, 182, 0.1);
+            border-left: 4px solid #9b59b6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .conference-support {
+            background: rgba(241, 196, 15, 0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .conference-support h5 {
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+
+        .stats-highlight {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .speaker-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .speaker-card:hover {
+            border-color: #74b9ff;
+            box-shadow: 0 5px 20px rgba(116, 185, 255, 0.2);
+        }
+
+        .speaker-header {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .speaker-header:hover {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+
+        .speaker-info h3 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .speaker-info p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .speaker-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            background: #f8f9fa;
+        }
+
+        .speaker-content.active {
+            padding: 25px;
+            max-height: 2000px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .highlight-box h4 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .tech-details {
+            background: rgba(116, 185, 255, 0.1);
+            border-left: 4px solid #74b9ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .role-transformation {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-navigation {
+                flex-direction: column;
+            }
+
+            .nav-menu {
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .nav-item {
+                padding: 6px 12px;
+                font-size: 0.8em;
+                min-height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="nav-container">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-item">Home</a></li>
+                    <li><a href="automation-strategy.html" class="nav-item">Automation Strategy</a></li>
+                    <li><a href="ai-innovation.html" class="nav-item">AI Innovation</a></li>
+                    <li><a href="summit-insights.html" class="nav-item active">Summit Insights</a></li>
+                    <li><a href="budget-analysis.html" class="nav-item">Budget Analysis</a></li>
+                    <li><a href="qa-knowledge.html" class="nav-item">QA Knowledge Base</a></li>
+                    <li><a href="team-leadership.html" class="nav-item">Team Leadership</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 AI/ML Summit Insights & Strategic Analysis</h1>
+            <p>Synthesizing Conference Takeaways with QA Strategy Alignment</p>
+            <small style="color: #95a5a6;">Industry Conference Insights and Strategic Planning</small>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" onclick="switchTab('analysis')">Strategic Analysis</button>
+            <button class="tab-button" onclick="switchTab('speakers')">Keynote Insights</button>
+            <button class="tab-button" onclick="switchTab('implementation')">Implementation</button>
+        </div>
+
+        <!-- Analysis Tab -->
+        <div class="tab-content active" id="analysis">
+            <!-- Executive Summary -->
+            <div class="analysis-section">
+                <h2>📋 Executive Summary: Bridging Conference Innovation with Strategic Reality</h2>
+                
+                <div class="key-takeaway">
+                    <strong>Bottom Line:</strong> The AI conference showcased powerful, production-ready technology with significant implications for QA transformation. The insights reveal a structured "Crawl, Walk, Run" strategy to harness these capabilities effectively while managing the gap between conference demonstrations and practical implementation timelines.
+                </div>
+
+                <div class="stats-highlight">
+                    <div class="stat-card">
+                        <span class="stat-number">40%</span>
+                        QA AI Gateway Usage
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">50+</span>
+                        AI Models Available
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">60%</span>
+                        Efficiency Potential
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">90%</span>
+                        Accuracy Targets
+                    </div>
+                </div>
+
+                <div class="supporting-evidence">
+                    <h5>🎯 Key Conference Insights</h5>
+                    <ul style="margin: 8px 0 0 20px;">
+                        <li><strong>AI Implementation Strategy:</strong> Focus on practical automation applications with measurable ROI</li>
+                        <li><strong>Phased Approach:</strong> Start with automation enhancement, progress to intelligent systems</li>
+                        <li><strong>Industry Adoption:</strong> Major emphasis on human-AI collaboration rather than replacement</li>
+                        <li><strong>Success Metrics:</strong> Workshops have dramatically increased AI tool adoption, proving team readiness</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- QA Role Transformation Analysis -->
+            <div class="analysis-section">
+                <h2>🚀 QA Testing Role Evolution Strategy</h2>
+                
+                <div class="role-transformation">
+                    <div class="role-card">
+                        <h3>🔧 QA Test Engineers</h3>
+                        <ul>
+                            <li><strong>Test Strategy Architects</strong> - Designing comprehensive test plans and coverage frameworks</li>
+                            <li><strong>AI Testing Supervisors</strong> - Training, monitoring, and validating AI-generated test scenarios</li>
+                            <li><strong>Exploratory Testing Specialists</strong> - Human judgment for gameplay feel, UX issues, and edge cases</li>
+                            <li><strong>Game Domain Experts</strong> - Platform-specific testing context that AI cannot replicate</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-card">
+                        <h3>⚙️ Automation Test Specialist</h3>
+                        <ul>
+                            <li><strong>AI Testing Infrastructure</strong> - Building frameworks for autonomous game testing agents</li>
+                            <li><strong>Test Pipeline Integration</strong> - Connecting AI systems with existing QA workflows</li>
+                            <li><strong>Performance Test Specialists</strong> - Complex load testing and system stress validation</li>
+                            <li><strong>Game Testing Tool Builders</strong> - Creating platform-specific AI testing capabilities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-card">
+                        <h3>📊 QA Data Analysts</h3>
+                        <ul>
+                            <li><strong>Testing Intelligence</strong> - Analyzing patterns across AI test results and player behavior</li>
+                            <li><strong>Predictive QA Modeling</strong> - Using data to predict where bugs are likely to occur</li>
+                            <li><strong>AI Testing Performance</strong> - Measuring and optimizing AI testing agent effectiveness</li>
+                            <li><strong>Launch Risk Analytics</strong> - Enhanced risk assessment with AI-powered insights</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="role-card">
+                        <h3>🤝 Vendor Testing Coordinator</h3>
+                        <ul>
+                            <li><strong>External Partner Management</strong> - Primary point of contact for third-party AI vendors</li>
+                            <li><strong>Pilot Program Oversight</strong> - Defining test plans, goals, and success metrics for external trials</li>
+                            <li><strong>Results Integration</strong> - Integrating vendor data and bug reports into internal QA workflows</li>
+                            <li><strong>Performance & ROI Analysis</strong> - Evaluating effectiveness and value of external testing solutions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-takeaway">
+                    <strong>Core Insight:</strong> Rather than replacing QA professionals, AI agents create opportunities for testers to shift <strong>upward in value</strong> - from test execution to test strategy, judgment, and quality intelligence. Humans become the ones asking "what should we test and why?" while AI handles "execute these 10,000 test variations."
+                </div>
+            </div>
+
+            <!-- Strategic Action Items -->
+            <div class="analysis-section">
+                <h2>🎯 Strategic Action Items (Next 60 Days)</h2>
+                
+                <div class="action-item">
+                    <h4>Priority 1: Enhance Automation Infrastructure</h4>
+                    <p><strong>Action:</strong> Complete development of automated reporting systems with enhanced AI analysis capabilities.</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Status:</strong> Development is currently underway with focus on production deployment</li>
+                        <li><strong>Goal:</strong> Deliver functional, automated reporting system serving as foundation for advanced monitoring</li>
+                        <li><strong>Conference Insight:</strong> Industry confirmed underlying AI platforms are robust and ready to support this</li>
+                    </ul>
+                </div>
+
+                <div class="action-item">
+                    <h4>Priority 2: Expand AI Integration Pilot Programs</h4>
+                    <p><strong>Action:</strong> Launch comprehensive AI tool integration across QA workflows with measurable success metrics.</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Status:</strong> AI gateway integration successful, ready for expanded deployment</li>
+                        <li><strong>Rationale:</strong> Conference demonstrations show clear path to production-ready AI testing capabilities</li>
+                        <li><strong>Goal:</strong> Establish baseline for AI-enhanced testing performance and impact measurement</li>
+                    </ul>
+                </div>
+
+                <div class="action-item">
+                    <h4>Priority 3: Develop Internal AI Collaboration Framework</h4>
+                    <p><strong>Action:</strong> Use conference insights to establish formal AI development partnerships and strategic alignment.</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Identified Opportunity:</strong> Conference presentations revealed specific collaboration opportunities</li>
+                        <li><strong>Conference Catalyst:</strong> Direct industry validation provides perfect foundation for internal initiatives</li>
+                        <li><strong>Next Step:</strong> Propose formal collaboration framework with clear success metrics and reporting cadence</li>
+                    </ul>
+                </div>
+
+                <div class="supporting-evidence">
+                    <h5>🎯 Synthesized Strategy</h5>
+                    <p>Our path forward is clear: build on proven AI gateway success, expand pilot programs based on conference insights, and use industry validation to establish formal internal AI development partnerships.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Speakers Tab -->
+        <div class="tab-content" id="speakers">
+            <div class="analysis-section">
+                <h2>🎤 Keynote Speaker Insights</h2>
+                
+                <!-- Speaker 1 -->
+                <div class="speaker-card">
+                    <div class="speaker-header" onclick="toggleContent('speaker1')">
+                        <div class="speaker-info">
+                            <h3>Industry AI Applications Leader</h3>
+                            <p>Day 1 Keynote | Enterprise AI Applications in Interactive Entertainment</p>
+                        </div>
+                        <div class="toggle-icon" id="icon1">+</div>
+                    </div>
+                    <div class="speaker-content" id="speaker1">
+                        <div class="highlight-box">
+                            <h4>🔑 Key Innovation: Superhuman Gaming Agents</h4>
+                            <p>Developed in partnership with major studios, these superhuman agents have been experienced by millions of players with extensive playtime demonstrating real-world deployment success.</p>
+                        </div>
+                        
+                        <h4>Core AI Applications in Gaming:</h4>
+                        <ul style="margin: 15px 0 15px 20px;">
+                            <li><strong>Interactivity:</strong> Reinforcement learning agents providing diverse difficulty levels and personalities</li>
+                            <li><strong>World Creation:</strong> AI-powered procedural world generation from text prompts</li>
+                            <li><strong>Player Engagement:</strong> Large-scale user modeling and personalized experiences</li>
+                        </ul>
+                        
+                        <div class="tech-details">
+                            <strong>Technical Breakthrough:</strong> Same reinforcement learning technology scales from superhuman performance to in-game experiences and real-world applications, demonstrating versatility.
+                        </div>
+                        
+                        <h4>Strategic Advantages:</h4>
+                        <ul style="margin: 15px 0 15px 20px;">
+                            <li>Billions of different agent behaviors at scale</li>
+                            <li>Automated QA testing with hundreds of thousands of virtual players</li>
+                            <li>Cross-platform agent deployment across multiple game genres</li>
+                            <li>Real-world application potential beyond gaming</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Speaker 2 -->
+                <div class="speaker-card">
+                    <div class="speaker-header" onclick="toggleContent('speaker2')">
+                        <div class="speaker-info">
+                            <h3>Strategic AI Implementation Expert</h3>
+                            <p>Day 2 Keynote | Enterprise AI Implementation Framework</p>
+                        </div>
+                        <div class="toggle-icon" id="icon2">+</div>
+                    </div>
+                    <div class="speaker-content" id="speaker2">
+                        <div class="highlight-box">
+                            <h4>🚨 Industry Transformation Point</h4>
+                            <p>Game development faces unprecedented budget pressures (reaching $200M+ per title) while competing with free entertainment consuming hours of daily user attention.</p>
+                        </div>
+                        
+                        <h4>Critical Strategic Shifts:</h4>
+                        <div class="tech-details">
+                            <strong>Timeline Compression:</strong> AI moves so rapidly that traditional long-term planning (2-5 years) must collapse into agile thinking - plan in weeks and months, not years.
+                        </div>
+                        
+                        <h4>Human-Centered Implementation:</h4>
+                        <ul style="margin: 15px 0 15px 20px;">
+                            <li><strong>Wrong Approach:</strong> "Can AI replace your job?" (Answer: Always no)</li>
+                            <li><strong>Right Approach:</strong> "What technology would make your job easier?"</li>
+                            <li><strong>Cultural Challenge:</strong> Creative professionals want control vs AI requiring curation approach</li>
+                        </ul>
+                        
+                        <div class="highlight-box">
+                            <h4>⚖️ Economic Parallel</h4>
+                            <p>Healthcare parallel: Despite predictions that AI would eliminate radiologists, demand actually increased. More efficient tools led to more applications, not fewer jobs.</p>
+                        </div>
+                        
+                        <h4>Future Vision & Efficiency Goals:</h4>
+                        <ul style="margin: 15px 0 15px 20px;">
+                            <li>Small teams creating AA-quality games (vs current large teams)</li>
+                            <li>Medium teams creating AAA titles (vs current massive teams)</li>
+                            <li>Focus on meaningful automation of repetitive tasks</li>
+                            <li>Challenge everything from first principles with AI mindset</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Tab -->
+        <div class="tab-content" id="implementation">
+            <div class="analysis-section">
+                <h2>🛠️ Implementation Roadmap</h2>
+                
+                <div class="action-item">
+                    <h4>Phase 1: Foundation (Months 1-3)</h4>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Identify specific workflow pain points where AI tools can provide immediate efficiency gains</li>
+                        <li>Implement human-centered AI adoption approach - focus on "making jobs easier" not replacement</li>
+                        <li>Start small-scale AI integration projects with willing teams to demonstrate value</li>
+                    </ul>
+                </div>
+
+                <div class="action-item">
+                    <h4>Phase 2: Integration (Months 4-6)</h4>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Evaluate external AI capabilities vs internal development for non-core competencies</li>
+                        <li>Shift from annual AI roadmaps to quarterly sprint-based evaluation cycles</li>
+                        <li>Establish clear AI governance guidelines that maintain integrity standards</li>
+                    </ul>
+                </div>
+
+                <div class="action-item">
+                    <h4>Phase 3: Scale (Months 7-12)</h4>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Deploy AI-enhanced testing infrastructure across multiple projects</li>
+                        <li>Launch advanced analytics and predictive modeling capabilities</li>
+                        <li>Establish measurable ROI metrics and success criteria</li>
+                    </ul>
+                </div>
+
+                <div class="key-takeaway">
+                    <strong>Success Factor:</strong> The organization demonstrates strong technical capabilities with existing AI gateway achieving 40% QA usage. This efficiency should be leveraged as foundation for expanded AI integration across all testing workflows.
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <h2>📊 Expected Outcomes & Metrics</h2>
+                
+                <div class="stats-highlight">
+                    <div class="stat-card">
+                        <span class="stat-number">3x</span>
+                        Testing Coverage
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">50%</span>
+                        Time Reduction
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">90%</span>
+                        Accuracy Improvement
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">ROI+</span>
+                        Positive Returns
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <h4>🎯 Transformation Philosophy Alignment</h4>
+                    <p>Conference insights directly support the core approach: "Figure out creative AI solutions, analyze data for insights, then turn that process into an app that anyone can use at the press of a button." This philosophy aligns perfectly with industry best practices demonstrated at the summit.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function toggleContent(speakerId) {
+            const content = document.getElementById(speakerId);
+            const icon = document.getElementById(speakerId === 'speaker1' ? 'icon1' : 'icon2');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.textContent = '+';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('active');
+                icon.textContent = '−';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.role-card, .speaker-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

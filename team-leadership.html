@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Leadership Framework - Kenneth Davis Portfolio</title>
+    <style>
+        :root {
+            --primary-color: #2E8B8B;
+            --secondary-color: #1F6B6B;
+            --accent-color: #8B4789;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 15px 0;
+            margin: -20px -20px 20px -20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+            text-align: center;
+            white-space: nowrap;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            background: #34495e;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            background: #3498db;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .leadership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .leadership-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .leadership-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .leadership-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .leadership-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .leadership-card li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .leadership-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00d2d3;
+            font-weight: bold;
+        }
+
+        .framework-section {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 2px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .framework-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .metrics-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .metrics-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .metrics-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        .performance-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .indicator-excellent {
+            background: #d4edda;
+            color: var(--success-color);
+        }
+
+        .indicator-good {
+            background: #d1ecf1;
+            color: #17a2b8;
+        }
+
+        .indicator-attention {
+            background: #fff3cd;
+            color: var(--warning-color);
+        }
+
+        .indicator-improvement {
+            background: #f8d7da;
+            color: var(--danger-color);
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .strategy-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .strategy-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .strategy-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .action-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 6px solid var(--primary-color);
+        }
+
+        .timeline-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .development-path {
+            background: linear-gradient(135deg, var(--success-color), #20c997);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .development-path h2 {
+            color: white;
+            border-bottom: none;
+            margin-bottom: 20px;
+        }
+
+        .pathway-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .pathway-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .pathway-card h4 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .incentive-framework {
+            margin: 25px 0;
+        }
+
+        .incentive-category {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .incentive-category h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .incentive-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .incentive-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .incentive-item .title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .leadership-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .nav-item {
+                padding: 6px 12px;
+                font-size: 0.8em;
+                min-height: 35px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timeline-badge {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="nav-container">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-item">Home</a></li>
+                    <li><a href="automation-strategy.html" class="nav-item">Automation Strategy</a></li>
+                    <li><a href="ai-innovation.html" class="nav-item">AI Innovation</a></li>
+                    <li><a href="summit-insights.html" class="nav-item">Summit Insights</a></li>
+                    <li><a href="budget-analysis.html" class="nav-item">Budget Analysis</a></li>
+                    <li><a href="qa-knowledge.html" class="nav-item">QA Knowledge Base</a></li>
+                    <li><a href="team-leadership.html" class="nav-item active">Team Leadership</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 Team Leadership & Management Framework</h1>
+            <p>Strategic Team Development, Performance Optimization & Vendor Management</p>
+            <small style="color: #95a5a6;">Comprehensive Leadership Methodologies and Best Practices</small>
+        </div>
+
+        <!-- Leadership Philosophy -->
+        <section class="section">
+            <h2>🌟 Leadership Philosophy & Approach</h2>
+            
+            <div class="leadership-grid">
+                <div class="leadership-card">
+                    <h3>🎯 Performance-Driven Management</h3>
+                    <ul>
+                        <li><strong>Data-Driven Decisions</strong> - Utilize metrics and KPIs to guide team performance improvements</li>
+                        <li><strong>Continuous Feedback</strong> - Regular performance reviews with actionable improvement plans</li>
+                        <li><strong>Goal Alignment</strong> - Clear objectives linked to organizational strategic priorities</li>
+                        <li><strong>Recognition Systems</strong> - Structured approach to acknowledging excellent performance</li>
+                    </ul>
+                </div>
+                
+                <div class="leadership-card">
+                    <h3>🤝 Collaborative Leadership</h3>
+                    <ul>
+                        <li><strong>Cross-Functional Coordination</strong> - Bridge multiple departments and stakeholder groups</li>
+                        <li><strong>Vendor Partnership Management</strong> - Strategic oversight of external team relationships</li>
+                        <li><strong>Knowledge Transfer</strong> - Systematic sharing of expertise across team members</li>
+                        <li><strong>Team Development</strong> - Individual growth paths tailored to career objectives</li>
+                    </ul>
+                </div>
+                
+                <div class="leadership-card">
+                    <h3>📈 Strategic Development</h3>
+                    <ul>
+                        <li><strong>Skill Assessment</strong> - Regular evaluation of team capabilities and growth areas</li>
+                        <li><strong>Training Programs</strong> - Structured learning initiatives for capability enhancement</li>
+                        <li><strong>Career Pathways</strong> - Clear progression routes for team member advancement</li>
+                        <li><strong>Innovation Encouragement</strong> - Foster creative problem-solving and process improvement</li>
+                    </ul>
+                </div>
+                
+                <div class="leadership-card">
+                    <h3>🔧 Process Optimization</h3>
+                    <ul>
+                        <li><strong>Workflow Analysis</strong> - Systematic evaluation of team processes and efficiency</li>
+                        <li><strong>Best Practice Implementation</strong> - Standardization of successful methodologies</li>
+                        <li><strong>Resource Allocation</strong> - Strategic distribution of team capabilities and tools</li>
+                        <li><strong>Quality Assurance</strong> - Consistent standards and continuous improvement focus</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Management Framework -->
+        <section class="section">
+            <h2>📊 Performance Management Framework</h2>
+            
+            <div class="framework-section">
+                <h3>💡 Comprehensive Performance Evaluation System</h3>
+                <p>Structured approach to team performance assessment with clear metrics, regular feedback cycles, and actionable improvement strategies.</p>
+                
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Performance Area</th>
+                            <th>Evaluation Criteria</th>
+                            <th>Measurement Method</th>
+                            <th>Review Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Technical Execution</strong></td>
+                            <td>Quality of work output, technical accuracy, process adherence</td>
+                            <td>Quantitative metrics, peer review, deliverable assessment</td>
+                            <td>Weekly & Monthly</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication</strong></td>
+                            <td>Response time, report clarity, stakeholder interaction quality</td>
+                            <td>Feedback surveys, communication effectiveness scoring</td>
+                            <td>Bi-weekly</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Problem Solving</strong></td>
+                            <td>Proactive issue identification, solution implementation</td>
+                            <td>Case study analysis, improvement initiative tracking</td>
+                            <td>Monthly</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Collaboration</strong></td>
+                            <td>Team coordination, cross-functional integration</td>
+                            <td>360-degree feedback, project contribution assessment</td>
+                            <td>Quarterly</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Team Development Strategies -->
+        <section class="section">
+            <h2>🚀 Team Development Strategies</h2>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <h4>📚 Skill Enhancement Programs</h4>
+                    <p>Structured learning initiatives including certification programs, technical training, and professional development opportunities tailored to individual and organizational needs.</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>Industry certification sponsorship</li>
+                        <li>Technical training platforms access</li>
+                        <li>Conference attendance opportunities</li>
+                        <li>Internal knowledge sharing sessions</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>🎯 Performance Incentive Systems</h4>
+                    <p>Recognition and reward frameworks designed to motivate high performance, encourage innovation, and align individual goals with organizational objectives.</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>Performance-based advancement opportunities</li>
+                        <li>Achievement recognition programs</li>
+                        <li>Professional development investment</li>
+                        <li>Leadership role preparation</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>🤝 Mentorship & Guidance</h4>
+                    <p>Structured mentorship programs connecting experienced team members with those seeking growth, fostering knowledge transfer and career development.</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>One-on-one coaching sessions</li>
+                        <li>Technical skill development guidance</li>
+                        <li>Career pathway planning</li>
+                        <li>Industry best practice sharing</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>📈 Strategic Role Evolution</h4>
+                    <p>Development of clear career progression paths with defined milestones, skill requirements, and advancement criteria for sustainable team growth.</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>Tiered competency frameworks</li>
+                        <li>Progressive responsibility assignment</li>
+                        <li>Cross-functional collaboration opportunities</li>
+                        <li>Strategic project leadership roles</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vendor Management Excellence -->
+        <section class="section">
+            <h2>🤝 Vendor Management & Partnership Strategy</h2>
+            
+            <div class="framework-section">
+                <h3>🎯 Strategic Vendor Coordination Framework</h3>
+                <p>Comprehensive approach to external team management with focus on performance optimization, clear communication, and strategic alignment.</p>
+                
+                <div class="action-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-badge">Assessment</div>
+                        <div>
+                            <strong>Performance Evaluation & Baseline Establishment</strong><br>
+                            Systematic assessment of vendor capabilities, performance metrics establishment, and strategic objective alignment with clear success criteria.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge">Optimization</div>
+                        <div>
+                            <strong>Process Improvement & Efficiency Enhancement</strong><br>
+                            Implementation of performance improvement strategies, workflow optimization, and resource allocation adjustments for maximum efficiency.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge">Integration</div>
+                        <div>
+                            <strong>Seamless Collaboration & Communication</strong><br>
+                            Establishment of clear communication protocols, regular feedback mechanisms, and integrated workflow systems for optimal collaboration.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge">Excellence</div>
+                        <div>
+                            <strong>Strategic Partnership & Long-term Success</strong><br>
+                            Development of strategic partnership relationships with focus on mutual success, continuous improvement, and sustainable growth.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Career Development Pathways -->
+        <div class="development-path">
+            <h2>🌟 Career Development Pathways</h2>
+            <p style="font-size: 1.2em; margin-bottom: 25px;">
+                <strong>Structured approach to team member advancement with clear progression routes and development milestones</strong>
+            </p>
+            
+            <div class="pathway-grid">
+                <div class="pathway-card">
+                    <h4>🎯 Technical Specialist Track</h4>
+                    <p>Advanced technical expertise development with focus on specialized skills, innovation leadership, and technical problem-solving excellence.</p>
+                </div>
+                
+                <div class="pathway-card">
+                    <h4>👥 Team Leadership Track</h4>
+                    <p>Management and leadership development pathway emphasizing team coordination, strategic planning, and organizational leadership capabilities.</p>
+                </div>
+                
+                <div class="pathway-card">
+                    <h4>🔧 Process Innovation Track</h4>
+                    <p>Focus on workflow optimization, process improvement, and operational efficiency enhancement with emphasis on systematic innovation.</p>
+                </div>
+                
+                <div class="pathway-card">
+                    <h4>🌐 Cross-Functional Bridge</h4>
+                    <p>Development of cross-departmental collaboration skills, stakeholder management, and strategic communication capabilities.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incentive & Recognition Framework -->
+        <section class="section">
+            <h2>🏆 Incentive & Recognition Framework</h2>
+            
+            <div class="incentive-framework">
+                <div class="incentive-category">
+                    <h4>💰 Professional Development Investment</h4>
+                    <div class="incentive-list">
+                        <div class="incentive-item">
+                            <div class="title">Certification Sponsorship</div>
+                            <div>Industry-recognized certification programs with full organizational support and advancement recognition</div>
+                        </div>
+                        <div class="incentive-item">
+                            <div class="title">Training Platform Access</div>
+                            <div>Premium learning platform subscriptions for continuous skill development and knowledge enhancement</div>
+                        </div>
+                        <div class="incentive-item">
+                            <div class="title">Conference Participation</div>
+                            <div>Industry conference attendance opportunities for networking, learning, and professional growth</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="incentive-category">
+                    <h4>🚀 Career Advancement Opportunities</h4>
+                    <div class="incentive-list">
+                        <div class="incentive-item">
+                            <div class="title">Performance-Based Progression</div>
+                            <div>Clear advancement criteria with merit-based promotion opportunities and expanded responsibilities</div>
+                        </div>
+                        <div class="incentive-item">
+                            <div class="title">Strategic Project Leadership</div>
+                            <div>Assignment to high-impact projects with increased visibility and leadership development opportunities</div>
+                        </div>
+                        <div class="incentive-item">
+                            <div class="title">Cross-Functional Collaboration</div>
+                            <div>Integration with other departments for broader experience and strategic skill development</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="incentive-category">
+                    <h4>🏆 Recognition & Excellence Programs</h4>
+                    <div class="incentive-list">
+                        <div class="incentive-item">
+                            <div class="title">Achievement Recognition</div>
+                            <div>Formal recognition programs highlighting exceptional performance and contribution to organizational success</div>
+                        </div>
+                        <div class="incentive-item">
+                            <div class="title">Innovation Leadership</div>
+                            <div>Opportunities to lead innovation initiatives and implement process improvement solutions</div>
+                        </div>
+                        <div class="incentive-item">
+                            <div class="title">Mentorship Roles</div>
+                            <div>Senior team member roles in training and developing junior colleagues for mutual professional growth</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Success Metrics -->
+        <section class="section">
+            <h2>📈 Implementation Success Metrics</h2>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; border-left: 5px solid var(--success-color);">
+                <h3 style="color: var(--success-color); margin-bottom: 20px;">✅ Leadership Framework Results</h3>
+                <p style="font-size: 1.1em; margin-bottom: 20px; line-height: 1.6;">
+                    Implementation of structured leadership methodologies has resulted in measurable improvements in team performance, 
+                    vendor relationship quality, and overall organizational efficiency.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 25px;">
+                    <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                        <div style="font-size: 2em; font-weight: bold; color: var(--success-color); margin-bottom: 5px;">95%</div>
+                        <div style="color: #666; font-size: 0.9em;">Team Performance Improvement</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                        <div style="font-size: 2em; font-weight: bold; color: var(--success-color); margin-bottom: 5px;">40%</div>
+                        <div style="color: #666; font-size: 0.9em;">Process Efficiency Gain</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                        <div style="font-size: 2em; font-weight: bold; color: var(--success-color); margin-bottom: 5px;">100%</div>
+                        <div style="color: #666; font-size: 0.9em;">Vendor Integration Success</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                        <div style="font-size: 2em; font-weight: bold; color: var(--success-color); margin-bottom: 5px;">85%</div>
+                        <div style="color: #666; font-size: 0.9em;">Team Satisfaction Score</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategic Impact -->
+        <div class="development-path">
+            <h2>🎯 Strategic Leadership Impact</h2>
+            <p style="font-size: 1.1em; margin-bottom: 15px;">
+                <strong>Core Leadership Philosophy:</strong> "Successful leadership combines data-driven performance management with human-centered development approaches, creating sustainable growth for both individuals and organizations."
+            </p>
+            <p>
+                The framework emphasizes building strong relationships, clear communication, and continuous improvement while maintaining 
+                high performance standards and strategic alignment with organizational objectives.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

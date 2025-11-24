@@ -3,512 +3,1526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MLB Budget Reports Dashboard</title>
+    <title>Kenneth Davis - Technical Leadership Portfolio</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f5f7fa;
-            color: #2c3e50;
-            line-height: 1.6;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
 
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+            opacity: 0.3;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 300;
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .header .subtitle {
-            font-size: 1.2em;
+        .hero-title {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
             opacity: 0.9;
-            margin-top: 10px;
+            margin-bottom: 30px;
         }
 
-        .content {
-            padding: 30px;
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .hero-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1abc9c;
+            margin-bottom: 5px;
+        }
+
+        .hero-stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .section {
-            margin-bottom: 40px;
-            border-left: 4px solid #3498db;
-            padding-left: 20px;
-        }
-
-        .section h2 {
-            color: #2c3e50;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 10px;
-        }
-
-        .tab-nav {
-            display: flex;
-            background: #ecf0f1;
-            border-radius: 8px;
-            padding: 5px;
-            margin: 20px 0;
-        }
-
-        .tab-button {
-            flex: 1;
-            padding: 15px 20px;
-            text-align: center;
-            background: transparent;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #7f8c8d;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .tab-button:hover {
-            background: #bdc3c7;
-            color: #2c3e50;
-        }
-
-        .tab-button.active {
-            background: #3498db;
-            color: white;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
             background: white;
-            border-radius: 8px;
-            padding: 25px;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        .card h3 {
-            margin-top: 0;
+        .section-title {
+            font-size: 2.2em;
             color: #2c3e50;
-            font-size: 1.3em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
 
-        .card a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            background: #3498db;
+        .section-icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background 0.3s ease;
+            padding: 25px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
-        .card a:hover {
-            background: #2980b9;
+        .achievement-card:hover {
+            transform: translateY(-5px);
         }
 
-        .forecast-card {
-            border-left-color: #27ae60;
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
-        .forecast-card a {
-            background: #27ae60;
+        .achievement-card:hover::before {
+            left: 100%;
         }
 
-        .forecast-card a:hover {
-            background: #219a52;
+        .achievement-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
 
-        .month-grid {
+        .achievement-impact {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .achievement-description {
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .category-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .category-title {
+            font-size: 1.6em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-icon {
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+
+        .contribution-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            margin: 20px 0;
         }
 
-        .month-card {
-            background: #f8f9fa;
-            border-radius: 8px;
+        .contribution-item {
+            background: white;
             padding: 20px;
-            text-align: center;
-            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
         }
 
-        .month-card.has-data {
-            border-left: 4px solid #27ae60;
-            background: white;
+        .contribution-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
-        .month-card.no-data {
-            border-left: 4px solid #bdc3c7;
-            opacity: 0.7;
-        }
-
-        .month-card h4 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
+        .contribution-title {
             font-weight: bold;
-            margin-bottom: 10px;
+            color: #2c3e50;
+            margin-bottom: 8px;
         }
 
-        .status-active {
-            background: #d4edda;
-            color: #155724;
+        .contribution-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
         }
 
-        .status-empty {
-            background: #f8d7da;
-            color: #721c24;
+        .impact-metric {
+            background: #e3f2fd;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #1976d2;
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: bold;
         }
 
-        .highlight {
-            background: #d1ecf1;
-            border: 1px solid #b8daff;
-            color: #0c5460;
-            padding: 15px;
+        .navigation {
+            background: #2c3e50;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
             border-radius: 8px;
-            margin: 20px 0;
+            transition: background 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+            text-align: center;
+            white-space: nowrap;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
         }
 
-        .warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
+        .nav-item:hover {
+            background: #34495e;
+            color: white;
+            text-decoration: none;
         }
 
-        /* Tooltip Styles */
+        .nav-item.active {
+            background: #3498db;
+        }
+
+        .highlight-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .highlight-banner::before {
+            content: '🏆';
+            font-size: 1.5em;
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            padding: 8px;
+            border-radius: 50%;
+            border: 2px solid white;
+            z-index: 1;
+        }
+
+        .highlight-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
         .tooltip {
             position: relative;
-            display: inline-block;
             cursor: help;
-            border-bottom: 1px dotted #3498db;
-            color: #2980b9;
+            display: inline-block;
         }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 350px;
-            background-color: #2c3e50;
-            color: #fff;
-            text-align: left;
-            border-radius: 8px;
-            padding: 12px;
+        .achievement-card .tooltip::after {
+            content: attr(data-tooltip);
             position: absolute;
-            z-index: 999;
-            bottom: 150%;
+            bottom: 100%;
             left: 50%;
-            margin-left: -175px;
+            transform: translateX(-50%) translateY(-10px);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            z-index: 10000;
+            font-size: 0.8em;
+            font-weight: normal;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             opacity: 0;
-            transition: opacity 0.5s, visibility 0.5s;
-            font-size: 13px;
-            line-height: 1.5;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            border: 2px solid #3498db;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            max-width: 200px;
+            white-space: normal;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .tooltip .tooltiptext::after {
-            content: "";
+        .achievement-card .tooltip::before {
+            content: '';
             position: absolute;
-            top: 100%;
+            bottom: 100%;
             left: 50%;
-            margin-left: -8px;
-            border-width: 8px;
-            border-style: solid;
-            border-color: #3498db transparent transparent transparent;
+            transform: translateX(-50%) translateY(-4px);
+            border: 6px solid transparent;
+            border-top-color: rgba(0,0,0,0.9);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
+        .achievement-card .tooltip:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-15px);
+        }
+
+        .achievement-card .tooltip:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-9px);
+        }
+
+        .tooltip:hover::after,
+        .tooltip:hover::before {
             opacity: 1;
         }
 
-        .footer {
-            text-align: center;
+        .innovation-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #3498db;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #3498db;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 13px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: #3498db;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: white;
             padding: 20px;
-            background: #ecf0f1;
-            color: #7f8c8d;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .timeline-description {
+            color: #666;
             font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2em;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .nav-item {
+                padding: 6px 12px;
+                font-size: 0.8em;
+                min-height: 35px;
+            }
+
+            .section {
+                padding: 25px 20px;
+                margin: 20px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+            }
+
+            .nav-item {
+                width: 90%;
+                margin: 0 auto;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>MLB Budget Reports Dashboard</h1>
-            <div class="subtitle">Comprehensive Budget Analysis & Forecasting System</div>
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="#achievements" class="nav-item active">Key Achievements</a></li>
+                <li><a href="#automation" class="nav-item">Automation Leadership</a></li>
+                <li><a href="#ai-innovation" class="nav-item">AI Innovation</a></li>
+                <li><a href="#infrastructure" class="nav-item">Infrastructure</a></li>
+                <li><a href="#aws-project" class="nav-item">AWS Cloud Project</a></li>
+                <li><a href="#leadership" class="nav-item">Cross-Functional Leadership</a></li>
+                <li><a href="#recognition" class="nav-item">Recognition</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <div class="content">
-            <!-- Tab Navigation -->
-            <div class="tab-nav">
-                <button class="tab-button active" onclick="showSection('monthly-reports')">
-                    <span class="tooltip">📊 Monthly Reports<span class="tooltiptext">Individual monthly budget analysis reports based on Excel data uploaded to each month's Budget Data folder. Only months with data will show active reports.</span></span>
-                </button>
-                <button class="tab-button" onclick="showSection('forecasting')">
-                    <span class="tooltip">📈 Forecasting<span class="tooltiptext">Future budget projections and scenario analysis based on historical spending patterns and strategic planning assumptions.</span></span>
-                </button>
-                <button class="tab-button" onclick="showSection('portfolio')">
-                    <span class="tooltip">🎯 Portfolio Overview<span class="tooltiptext">High-level portfolio analysis combining all projects and providing strategic insights for executive decision-making.</span></span>
-                </button>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Kenneth Davis</h1>
+            <p class="hero-subtitle">Technical Test Leadership | AI & Automation Innovation | Cross-Functional Collaboration</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">AI</div>
+                    <div class="hero-stat-label">Innovation Leader</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Cross</div>
+                    <div class="hero-stat-label">Functional Bridge</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Platform</div>
+                    <div class="hero-stat-label">Builder</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Culture</div>
+                    <div class="hero-stat-label">Transformer</div>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Monthly Reports Section -->
-            <div id="monthly-reports" class="section">
-                <h2><span class="tooltip">Monthly Budget Reports<span class="tooltiptext">Monthly analysis reports generated from Excel data. Add your budget Excel files to each month's 'Budget Data' folder and use the prompt template to generate comprehensive analysis.</span></span></h2>
-                
-                <div class="highlight">
-                    <strong><span class="tooltip">How to Use:<span class="tooltiptext">1) Add Excel budget files to the target month's Budget Data folder, 2) Use the budget analysis prompt template to generate reports, 3) View generated HTML reports and visualizations for that month.</span></span></strong>
-                    <ol>
-                        <li>Add your Excel budget files to the target month's "Budget Data" folder</li>
-                        <li>Use the budget analysis prompt template to generate reports</li>
-                        <li>View the generated analysis reports and visualizations</li>
-                    </ol>
-                </div>
+    <div class="container">
+        <!-- Key Achievements -->
+        <section id="achievements" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🏆</span>
+                Key Achievements & Strategic Impact
+            </h2>
 
-                <!-- FY25 Months -->
-                <h3><span class="tooltip">FY25 Months (April 2025 - March 2026)<span class="tooltiptext">Fiscal Year 2025 monthly reports. September 2025 contains actual data from MLB 25 and MLB 26 projects. Other months are prepared for future data input.</span></span></h3>
-                <div class="month-grid">
-                    <div class="month-card no-data">
-                        <h4>April 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-04-April/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>May 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-05-May/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>June 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-06-June/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>July 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-07-July/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>August 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-08-August/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card has-data">
-                        <h4>September 2025</h4>
-                        <span class="status-badge status-active">✅ Has Data</span>
-                        <p><span class="tooltip">Complete Analysis Available<span class="tooltiptext">Contains MLB 25 and MLB 26 FY25 September YTD Actuals Excel files. Full budget analysis report available with variance analysis, regional breakdown, and service group performance.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html">View Executive Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>October 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-10-October/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>November 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-11-November/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>December 2025</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2025-12-December/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                </div>
-
-                <div class="month-grid">
-                    <div class="month-card no-data">
-                        <h4>January 2026</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2026-01-January/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>February 2026</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2026-02-February/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                    <div class="month-card no-data">
-                        <h4>March 2026</h4>
-                        <span class="status-badge status-empty">No Data</span>
-                        <p><span class="tooltip">Awaiting Excel Data<span class="tooltiptext">Upload Excel budget files to Monthly_Budget_Reports/2026-03-March/Budget Data/ folder to generate analysis reports.</span></span></p>
-                        <a href="../MLBbudget_analysis_report.html" style="background: #bdc3c7;">View Main Report</a>
-                    </div>
-                </div>
-
-                <div class="warning">
-                    <strong><span class="tooltip">Data Source Requirements:<span class="tooltiptext">Each monthly analysis requires Excel files in the specific format: 'MLB ## FY## MMM YTD Actuals - 7F.xlsx' placed in the month's Budget Data folder.</span></span></strong> 
-                    Only September 2025 currently contains actual budget data (MLB 25 & MLB 26 Excel files). Other months are set up for future data entry when available.
+            <div class="highlight-banner">
+                <div class="highlight-text">
+                    Transformed organizational capabilities through AI-powered automation, infrastructure development, and cross-functional innovation
                 </div>
             </div>
 
-            <!-- Forecasting Section -->
-            <div id="forecasting" class="section" style="display: none;">
-                <h2><span class="tooltip">Budget Forecasting & Projections<span class="tooltiptext">Strategic forecasting tools and scenario analysis for planning future budget allocations and resource requirements across MLB projects.</span></span></h2>
-                
-                <div class="grid-2">
-                    <div class="card forecast-card">
-                        <h3><span class="tooltip">MLB 26 Forecast Analysis<span class="tooltiptext">Comprehensive 13-month forecast for MLB 26 development from October 2025 through November 2026, based on MLB 25 actual spending patterns and resource transition planning.</span></span></h3>
-                        <p>13-month projection based on MLB 25 patterns</p>
-                        <p><strong>Timeline:</strong> Oct 2025 - Nov 2026</p>
-                        <p><strong>Confidence:</strong> 75%</p>
-                        <a href="../mlb_26_forecast_analysis.html">View Forecast</a>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-title">🤖 Automation Revolution</div>
+                    <div class="achievement-impact">Culture Change</div>
+                    <div class="achievement-description">
+                        Led automation scaling across multiple projects. 
+                        Transformed Pathfinder from "useless tool" to widely adopted platform.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">📊 AI-Powered Reporting</div>
+                    <div class="achievement-impact">Process Transform</div>
+                    <div class="achievement-description">
+                        Automated weekly reporting process. Created AWS-hosted dashboards 
+                        with AI analysis and professional styling consistency.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">🎪 Enterprise Event Leadership</div>
+                    <div class="achievement-impact">Summit Lead</div>
+                    <div class="achievement-description">
+                        Only QA representation at PlayStation AI/ML Summit. Built ML clustering app for 
+                        participant matching, managed networking for entire conference.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">🧠 AI Integration Pioneer</div>
+                    <div class="achievement-impact">Platform Builder</div>
+                    <div class="achievement-description">
+                        Secured AI Gateway API keys, deployed VibeCoding apps, created test case generation, 
+                        callstack analysis, and comprehensive AI usage guides.
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <div class="achievement-title">🌉 Cross-Functional Bridge</div>
+                    <div class="achievement-impact">Connector</div>
+                    <div class="achievement-description">
+                        Main POC between Engineering Manager and ACT team. Connected ML engineers 
+                        to Tools Engineering. Facilitated vendor onboarding and global initiatives.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Automation Leadership -->
+        <section id="automation" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🤖</span>
+                Automation & Infrastructure Leadership
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">⚡</span>
+                    PACT Team & Cross-Title Automation
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">ACT Team Creation & Management</div>
+                        <div class="contribution-description">
+                            Built Automation Consultation Team from ground up. Placed testers on other titles to teach automation, 
+                            created cross-title collaboration model that scaled automation knowledge across projects.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Team scaling success">User Growth</div>
                     </div>
                     
-                    <div class="card">
-                        <h3><span class="tooltip">Forecast Comparison Tool<span class="tooltiptext">Compare actual monthly spending against forecasted amounts to measure prediction accuracy and adjust future projections. Available once monthly actuals are added.</span></span></h3>
-                        <p>Compare forecasts vs. actuals by month</p>
-                        <p><strong>Status:</strong> Available after Oct 2025 data</p>
-                        <a href="#" onclick="generateComparison()" style="background: #f39c12;">Generate When Ready</a>
+                    <div class="contribution-item">
+                        <div class="contribution-title">Pathfinder Transformation</div>
+                        <div class="contribution-description">
+                            Converted "useless tool" perception into active adoption. Tracked metrics in TestRail, 
+                            demonstrated efficiency gains, motivated entire test floor involvement.
+                        </div>
+                        <div class="impact-metric">Efficiency Leader</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Automation Database & Infrastructure</div>
+                        <div class="contribution-description">
+                            Built centralized script storage, weekly report management, and automation results tracking. 
+                            Created sustainable infrastructure for knowledge sharing and progress monitoring.
+                        </div>
+                        <div class="impact-metric">Scripts Deployed</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Daily Automation Scripts</div>
+                        <div class="contribution-description">
+                            Created smoke check automation, JIRA-to-TestRail integration, JQL export scripts. 
+                            Significantly reduces daily manual work and build preparation time.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Daily scripts">Time Savings</div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="highlight">
-                    <strong><span class="tooltip">Forecasting Process:<span class="tooltiptext">1) Historical analysis from September actuals, 2) Resource transition modeling, 3) Phase-based spending projections, 4) Scenario planning with risk factors, 5) Monthly tracking against predictions.</span></span></strong>
-                    <ol>
-                        <li>Analyze historical spending patterns from actual data</li>
-                        <li>Model resource transitions between projects</li>
-                        <li>Generate phase-based spending projections</li>
-                        <li>Create multiple scenarios with risk factors</li>
-                        <li>Track monthly performance against forecasts</li>
-                    </ol>
-                </div>
+        <!-- AI Innovation -->
+        <section id="ai-innovation" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🧠</span>
+                AI Integration & Innovation
+            </h2>
 
-                <h3><span class="tooltip">Forecast Accuracy Tracking<span class="tooltiptext">Monitor how well forecasts predict actual spending to improve future projection accuracy and refine forecasting methodology.</span></span></h3>
-                <div class="grid-3">
-                    <div class="card">
-                        <h3>September Baseline</h3>
-                        <p><span class="tooltip">97.2% PS5 Accuracy<span class="tooltiptext">MLB 25 PS5 achieved 97.2% forecast accuracy, demonstrating mature project management and serving as baseline for MLB 26 projections.</span></span></p>
-                        <p><span class="tooltip">52.1% Mobile Accuracy<span class="tooltiptext">MLB 25 Mobile showed 52.1% forecast accuracy due to scope changes, providing lessons for mobile platform forecasting.</span></span></p>
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎯</span>
+                    AI Platform Development
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI Gateway Integration</div>
+                        <div class="contribution-description">
+                            Secured API keys for Sony AI Gateway. Deployed VibeCoding apps across test floor. 
+                            Connected teams to AI capabilities for enhanced productivity and innovation.
+                        </div>
+                        <div class="impact-metric">Test Floor AI Access</div>
                     </div>
-                    <div class="card">
-                        <h3>Upcoming Validation</h3>
-                        <p>October 2025 forecast vs. actual</p>
-                        <p>Status: Awaiting October data</p>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI-Powered Analysis Tools</div>
+                        <div class="contribution-description">
+                            Created callstack analysis, TTY log interpretation, test case generation from meeting notes. 
+                            Built Python code generators for image creation and Excel automation.
+                        </div>
+                        <div class="impact-metric">Multiple AI Applications</div>
                     </div>
-                    <div class="card">
-                        <h3>Accuracy Trends</h3>
-                        <p>Historical performance analysis</p>
-                        <p>Available after 3+ months of data</p>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">ML Conference Matching System</div>
+                        <div class="contribution-description">
+                            Built sophisticated Electron app with K-means clustering, constraint handling, and automated 
+                            email/card generation. Dramatically reduced conference coordination time vs manual matching.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Conference automation">Efficiency Gain</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">PowerPoint Generation App</div>
+                        <div class="contribution-description">
+                            Created AI-powered presentation generator for ACT team check-ins. 
+                            Automates slide creation and content generation for consistent reporting.
+                        </div>
+                        <div class="impact-metric">Automated Presentations</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Portfolio Overview Section -->
-            <div id="portfolio" class="section" style="display: none;">
-                <h2><span class="tooltip">Portfolio Overview & Strategic Analysis<span class="tooltiptext">Executive-level portfolio analysis combining all MLB projects with strategic insights, resource optimization opportunities, and cross-project coordination.</span></span></h2>
-                
-                <div class="grid-2">
-                    <div class="card">
-                        <h3><span class="tooltip">Executive Dashboard<span class="tooltiptext">High-level portfolio metrics including total budget utilization, project health scores, critical decisions required, and strategic recommendations for executive review.</span></span></h3>
-                        <p>Portfolio health score, budget utilization, key decisions</p>
-                        <p><strong>Current Score:</strong> 8.5/10</p>
-                        <a href="../MLBbudget_analysis_report.html">View Executive Summary</a>
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">📚</span>
+                    AI Education & Training
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Comprehensive AI Usage Guides</div>
+                        <div class="contribution-description">
+                            Created QA-specific AI implementation guides, JQL training materials, and usage documentation. 
+                            Built AI database in JIRA and Confluence for organizational knowledge sharing.
+                        </div>
+                        <div class="impact-metric">Organization-wide Training</div>
                     </div>
                     
-                    <div class="card">
-                        <h3><span class="tooltip">Cross-Project Analysis<span class="tooltiptext">Analysis of resource sharing, timeline coordination, and optimization opportunities between MLB 25 completion and MLB 26 ramp-up activities.</span></span></h3>
-                        <p>Resource transitions, shared services, optimization</p>
-                        <p><strong>Key Focus:</strong> MLB 25 → MLB 26 transition</p>
-                        <a href="#" onclick="alert('Available with multiple months of data')" style="background: #f39c12;">View Analysis</a>
+                    <div class="contribution-item">
+                        <div class="contribution-title">Global AI Implementation Strategy</div>
+                        <div class="contribution-description">
+                            Stepped into global POC role for AI representing Test Services. Created implementation plan, 
+                            staying current with AI industry developments, presented to executives on AI future vision.
+                        </div>
+                        <div class="impact-metric">Strategic Leadership</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI Training & Workshops</div>
+                        <div class="contribution-description">
+                            Delivered presentations on AI usage, held walkthroughs for testers, 
+                            gave office tours for AI/ML groups, facilitated knowledge transfer sessions.
+                        </div>
+                        <div class="impact-metric">Multi-Team Training</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Infrastructure Development -->
+        <section id="infrastructure" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🏗️</span>
+                Infrastructure & Platform Development
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">☁️</span>
+                    Cloud & Reporting Infrastructure
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">AWS-Hosted Reporting Platforms</div>
+                        <div class="contribution-description">
+                            Leveraged unused AWS subscriptions to host HTML reports. Created automated analysis systems 
+                            that parse financial documents and project data to generate development retrospectives and weekly status reporting 
+                            with interactive dashboards.
+                        </div>
+                        <div class="impact-metric">Multiple AWS Platforms</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">JIRA Integration Ecosystem</div>
+                        <div class="contribution-description">
+                            Built comprehensive JIRA integration: Geekbot app for Slack reporting, automated email exports, 
+                            JQL optimization for bug filtering, and direct database connectivity for analysis.
+                        </div>
+                        <div class="impact-metric">Seamless Integration</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">TestRail Automation Platform</div>
+                        <div class="contribution-description">
+                            Created apps that convert JIRA CSV imports to TestRail test cases, runs, and suites. 
+                            Eliminates manual setup time and technical skill requirements.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="TestRail integration">Build Efficiency</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">QA Suite Automation App</div>
+                        <div class="contribution-description">
+                            Deployed comprehensive QA automation application to MLB environment. 
+                            Provides integrated testing capabilities and workflow optimization.
+                        </div>
+                        <div class="impact-metric">Production Deployment</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AWS Cloud Engineering Project -->
+        <section id="aws-project" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">☁️</span>
+                MLB Game Health Reporting System - AWS Cloud Engineering
+            </h2>
+
+            <div class="highlight-banner">
+                <div class="highlight-text">
+                    Built end-to-end automated reporting system on AWS infrastructure - reduced manual work from 2 hours/week to zero while discovering and fixing critical data accuracy issues
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); color: white; padding: 30px; border-radius: 15px; margin: 25px 0;">
+                <h3 style="text-align: center; margin-bottom: 20px; font-size: 1.5em;">🏆 Project Overview</h3>
+                <div style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    <strong>Title:</strong> Automated Weekly Game Health Reporting System with AWS Integration<br>
+                    <strong>Duration:</strong> November 2024<br>
+                    <strong>Role:</strong> Cloud Engineer / DevOps Engineer / QA Automation Engineer
+                </div>
+                <p style="font-size: 1.05em; line-height: 1.6;">
+                    Architected and deployed an end-to-end automated reporting system for MLB The Show 26 game testing that parses PDF test reports, 
+                    generates data-driven HTML dashboards, and deploys them to secure cloud infrastructure with automated scheduling.
+                </p>
+            </div>
+
+            <div class="achievements-grid" style="margin-top: 30px;">
+                <div class="achievement-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="achievement-title">🔍 Critical Issue Discovery</div>
+                    <div class="achievement-impact">Data Accuracy</div>
+                    <div class="achievement-description">
+                        Identified reports using template data instead of actual test results. Built validation framework 
+                        to prevent stakeholders from making decisions based on incorrect metrics.
                     </div>
                 </div>
 
-                <div class="warning">
-                    <strong><span class="tooltip">Portfolio Status (as of September 2025):<span class="tooltiptext">Current portfolio status based on September 2025 actual data showing MLB 25 nearing completion with excellent budget discipline and MLB 26 in early development stage.</span></span></strong>
-                    <ul>
-                        <li><strong>MLB 25:</strong> 97.2% PS5 complete, $889K mobile budget requiring decision</li>
-                        <li><strong>MLB 26:</strong> Early development, $5.07M budget available</li>
-                        <li><strong>Critical Decision:</strong> Mobile budget disposition needed by Nov 15, 2025</li>
-                        <li><strong>Resource Status:</strong> 147 FTE transitioning between projects</li>
+                <div class="achievement-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="achievement-title">⚡ 100% Automation</div>
+                    <div class="achievement-impact">2 hrs → 0 hrs</div>
+                    <div class="achievement-description">
+                        Automated entire workflow from PDF detection to CloudFront publication. Zero human intervention 
+                        required for weekly reports - scheduled Friday automation handles everything.
+                    </div>
+                </div>
+
+                <div class="achievement-card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <div class="achievement-title">🔒 Enterprise Security</div>
+                    <div class="achievement-impact">Multi-Layer</div>
+                    <div class="achievement-description">
+                        Implemented Lambda@Edge authentication, Origin Access Control for S3, IAM least-privilege policies, 
+                        and secure credential management across services.
+                    </div>
+                </div>
+
+                <div class="achievement-card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2c3e50;">
+                    <div class="achievement-title">📊 Data Processing</div>
+                    <div class="achievement-impact">645+ Hours/Week</div>
+                    <div class="achievement-description">
+                        Automated processing of 645+ testing hours and 103+ bug reports weekly through Python PDF parsing, 
+                        data validation, and dynamic HTML generation.
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section" style="margin-top: 40px;">
+                <h3 class="category-title">
+                    <span class="category-icon">☁️</span>
+                    AWS Services & Cloud Infrastructure
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item" style="border-left-color: #ff9900;">
+                        <div class="contribution-title">Amazon S3 - Static Website Hosting</div>
+                        <div class="contribution-description">
+                            Configured S3 buckets for static website hosting with automated file uploads via boto3 Python SDK. 
+                            Implemented bucket policies for secure access control, managing public vs. private configurations 
+                            and organized folder hierarchies for CloudFront origin.
+                        </div>
+                        <div class="impact-metric">Secure Hosting</div>
+                    </div>
+                    
+                    <div class="contribution-item" style="border-left-color: #146eb4;">
+                        <div class="contribution-title">Amazon CloudFront - Global CDN</div>
+                        <div class="contribution-description">
+                            Deployed CloudFront distribution for global content delivery with Origin Access Control (OAC) 
+                            for secure S3 access. Managed cache invalidation strategies, configured custom domain and HTTPS, 
+                            implemented Lambda@Edge authentication.
+                        </div>
+                        <div class="impact-metric">&lt;100ms Latency</div>
+                    </div>
+                    
+                    <div class="contribution-item" style="border-left-color: #d86613;">
+                        <div class="contribution-title">AWS Lambda & Lambda@Edge</div>
+                        <div class="contribution-description">
+                            Created Lambda@Edge functions for viewer request authentication with session token management. 
+                            Deployed functions to CloudFront edge locations globally, managed execution roles and permissions, 
+                            debugged using CloudWatch logs.
+                        </div>
+                        <div class="impact-metric">Edge Authentication</div>
+                    </div>
+                    
+                    <div class="contribution-item" style="border-left-color: #1f8b4d;">
+                        <div class="contribution-title">AWS Elastic Beanstalk</div>
+                        <div class="contribution-description">
+                            Deployed Python Flask applications with .ebextensions configuration. Implemented cron jobs 
+                            for scheduled automation (every Friday 6:50 PM UTC), managed application versions and zero-downtime 
+                            deployments with environment variables and secrets.
+                        </div>
+                        <div class="impact-metric">Automated Scheduling</div>
+                    </div>
+                    
+                    <div class="contribution-item" style="border-left-color: #e7157b;">
+                        <div class="contribution-title">AWS IAM - Security Management</div>
+                        <div class="contribution-description">
+                            Created IAM users, access keys, and policies following least-privilege principles. 
+                            Set up service roles for Lambda and EC2, managed cross-service permissions, 
+                            implemented secure credential management workflows.
+                        </div>
+                        <div class="impact-metric">Zero Breaches</div>
+                    </div>
+                    
+                    <div class="contribution-item" style="border-left-color: #5294cf;">
+                        <div class="contribution-title">AWS CLI & boto3 SDK Automation</div>
+                        <div class="contribution-description">
+                            Automated AWS operations via CLI commands and Python scripts using boto3 for S3, CloudFront operations. 
+                            Managed CloudFront cache invalidations programmatically, configured AWS credentials and profiles, 
+                            automated deployment workflows.
+                        </div>
+                        <div class="impact-metric">Full Automation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🛠️</span>
+                    Technical Architecture & Development
+                </h3>
+                
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); margin-bottom: 25px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.2em;">📐 System Architecture</h4>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 2;">
+                        PDF Reports (Input)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        <strong style="color: #e74c3c;">Python PDF Parser (PyPDF2)</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        <strong style="color: #e67e22;">Data Validation Layer</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        <strong style="color: #f39c12;">HTML Report Generator</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        <strong style="color: #3498db;">S3 Upload (boto3)</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        <strong style="color: #9b59b6;">CloudFront CDN (Lambda@Edge Auth)</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        <strong style="color: #27ae60;">Secure Public Access</strong>
+                    </div>
+                </div>
+
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Python Automation & PDF Parsing</div>
+                        <div class="contribution-description">
+                            Built automation scripts using PyPDF2 for extracting test metrics from PDF reports. 
+                            Created validation framework for data accuracy, implemented dynamic HTML generation without templates, 
+                            integrated boto3 SDK for AWS operations.
+                        </div>
+                        <div class="impact-metric">Data-Driven Reports</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">DevOps & CI/CD Pipeline</div>
+                        <div class="contribution-description">
+                            Implemented automated deployment pipelines with cron scheduling (weekly Friday automation). 
+                            Created infrastructure as code using .ebextensions configuration, managed version control with Git, 
+                            implemented zero-downtime deployment strategies.
+                        </div>
+                        <div class="impact-metric">Continuous Delivery</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">JavaScript Lambda@Edge Functions</div>
+                        <div class="contribution-description">
+                            Developed authentication functions in JavaScript for CloudFront edge locations. 
+                            Implemented session token management and secure access control across global CDN infrastructure, 
+                            ensuring content protection at the edge.
+                        </div>
+                        <div class="impact-metric">Global Auth</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Monitoring & Debugging</div>
+                        <div class="contribution-description">
+                            Utilized CloudWatch for application monitoring across Lambda functions and Elastic Beanstalk deployments. 
+                            Reviewed logs for debugging, set up log groups for comprehensive application monitoring, 
+                            tracked performance metrics and error rates.
+                        </div>
+                        <div class="impact-metric">Real-Time Insights</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎯</span>
+                    Key Problem-Solving & Impact
+                </h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #856404; margin-bottom: 12px;">⚠️ Problem Identified</h4>
+                        <p style="font-size: 0.95em; color: #856404; line-height: 1.5;">
+                            Discovered critical issue: reports were using <strong>template data instead of actual test results</strong>. 
+                            This could have led stakeholders to make decisions based on completely incorrect metrics.
+                        </p>
+                    </div>
+                    
+                    <div style="background: #d1ecf1; border: 2px solid #17a2b8; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #0c5460; margin-bottom: 12px;">💡 Solution Implemented</h4>
+                        <p style="font-size: 0.95em; color: #0c5460; line-height: 1.5;">
+                            Built <strong>data-driven generator</strong> that always parses actual PDFs. Created validation framework 
+                            to ensure data accuracy. Implemented comprehensive testing and review processes.
+                        </p>
+                    </div>
+                    
+                    <div style="background: #d4edda; border: 2px solid #28a745; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #155724; margin-bottom: 12px;">📈 Measurable Impact</h4>
+                        <p style="font-size: 0.95em; color: #155724; line-height: 1.5;">
+                            <strong>Time savings:</strong> 2 hours/week → 0 hours (100% automation)<br>
+                            <strong>Data accuracy:</strong> Fixed critical issue<br>
+                            <strong>Coverage:</strong> 645+ hours testing data/week<br>
+                            <strong>Security:</strong> Zero unauthorized access incidents
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">📚</span>
+                    Documentation & Best Practices
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Comprehensive Technical Documentation</div>
+                        <div class="contribution-description">
+                            Created AI assistant rules document to prevent future data errors, manual review process checklist, 
+                            deployment guides, troubleshooting documentation, and security procedures for team maintenance.
+                        </div>
+                        <div class="impact-metric">Knowledge Transfer</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Data Validation Framework</div>
+                        <div class="contribution-description">
+                            Implemented multi-layer validation to ensure report accuracy: PDF parsing validation, 
+                            data completeness checks, format verification, and automated testing before publication.
+                        </div>
+                        <div class="impact-metric">Quality Assurance</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Security Implementation Guide</div>
+                        <div class="contribution-description">
+                            Documented security best practices including Lambda@Edge authentication setup, Origin Access Control 
+                            configuration, IAM policy templates, and secure credential management workflows.
+                        </div>
+                        <div class="impact-metric">Security Standards</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 35px; border-radius: 15px; margin-top: 30px;">
+                <h3 style="text-align: center; margin-bottom: 25px; font-size: 1.4em;">💼 Professional Skills Demonstrated</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px;">
+                        <h4 style="margin-bottom: 12px;">☁️ AWS Cloud Engineering</h4>
+                        <ul style="font-size: 0.9em; line-height: 1.8; margin-left: 20px;">
+                            <li>S3 static website hosting</li>
+                            <li>CloudFront CDN with OAC</li>
+                            <li>Lambda@Edge authentication</li>
+                            <li>Elastic Beanstalk deployment</li>
+                            <li>IAM security management</li>
+                            <li>CloudWatch monitoring</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px;">
+                        <h4 style="margin-bottom: 12px;">💻 Full-Stack Development</h4>
+                        <ul style="font-size: 0.9em; line-height: 1.8; margin-left: 20px;">
+                            <li>Python (boto3, PyPDF2, Flask)</li>
+                            <li>JavaScript (Lambda@Edge)</li>
+                            <li>HTML/CSS (Responsive Design)</li>
+                            <li>Shell Scripting (Bash)</li>
+                            <li>API Integration</li>
+                            <li>Git Version Control</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px;">
+                        <h4 style="margin-bottom: 12px;">🔧 DevOps & Automation</h4>
+                        <ul style="font-size: 0.9em; line-height: 1.8; margin-left: 20px;">
+                            <li>CI/CD Pipeline Development</li>
+                            <li>Infrastructure as Code</li>
+                            <li>Cron Job Scheduling</li>
+                            <li>Automated Deployment</li>
+                            <li>Cache Management</li>
+                            <li>Zero-Downtime Releases</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px;">
+                        <h4 style="margin-bottom: 12px;">🎯 Problem Solving</h4>
+                        <ul style="font-size: 0.9em; line-height: 1.8; margin-left: 20px;">
+                            <li>Critical issue identification</li>
+                            <li>Root cause analysis</li>
+                            <li>Data validation design</li>
+                            <li>Security implementation</li>
+                            <li>Performance optimization</li>
+                            <li>Documentation creation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #e3f2fd; border: 2px solid #2196f3; padding: 25px; border-radius: 12px; margin-top: 30px;">
+                <h4 style="color: #1976d2; margin-bottom: 15px; font-size: 1.3em;">🎓 Career-Relevant Skills for:</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px;">
+                    <span style="background: #2196f3; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9em;">Cloud Engineer</span>
+                    <span style="background: #2196f3; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9em;">AWS Developer</span>
+                    <span style="background: #2196f3; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9em;">DevOps Engineer</span>
+                    <span style="background: #2196f3; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9em;">Site Reliability Engineer (SRE)</span>
+                    <span style="background: #2196f3; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9em;">Cloud Automation Engineer</span>
+                    <span style="background: #2196f3; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9em;">QA Automation Engineer</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cross-Functional Leadership -->
+        <section id="leadership" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🌐</span>
+                Cross-Functional Leadership & Innovation
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🤝</span>
+                    Strategic Partnerships & Collaboration
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">QA Hero Program Leadership</div>
+                        <div class="contribution-description">
+                            Coordinated workspace arrangements, finalized communications, structured comprehensive 
+                            team visit. Facilitated cross-functional participation and established clear improvement objectives.
+                        </div>
+                        <div class="impact-metric tooltip" data-tooltip="Multi-day program">Program Success</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Vendor Onboarding Excellence</div>
+                        <div class="contribution-description">
+                            Led Globant vendor onboarding, coordinated technical setup across Confluence and TestRail, 
+                            established phased resourcing plan and stakeholder matrix for streamlined communication.
+                        </div>
+                        <div class="impact-metric">Strategic Vendor Success</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">ML Team Data Pipeline</div>
+                        <div class="contribution-description">
+                            Designed and delivered precise JQL queries for Console Bugs database. Created clean datasets 
+                            for Launch Risk Report ML models, improving predictive accuracy and iteration speed.
+                        </div>
+                        <div class="impact-metric">Enhanced LRR Models</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Engineering-QA Bridge</div>
+                        <div class="contribution-description">
+                            Established main POC role between Engineering Manager and ACT team. Connected ML engineers 
+                            to Tools Engineering, facilitated synergy and cross-functional innovation.
+                        </div>
+                        <div class="impact-metric">Cross-Team Synergy</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎯</span>
+                    Executive & Strategic Engagement
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Chief Technology Officer Presentations</div>
+                        <div class="contribution-description">
+                            Presented automation usage and future vision directly to CTO during office visit. 
+                            Delivered strategic insights on AI/automation future for test floor transformation.
+                        </div>
+                        <div class="impact-metric">C-Level Engagement</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Director-Level AI Presentations</div>
+                        <div class="contribution-description">
+                            Delivered "AI in Action" presentation at director request. Created comprehensive summit feedback 
+                            analysis and future AI implementation recommendations sent directly to leadership.
+                        </div>
+                        <div class="impact-metric">Executive Strategy Input</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Launch Risk Report Enhancement</div>
+                        <div class="contribution-description">
+                            Collaborated with Engineering on AI-enhanced Launch Risk Report. 
+                            Provided JIRA data, reviewed dashboard concepts, established AI learning framework.
+                        </div>
+                        <div class="impact-metric">AI-Enhanced LRR</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Shipwatch AI Integration Planning</div>
+                        <div class="contribution-description">
+                            Collaborated with Engineering team in exploratory meetings about potential Gemini integration into Shipwatch AI system. 
+                            Discussed bug recognition capabilities and bot monitoring opportunities for future automation enhancement.
+                        </div>
+                        <div class="impact-metric">Strategic Planning</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recognition & Industry Impact -->
+        <section id="recognition" class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🏅</span>
+                Recognition & Industry Leadership
+            </h2>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎪</span>
+                    PlayStation AI/ML Summit Leadership
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">Summit Technical Leadership</div>
+                        <div class="contribution-description">
+                            Only QA representation at major enterprise summit. Built participant matching system, 
+                            managed networking logistics, received recognition from Sr. Engineering Management.
+                        </div>
+                        <div class="impact-metric">Executive Recognition</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Volunteer Program Leadership</div>
+                        <div class="contribution-description">
+                            Co-led design and execution of daily networking events and "Summit Sidekick" mentorship program. 
+                            Managed complex project across multiple phases with stakeholders and tight deadlines.
+                        </div>
+                        <div class="impact-metric">Program Management</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Conference Infrastructure</div>
+                        <div class="contribution-description">
+                            Built comprehensive ML matching system with feature engineering, constraint handling, 
+                            and professional output generation. Created cross-platform desktop experience.
+                        </div>
+                        <div class="impact-metric">Advanced ML System</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h3 class="category-title">
+                    <span class="category-icon">🎓</span>
+                    Professional Development & Industry Engagement
+                </h3>
+                <div class="contribution-list">
+                    <div class="contribution-item">
+                        <div class="contribution-title">AI Conference & Industry Engagement</div>
+                        <div class="contribution-description">
+                            Actively attending AI conferences and industry events to stay current with emerging technologies. 
+                            Applying latest AI trends and best practices to organizational implementation planning.
+                        </div>
+                        <div class="impact-metric">Industry Knowledge</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Continuous Learning & AI Updates</div>
+                        <div class="contribution-description">
+                            Staying informed with global AI developments and testing innovations. 
+                            Translating industry insights into practical organizational applications and team development.
+                        </div>
+                        <div class="impact-metric">Knowledge Leadership</div>
+                    </div>
+                    
+                    <div class="contribution-item">
+                        <div class="contribution-title">Mentorship & Team Development</div>
+                        <div class="contribution-description">
+                            Bimonthly meetings with Sr. Director, regular skill development sessions, 
+                            teaching management styles and interpersonal skills for leadership advancement.
+                        </div>
+                        <div class="impact-metric">Leadership Development</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Innovation Timeline -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">⏰</span>
+                Innovation Timeline & Key Milestones
+            </h2>
+
+            <div class="innovation-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🎯 Pathfinder Transformation & ACT Team Creation</div>
+                        <div class="timeline-description">
+                            Converted negative perception of Pathfinder into organization-wide adoption. Created ACT team, 
+                            established cross-title automation sharing, achieved significant user growth.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🤖 AI Gateway Integration & Application Deployment</div>
+                        <div class="timeline-description">
+                            Secured API keys for Sony AI Gateway, deployed VibeCoding apps across test floor, 
+                            created AI-powered analysis tools and comprehensive usage guides.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">📊 AWS Infrastructure & Reporting Revolution</div>
+                        <div class="timeline-description">
+                            Leveraged unused AWS subscriptions for hosting. Built automated reporting platforms 
+                            that parse financial documents and project data to generate interactive dashboards with AI analysis.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🎪 PlayStation AI/ML Summit Leadership</div>
+                        <div class="timeline-description">
+                            Only QA representation at major enterprise summit. Built ML clustering application, 
+                            managed networking programs, received Sr. Engineering Management recognition.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-title">🌐 Global AI Strategy & Cross-Functional Leadership</div>
+                        <div class="timeline-description">
+                            Established global POC role for AI, staying current with industry AI developments, 
+                            connected ML engineers to Tools Engineering, facilitated vendor onboarding.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills Portfolio -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">💻</span>
+                Technical Skills & Platform Portfolio
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+                <div style="background: #f0f8ff; border: 2px solid #4169e1; padding: 25px; border-radius: 12px;">
+                    <h4 style="color: #4169e1; margin-bottom: 15px;">🔧 Full-Stack Development</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li>Python automation and AI integration</li>
+                        <li>JavaScript/Node.js applications</li>
+                        <li>HTML/CSS responsive design</li>
+                        <li>Electron cross-platform apps</li>
+                        <li>API development and integration</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f0fff0; border: 2px solid #32cd32; padding: 25px; border-radius: 12px;">
+                    <h4 style="color: #228b22; margin-bottom: 15px;">🤖 AI/ML Integration</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li>Claude AI workflow automation</li>
+                        <li>Machine learning clustering (K-means, DBSCAN)</li>
+                        <li>Supervised and unsupervised models</li>
+                        <li>Feature engineering and optimization</li>
+                        <li>Production API deployment</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #fffaf0; border: 2px solid #ffa500; padding: 25px; border-radius: 12px;">
+                    <h4 style="color: #ff8c00; margin-bottom: 15px;">☁️ Cloud & Infrastructure</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li>AWS S3 hosting and deployment</li>
+                        <li>Enterprise security compliance</li>
+                        <li>Scalable architecture design</li>
+                        <li>Cost optimization strategies</li>
+                        <li>Multi-platform distribution</li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="footer">
-            <p>MLB Budget Reports Dashboard | Last Updated: October 27, 2025</p>
-            <p>Data Sources: PARIS Financial System | Excel Budget Files | Project Management Reports</p>
-        </div>
+        <!-- Strategic Impact Summary -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Strategic Impact & Future Vision
+            </h2>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 35px; border-radius: 15px;">
+                <h3 style="text-align: center; margin-bottom: 25px;">Transformation Philosophy</h3>
+                <div style="font-size: 1.3em; text-align: center; margin-bottom: 25px; line-height: 1.4;">
+                    <strong>"I figure out creative AI solutions, analyze data for insights, then turn that process into an app that anyone can use at the press of a button."</strong>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>🔍 Identify</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Creative AI solutions for complex problems</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>📊 Analyze</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Data analysis for actionable insights</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>🛠️ Build</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Scalable applications for button-press operation</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4>🚀 Scale</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Organization-wide adoption and impact</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #e8f4f8; border: 2px solid #3498db; padding: 25px; border-radius: 12px; margin: 30px 0;">
+                <h4 style="color: #2980b9; margin-bottom: 15px;">🌟 Core Value Proposition</h4>
+                <p style="font-size: 1.1em; margin-bottom: 15px;">
+                    <strong>Breaking down silos between AI, Automation, and Test Services</strong> to create innovation opportunities 
+                    and scalable solutions that benefit the entire organization.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h5 style="color: #2c3e50;">🎯 Current Achievements</h5>
+                        <ul style="font-size: 0.9em; margin-top: 8px;">
+                            <li>Significant efficiency gains across projects</li>
+                            <li>Cultural transformation (Pathfinder adoption)</li>
+                            <li>Infrastructure working in production</li>
+                            <li>Cross-functional innovation established</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 style="color: #2c3e50;">🚀 Scaling Potential</h5>
+                        <ul style="font-size: 0.9em; margin-top: 8px;">
+                            <li>Enterprise-scale optimization opportunity</li>
+                            <li>Self-service platform development</li>
+                            <li>Organization-wide capability multiplication</li>
+                            <li>Sustainable innovation pipeline</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.display = 'none';
+        // Smooth scrolling navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Scroll to section
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
             });
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab-button').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionId).style.display = 'block';
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-        }
 
-        function generateComparison() {
-            alert('Forecast comparison will be available once October 2025 actual data is added to the system. This tool will compare projected vs. actual spending to improve future forecasting accuracy.');
-        }
+            // Update active nav item on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navItems.forEach(nav => {
+                            nav.classList.remove('active');
+                            if (nav.getAttribute('href') === `#${id}`) {
+                                nav.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Add hover effects to achievement cards
+            const achievementCards = document.querySelectorAll('.achievement-card');
+            achievementCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Apply fade-in to sections
+            const fadeElements = document.querySelectorAll('.section, .achievement-card, .contribution-item');
+            fadeElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                fadeObserver.observe(element);
+            });
+        });
     </script>
 </body>
 </html>
